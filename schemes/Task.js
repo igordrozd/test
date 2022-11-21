@@ -11,7 +11,7 @@ module.exports = database.define('Task', {
       type: DataTypes.STRING 
     },
     time: {
-      type: DataTypes.TIME
+      type: DataTypes.INTEGER
     },
     icon: {
       type: DataTypes.INTEGER 
