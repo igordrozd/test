@@ -1,6 +1,6 @@
 const express = require('express');
 const { Task } = require('./schemes');
-
+var bcrypt = require('bcryptjs');
 const app = express();
 
 app.use( express.json() );
@@ -34,6 +34,12 @@ app.delete('/tasks/:id', async (req, res) => {
         }
     });
     res.send('Запись удалена');
+});
+app.get('/users/', async(req,res) => {
+    var salt = bcrypt.genSaltSync(10);
+    req.body.password=bcrypt.hashSync(req.body.password, salt);
+    const result = await User.create(req.body);
+    res.send('Запись создана');
 });
 
 app.listen(8000, () => {
