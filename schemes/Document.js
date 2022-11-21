@@ -1,23 +1,13 @@
 const { DataTypes } = require('sequelize');
 const database = require('../db');
 
-module.exports = database.define('Task', {
+module.exports = database.define('Document', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    documentId: {
-      type: DataTypes.INTEGER
-    },
     title: {
       type: DataTypes.STRING 
-    },
-    time: {
-      type: DataTypes.INTEGER
-    },
-    icon: {
-      type: DataTypes.INTEGER 
     }
 });;
-
