@@ -1,5 +1,6 @@
 const express = require('express');
 const { Task } = require('./schemes');
+const { User } = require('./schemes');
 var bcrypt = require('bcryptjs');
 const app = express();
 
