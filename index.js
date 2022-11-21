@@ -1,5 +1,6 @@
 const express = require('express');
 const { Task } = require('./schemes');
+const { User } = require('./schemes');
 var bcrypt = require('bcryptjs');
 const app = express();
 
@@ -8,10 +9,6 @@ app.use( express.json() );
 app.post('/tasks', async (req, res) => {
     const result = await Task.create(req.body);
     res.send('Запись создана');
-});
-
-app.get('/users', async (req, res) => {
-    
 });
 
 app.get('/tasks/:id', async (req, res) => {
