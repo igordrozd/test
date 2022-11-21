@@ -45,7 +45,7 @@ app.delete('/users/:id', async (req, res) => {
     });
     res.send('Запись удалена');
 });
-app.get('/users/avt', async(req,res) => {
+app.get('/users/reg', async(req,res) => {
     console.log("=======================================================")
     console.log(req.body.name)
     console.log("=======================================================")
@@ -65,7 +65,7 @@ app.get('/users/avt', async(req,res) => {
         res.send('Имя уже существует');
     }
 });
-app.get('/users/vhod', async(req,res)=>{
+app.get('/users/singIn', async(req,res)=>{
     const record = await User.findOne({
         where: {
             name: req.body.name
@@ -80,7 +80,7 @@ app.get('/users/vhod', async(req,res)=>{
             res.status(403).send('Erorr 403 (wrong password)');
         }
         else{
-            res.send('you avt')
+            res.send('you log in')
         }
     }
     else{
@@ -92,6 +92,6 @@ app.get('/users/vhod', async(req,res)=>{
 });
 
 
-app.listen(3000, () => {
+app.listen(8000, () => {
     console.log("Server started...");
 });
