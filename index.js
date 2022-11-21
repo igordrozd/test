@@ -10,6 +10,10 @@ app.post('/tasks', async (req, res) => {
     res.send('Запись создана');
 });
 
+app.get('/users', async (req, res) => {
+    
+});
+
 app.get('/tasks/:id', async (req, res) => {
     const record = await Task.findOne({
         where: {
