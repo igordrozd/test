@@ -1,7 +1,18 @@
 var bcrypt = require('bcryptjs');
-var salt = bcrypt.genSaltSync(10);
-var hash = bcrypt.hashSync("Agusha bog", salt);
-console.log(hash)
+
+// const password = "1234";
+
+const privateKey = `$2a$10$sbsCkzAn5.tMTX.pY3cK2O`;
+
+// const hash = bcrypt.hashSync(password, privateKey);
+// const hash2 = bcrypt.hashSync(password, privateKey);
+
+// console.log(hash);
+// console.log(hash2);
+module.exports = privateKey;
+
+
+
 
 
 
