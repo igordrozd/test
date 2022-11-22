@@ -1,7 +1,9 @@
 const { DataTypes } = require('sequelize');
 const database = require('../db');
+const Task = require('./Task');
+const User = require('./User');
 
-module.exports = database.define('Document', {
+const Document = database.define('Document', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -11,3 +13,11 @@ module.exports = database.define('Document', {
       type: DataTypes.STRING 
     }
 });;
+Document.belongsTo(User, {
+  foreignKey: 'userId'
+});
+Document.hasMany(Task, {
+  foreignKey: 'documentId'
+});
+
+module.exports = Document;

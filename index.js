@@ -73,7 +73,6 @@ app.get('/users/vhod', async(req,res)=>{
     
     const a=bcrypt.hashSync(req.body.password, salt);
     if (record!== null){
-
         if (record.password !==a){
             console.log(a)
             console.log(record.password)
@@ -86,9 +85,6 @@ app.get('/users/vhod', async(req,res)=>{
     else{
         res.status(403).send('Erorr 403 (wrong name)');
     }
-    
-    
-
 });
 
 
