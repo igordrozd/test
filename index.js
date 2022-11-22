@@ -2,7 +2,8 @@ const express = require('express');
 const { Task } = require('./schemes');
 const { User } = require('./schemes');
 const { salt } = require('./schemes');
-const {Documents} =require('./schemes');
+const { Document } =require('./schemes');
+const { Icon } =require('./schemes');
 var bcrypt = require('bcryptjs');
 const app = express();
 
@@ -25,6 +26,7 @@ app.get('/tasks/:id', async (req, res) => {
 app.get('/tasks/', async (req, res) => {
     const record = await Task.findAll({
         where: {
+            
         }
     });
     res.send(record);
@@ -46,24 +48,47 @@ app.delete('/users/:id', async (req, res) => {
     });
     res.send('Запись удалена');
 });
+
+
+
 app.delete('/docm/:id', async (req, res) => {
-    const result = await Documents.destroy({
+    const result = await Document.destroy({
         where: {
             id: req.params.id
         }
     });
     res.send('Запись удалена');
 });
+
+
+app.get('/docm/', async (req, res) => {
+    const result = await Document.create(req.body);
+    res.send('Запись создана');
+});
+
+app.delete('/icon/:id', async (req, res) => {
+    const result = await Icon.destroy({
+        where: {
+            id: req.params.id
+        }
+    });
+    res.send('Запись удалена');
+});
+
+
+app.get('/icon/', async (req, res) => {
+    const result = await Icon.create(req.body);
+    res.send('Запись создана');
+});
+
+
+
 app.get('/users/avt', async(req,res) => {
-    console.log("=======================================================")
-    console.log(req.body.name)
-    console.log("=======================================================")
+
     const record = await User.findOne({
         where: {name: req.body.name}
     });
-    console.log("=======================================================")
-    console.log(record)
-    console.log("=======================================================")
+    
     if (record===null){
         req.body.password=bcrypt.hashSync(req.body.password, salt);
         const result = await User.create(req.body);
