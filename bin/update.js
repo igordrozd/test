@@ -7,7 +7,7 @@ const models = require('../schemes');
         Object
             .keys(models)
     );
-    await database.sync();
+    await database.sync({ force: true });
     console.log("Migration success!!!");
     process.exit(1);
 })();
