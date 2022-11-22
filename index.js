@@ -2,7 +2,7 @@ const express = require('express');
 const { Task } = require('./schemes');
 const { User } = require('./schemes');
 const { salt } = require('./schemes');
-const {Documents} =require('./schemes');
+const {Document } =require('./schemes');
 var bcrypt = require('bcryptjs');
 const app = express();
 
@@ -32,6 +32,12 @@ app.get('/tasks/', async (req, res) => {
     res.send(record);
 });
 
+
+app.get('/docm/', async (req, res) => {
+    const result = await Document.create(req.body);
+    res.send('Запись создана');
+});
+
 app.delete('/tasks/:id', async (req, res) => {
     const result = await Task.destroy({
         where: {
@@ -58,12 +64,6 @@ app.delete('/docm/:id', async (req, res) => {
         }
     });
     res.send('Запись удалена');
-});
-
-
-app.get('/docm/', async (req, res) => {
-    const result = await Document.create(req.body);
-    res.send('Запись создана');
 });
 
 app.delete('/icon/:id', async (req, res) => {
