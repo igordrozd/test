@@ -7,9 +7,7 @@ module.exports = database.define('Task', {
       autoIncrement: true,
       primaryKey: true
     },
-    documentId: {
-      type: DataTypes.INTEGER
-    },
+    
     title: {
       type: DataTypes.STRING 
     },
@@ -18,6 +16,9 @@ module.exports = database.define('Task', {
     },
     icon: {
       type: DataTypes.INTEGER 
+    },
+    documentId: {
+      type: DataTypes.INTEGER
     }
 });;
 

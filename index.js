@@ -45,7 +45,7 @@ app.delete('/users/:id', async (req, res) => {
     });
     res.send('Запись удалена');
 });
-app.get('/users/reg', async(req,res) => {
+app.get('/users/register', async(req,res) => {
     console.log("=======================================================")
     console.log(req.body.name)
     console.log("=======================================================")
@@ -59,13 +59,13 @@ app.get('/users/reg', async(req,res) => {
         req.body.password=bcrypt.hashSync(req.body.password, salt);
         const result = await User.create(req.body);
         console.log(result);
-        res.send('Запись создана');
+        res.send('Пользователь зарегистрирован');
     }
     else{
         res.send('Имя уже существует');
     }
 });
-app.get('/users/singIn', async(req,res)=>{
+app.get('/users/login', async(req,res)=>{
     const record = await User.findOne({
         where: {
             name: req.body.name
@@ -80,7 +80,7 @@ app.get('/users/singIn', async(req,res)=>{
             res.status(403).send('Erorr 403 (wrong password)');
         }
         else{
-            res.send('you log in')
+            res.send('You login')
         }
     }
     else{
