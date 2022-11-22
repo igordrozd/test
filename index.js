@@ -2,6 +2,7 @@ const express = require('express');
 const { Task } = require('./schemes');
 const { User } = require('./schemes');
 const { salt } = require('./schemes');
+const {Documents} =require('./schemes');
 var bcrypt = require('bcryptjs');
 const app = express();
 
@@ -39,6 +40,14 @@ app.delete('/tasks/:id', async (req, res) => {
 });
 app.delete('/users/:id', async (req, res) => {
     const result = await User.destroy({
+        where: {
+            id: req.params.id
+        }
+    });
+    res.send('Запись удалена');
+});
+app.delete('/docm/:id', async (req, res) => {
+    const result = await Documents.destroy({
         where: {
             id: req.params.id
         }
