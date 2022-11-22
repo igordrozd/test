@@ -3,6 +3,7 @@ const { Task } = require('./schemes');
 const { User } = require('./schemes');
 const { salt } = require('./schemes');
 const {Document } =require('./schemes');
+const {Icon } =require('./schemes');
 var bcrypt = require('bcryptjs');
 const app = express();
    
