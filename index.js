@@ -25,6 +25,7 @@ app.get('/tasks/:id', async (req, res) => {
 app.get('/tasks/', async (req, res) => {
     const record = await Task.findAll({
         where: {
+            documentId: req.params.documentId
         }
     });
     res.send(record);
@@ -97,6 +98,6 @@ app.get('/users/vhod', async(req,res)=>{
 });
 
 
-app.listen(3000, () => {
+app.listen(8000, () => {
     console.log("Server started...");
 });
