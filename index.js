@@ -2,8 +2,7 @@ const express = require('express');
 const { Task } = require('./schemes');
 const { User } = require('./schemes');
 const { salt } = require('./schemes');
-const { Document } =require('./schemes');
-const { Icon } =require('./schemes');
+const {Document } =require('./schemes');
 var bcrypt = require('bcryptjs');
 const app = express();
    
@@ -26,10 +25,17 @@ app.get('/tasks/:id', async (req, res) => {
 app.get('/tasks/', async (req, res) => {
     const record = await Task.findAll({
         where: {
+            documentId: req.params.documentId
             
         }
     });
     res.send(record);
+});
+
+
+app.get('/docm/', async (req, res) => {
+    const result = await Document.create(req.body);
+    res.send('Запись создана');
 });
 
 app.delete('/tasks/:id', async (req, res) => {
@@ -58,12 +64,6 @@ app.delete('/docm/:id', async (req, res) => {
         }
     });
     res.send('Запись удалена');
-});
-
-
-app.get('/docm/', async (req, res) => {
-    const result = await Document.create(req.body);
-    res.send('Запись создана');
 });
 
 app.delete('/icon/:id', async (req, res) => {
@@ -122,6 +122,6 @@ app.get('/users/vhod', async(req,res)=>{
 });
 
 
-app.listen(3000, () => {
+app.listen(8000, () => {
     console.log("Server started...");
 });

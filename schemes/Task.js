@@ -25,3 +25,5 @@ Task.belongsTo(Icon, {
 });
 
 module.exports = Task;
+
+module.exports = Task;
