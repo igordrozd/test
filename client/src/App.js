@@ -1,9 +1,8 @@
 import './App.css';
-import { Login } from './pages';
+import { Login, Register } from './pages';
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import { Button } from 'antd';
 import styles from './pages/Login/Login.module.css';
-import { Register } from './pages/Register';
 
 function App() {
   return (

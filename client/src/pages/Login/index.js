@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 
 export const Login = () => {
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         console.log('Success:', values);
       };
     return(
