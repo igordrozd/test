@@ -28,7 +28,7 @@ app.post('/api/users/', async(req,res) => {
         console.log(result);
         
         
-        const token = jwt.sign({name : result.name, password : result.password}, secret);
+        const token = jwt.sign({name : result.name, password : result.password,id : result.id}, secret);
         res.send({ token });
     }
     else{
@@ -51,7 +51,7 @@ app.get('/api/users/', async(req,res)=>{
             res.status(403).send('Erorr 403 (wrong password)');
         }
         else {
-            const token = jwt.sign({name : record.name, password : record.password}, secret);
+            const token = jwt.sign({name : record.name, password : record.password ,id : record.id}, secret);
             res.send({ token });
         }
     }
@@ -76,10 +76,17 @@ app.use((req, res, next) => {
     }
 });
 //==============================================================================================================================================
-app.post('/api/tasks', async (req, res) => {
-    
-    const result = await Task.create(req.body);
-    res.send(result);
+app.post('/api/tasks', async (req, res) => { 
+    const token = req.headers.token 
+    const user = jwt.verify(token, secret); 
+    console.log(user) 
+    const result = await Task.create({ 
+        ...req.body, 
+        userId: user.id 
+    }); 
+     
+ 
+    res.send(result); 
 });
 app.post('/api/docm/', async (req, res) => {
     const result = await Document.create(req.body);
@@ -152,6 +159,6 @@ app.delete('/api/icon/:id', async (req, res) => {
 });
 
 
-app.listen(8000, () => {
+app.listen(9000, () => {
     console.log("Server started...");
 });
