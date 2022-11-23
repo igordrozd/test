@@ -4,17 +4,25 @@ const { User } = require('./schemes');
 const { salt } = require('./schemes');
 const {Document } =require('./schemes');
 const {Icon } =require('./schemes');
-var bcrypt = require('bcryptjs');
-var jwt = require('jsonwebtoken');
+const  bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const secret = 'shhhhh';
 
 const app = express();
 
+const corsOptions = {
+    origin: '*',
+    credentials: true, //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+  }
+
 app.use( express.static('./client/build') );
 
 app.use( express.json() );
 
+app.use(cors(corsOptions));
 
 app.post('/api/users/', async(req,res) => {
 

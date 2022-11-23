@@ -5,6 +5,19 @@ import { Link } from "react-router-dom";
 
 
 export const Register = () => {
+    const onSubmit = async (values) => {
+        // вот это нужно чтобы сделать запрос. И ничего больше
+        const response = await fetch(`http://localhost:8000/api/users`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(values)
+        });
+        const json = await response.json();
+        // -----------------
+        console.log(json);
+    }
     return(
         <div className='border'>
         <h2>
@@ -14,9 +27,10 @@ export const Register = () => {
             <Form
                 name="basic"
                 autoComplete="off"
+                onFinish={onSubmit}
             >
                 <Form.Item
-                    name="username"
+                    name="name"
                     rules={[{ required: true, message: 'Please input your username!' }]}
                 >
                     <Input placeholder='Введите логин'/>
@@ -30,10 +44,9 @@ export const Register = () => {
                 </Form.Item>
 
                 <Form.Item
-                    name="password"
                     rules={[{ required: true, message: 'Please repeat your password!' }]}
                 >
-                    <Input placeholder='Повторите пароль'/>
+                    <Input.Password placeholder='Повторите пароль'/>
                 </Form.Item>
                 
                 <Button type="primary" htmlType="submit" className={styles.submit}>
