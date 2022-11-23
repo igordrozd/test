@@ -4,18 +4,27 @@ const { User } = require('./schemes');
 const { salt } = require('./schemes');
 const {Document } =require('./schemes');
 const {Icon } =require('./schemes');
-var bcrypt = require('bcryptjs');
-var jwt = require('jsonwebtoken');
+const  bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const secret = 'shhhhh';
 
 const app = express();
 
+const corsOptions = {
+    origin: '*',
+    credentials: true, //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+  }
+
+app.use( express.static('./client/build') );
 
 app.use( express.json() );
 
+app.use(cors(corsOptions));
 
-app.post('/users/', async(req,res) => {
+app.post('/api/users/', async(req,res) => {
 
     const record = await User.findOne({
         where: {name: req.body.name}
@@ -24,10 +33,10 @@ app.post('/users/', async(req,res) => {
     if (record===null){
         req.body.password=bcrypt.hashSync(req.body.password, salt);
         const result = await User.create(req.body);
-        console.log(result);
         
         
-        const token = jwt.sign({name : result.name, password : result.password}, secret);
+        
+        const token = jwt.sign({name : result.name, password : result.password,id : result.id}, secret);
         res.send({ token });
     }
     else{
@@ -36,7 +45,7 @@ app.post('/users/', async(req,res) => {
 });
 
   
-app.get('/users/', async(req,res)=>{
+app.get('/api/users/', async(req,res)=>{
     const record = await User.findOne({
         where: {
             name: req.body.name
@@ -45,12 +54,11 @@ app.get('/users/', async(req,res)=>{
     const a = bcrypt.hashSync(req.body.password, salt);
     if (record!== null){    
         if (record.password !==a){
-            console.log(a)
-            console.log(record.password)
+            
             res.status(403).send('Erorr 403 (wrong password)');
         }
         else {
-            const token = jwt.sign({name : record.name, password : record.password}, secret);
+            const token = jwt.sign({name : record.name, password : record.password ,id : record.id}, secret);
             res.send({ token });
         }
     }
@@ -75,24 +83,31 @@ app.use((req, res, next) => {
     }
 });
 //==============================================================================================================================================
-app.post('/tasks', async (req, res) => {
+app.post('/api/tasks', async (req, res) => { 
+    const token = req.headers.token 
+    const user = jwt.verify(token, secret); 
     
-    const result = await Task.create(req.body);
-    res.send(result);
+    const result = await Task.create({ 
+        ...req.body, 
+        userId: user.id 
+    }); 
+     
+ 
+    res.send(result); 
 });
-app.post('/docm/', async (req, res) => {
+app.post('/api/docments/', async (req, res) => {
     const result = await Document.create(req.body);
     res.send(result);
 });
 
-app.post('/icon/', async (req, res) => {
+app.post('/api/icon/', async (req, res) => {
     const result = await Icon.create(req.body);
     res.send(result);
 });
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //=============================================================================================================================================
-app.get('/tasks/:id', async (req, res) => {
+app.get('/api/tasks/:id', async (req, res) => {
     const record = await Task.findOne({
         where: {
             id: req.params.id
@@ -102,7 +117,7 @@ app.get('/tasks/:id', async (req, res) => {
 });
 
 
-app.get('/tasks/', async (req, res) => {
+app.get('/api/tasks/', async (req, res) => {
     const record = await Task.findAll();
     res.send(record);
 });
@@ -111,7 +126,7 @@ app.get('/tasks/', async (req, res) => {
 //=============================================================================================================================================
 
 
-app.delete('/tasks/:id', async (req, res) => {
+app.delete('/api/tasks/:id', async (req, res) => {
     const result = await Task.destroy({
         where: {
             id: req.params.id
@@ -121,7 +136,7 @@ app.delete('/tasks/:id', async (req, res) => {
 });
 
 
-app.delete('/users/:id', async (req, res) => {
+app.delete('/api/users/:id', async (req, res) => {
     const result = await User.destroy({
         where: {
             id: req.params.id
@@ -131,7 +146,7 @@ app.delete('/users/:id', async (req, res) => {
 });
 
 
-app.delete('/docm/:id', async (req, res) => {
+app.delete('/api/docments/:id', async (req, res) => {
     const result = await Document.destroy({
         where: {
             id: req.params.id
@@ -141,7 +156,7 @@ app.delete('/docm/:id', async (req, res) => {
 });
 
 
-app.delete('/icon/:id', async (req, res) => {
+app.delete('/api/icon/:id', async (req, res) => {
     const result = await Icon.destroy({
         where: {
             id: req.params.id
@@ -151,12 +166,6 @@ app.delete('/icon/:id', async (req, res) => {
 });
 
 
-
-
-
-
-
-
-app.listen(3000, () => {
+app.listen(9000, () => {
     console.log("Server started...");
 });
