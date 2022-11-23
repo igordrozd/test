@@ -11,11 +11,12 @@ const secret = 'shhhhh';
 
 const app = express();
 
+app.use( express.static('./client/build') );
 
 app.use( express.json() );
 
 
-app.post('/users/', async(req,res) => {
+app.post('/api/users/', async(req,res) => {
 
     const record = await User.findOne({
         where: {name: req.body.name}
@@ -36,7 +37,7 @@ app.post('/users/', async(req,res) => {
 });
 
   
-app.get('/users/', async(req,res)=>{
+app.get('/api/users/', async(req,res)=>{
     const record = await User.findOne({
         where: {
             name: req.body.name
@@ -75,24 +76,24 @@ app.use((req, res, next) => {
     }
 });
 //==============================================================================================================================================
-app.post('/tasks', async (req, res) => {
+app.post('/api/tasks', async (req, res) => {
     
     const result = await Task.create(req.body);
     res.send(result);
 });
-app.post('/docm/', async (req, res) => {
+app.post('/api/docm/', async (req, res) => {
     const result = await Document.create(req.body);
     res.send(result);
 });
 
-app.post('/icon/', async (req, res) => {
+app.post('/api/icon/', async (req, res) => {
     const result = await Icon.create(req.body);
     res.send(result);
 });
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //=============================================================================================================================================
-app.get('/tasks/:id', async (req, res) => {
+app.get('/api/tasks/:id', async (req, res) => {
     const record = await Task.findOne({
         where: {
             id: req.params.id
@@ -102,7 +103,7 @@ app.get('/tasks/:id', async (req, res) => {
 });
 
 
-app.get('/tasks/', async (req, res) => {
+app.get('/api/tasks/', async (req, res) => {
     const record = await Task.findAll();
     res.send(record);
 });
@@ -111,7 +112,7 @@ app.get('/tasks/', async (req, res) => {
 //=============================================================================================================================================
 
 
-app.delete('/tasks/:id', async (req, res) => {
+app.delete('/api/tasks/:id', async (req, res) => {
     const result = await Task.destroy({
         where: {
             id: req.params.id
@@ -121,7 +122,7 @@ app.delete('/tasks/:id', async (req, res) => {
 });
 
 
-app.delete('/users/:id', async (req, res) => {
+app.delete('/api/users/:id', async (req, res) => {
     const result = await User.destroy({
         where: {
             id: req.params.id
@@ -131,7 +132,7 @@ app.delete('/users/:id', async (req, res) => {
 });
 
 
-app.delete('/docm/:id', async (req, res) => {
+app.delete('/api/docm/:id', async (req, res) => {
     const result = await Document.destroy({
         where: {
             id: req.params.id
@@ -141,7 +142,7 @@ app.delete('/docm/:id', async (req, res) => {
 });
 
 
-app.delete('/icon/:id', async (req, res) => {
+app.delete('/api/icon/:id', async (req, res) => {
     const result = await Icon.destroy({
         where: {
             id: req.params.id
@@ -151,12 +152,6 @@ app.delete('/icon/:id', async (req, res) => {
 });
 
 
-
-
-
-
-
-
-app.listen(3000, () => {
+app.listen(8000, () => {
     console.log("Server started...");
 });
