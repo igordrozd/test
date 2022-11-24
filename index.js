@@ -1,14 +1,12 @@
+const cors = require('cors');
 const express = require('express');
-const { Task } = require('./schemes');
-const { User } = require('./schemes');
-const { salt } = require('./schemes');
-const {Document } =require('./schemes');
-const {Icon } =require('./schemes');
 const  bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const cors = require('cors');
+const { 
+    Task, User, Document, Icon 
+} = require('./schemes');
 
-const secret = 'shhhhh';
+const privateKey = `$2a$10$sbsCkzAn5.tMTX.pY3cK2O`;
 
 const app = express();
 
@@ -20,9 +18,10 @@ const corsOptions = {
 
 app.use( express.static('./client/build') );
 
+app.use(cors(corsOptions));
+
 app.use( express.json() );
 
-app.use(cors(corsOptions));
 
 app.post('/api/users/', async(req,res) => {
 
@@ -31,12 +30,12 @@ app.post('/api/users/', async(req,res) => {
     });
     
     if (record===null){
-        req.body.password=bcrypt.hashSync(req.body.password, salt);
+        req.body.password=bcrypt.hashSync(req.body.password, privateKey);
         const result = await User.create(req.body);
         
         
         
-        const token = jwt.sign({name : result.name, password : result.password,id : result.id}, secret);
+        const token = jwt.sign({name : result.name, password : result.password,id : result.id}, privateKey);
         res.send({ token });
     }
     else{
@@ -51,14 +50,14 @@ app.get('/api/users/', async(req,res)=>{
             name: req.body.name
     }});
     
-    const a = bcrypt.hashSync(req.body.password, salt);
+    const a = bcrypt.hashSync(req.body.password, privateKey);
     if (record!== null){    
         if (record.password !==a){
             
             res.status(403).send('Erorr 403 (wrong password)');
         }
         else {
-            const token = jwt.sign({name : record.name, password : record.password ,id : record.id}, secret);
+            const token = jwt.sign({name : record.name, password : record.password ,id : record.id}, privateKey);
             res.send({ token });
         }
     }
@@ -72,7 +71,7 @@ app.get('/api/users/', async(req,res)=>{
 app.use((req, res, next) => {
     const token = req.headers.token;
     try {
-        jwt.verify(token, secret);
+        jwt.verify(token, privateKey);
         next();
     } catch {
         res
@@ -85,7 +84,7 @@ app.use((req, res, next) => {
 //==============================================================================================================================================
 app.post('/api/tasks', async (req, res) => { 
     const token = req.headers.token 
-    const user = jwt.verify(token, secret); 
+    const user = jwt.verify(token, privateKey); 
     
     const result = await Task.create({ 
         ...req.body, 
