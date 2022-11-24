@@ -5,6 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: url('../public/photo_2022-11-23_18-04-23.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 code {
@@ -33,16 +36,3 @@ align-items: center;
 display: flex;
 flex-direction: column;
 }
-
-.border {
-  border: 2px solid rgb(0, 0, 0);
-  border-radius: 20px;
-  height: 400px;
-  width: 300px;
-  background-color: rgba(179, 233, 237, 0.358);
-  margin: 10% auto;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  }
