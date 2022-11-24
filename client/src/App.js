@@ -21,7 +21,11 @@ function App() {
 const Main = () => (
 <div className='border'>
   <div className={styles.wrapper}>
-  <img src="pngtree-astronaut-full-color-set-png-image_5071525.jpg" />
+  <img 
+    height={40}
+    width={40}
+    src="pngtree-astronaut-full-color-set-png-image_5071525.jpg" 
+  />
   <p>
        
   </p>

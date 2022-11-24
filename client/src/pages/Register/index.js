@@ -35,11 +35,9 @@ export const Register = () => {
                     <Input.Password placeholder='Введите пароль' />
                 </Form.Item>
                 
-                <Link to="/documents">
-                    <Button type="primary" htmlType="submit" className={styles.submit}>
-                        Зарегистрироваться
-                    </Button>
-                </Link>
+                <Button type="primary" htmlType="submit" className={styles.submit}>
+                    Зарегистрироваться
+                </Button>
 
                 <Link to="/">home</Link>
 
