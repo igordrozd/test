@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Table } from 'antd';
-import sendRequest from '../../utils/request';
+import { Table, Layout } from 'antd';
+import { getDocuments } from '../../api/getDocuments';
+import React from 'react';
+
+const { Header, Footer, Sider, Content } = Layout; 
 
 const columns = [
     {
@@ -14,7 +17,7 @@ const columns = [
 ]
 
 async function getData() {
-    const result = await sendRequest(`http://localhost:8000/api/documents`, 'GET');
+    const result = await getDocuments();
     return await result.json();
 }
 
@@ -31,6 +34,7 @@ export const Documents = () => {
         return `Документов нет`;
     }
     return (
+        
         <Table 
             pagination={false}
             columns={columns}
