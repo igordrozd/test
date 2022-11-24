@@ -119,7 +119,7 @@ app.get('/api/tasks/one/:id', async (req, res) => {
 app.get('/api/tasks/all/:id', async (req, res) => {
     const record = await Task.findAll({
         where:{
-            id : req.params.id
+            documentId : req.params.id
         }
     });
     res.send(record);
@@ -130,7 +130,7 @@ app.get('/api/documents/', async (req, res) => {
 
     const records = await Document.findAll({
         where:{
-            id: user.id
+            userId: user.id
         }
     });
     res.send(records);
