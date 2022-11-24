@@ -106,8 +106,8 @@ app.post('/api/icon/', async (req, res) => {
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //=============================================================================================================================================
-app.get('/api/tasks/one/:id', async (req, res) => {
-    const record = await Task.findOne({
+app.get('/api/tasks/:id', async (req, res) => {
+    const record = await Task.findAll({
         where: {
             id: req.params.id
         }
@@ -116,10 +116,10 @@ app.get('/api/tasks/one/:id', async (req, res) => {
 });
 
 
-app.get('/api/tasks/all/:id', async (req, res) => {
+app.get('/api/documents/:id/tasks', async (req, res) => {
     const record = await Task.findAll({
         where:{
-            id : req.params.id
+            documentId : req.params.id
         }
     });
     res.send(record);
