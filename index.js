@@ -169,6 +169,6 @@ app.delete('/api/icon/:id', async (req, res) => {
 });
 
 
-app.listen(9000, () => {
+app.listen(8000, () => {
     console.log("Server started...");
 });

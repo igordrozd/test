@@ -1,20 +1,13 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { Form, Button, Input } from 'antd';
 import styles from './Register.module.css';
-import { Link } from "react-router-dom";
+import sendRequest from '../../utils/request';
 
 export const Register = () => {
     const onSubmit = async (values) => {
-        const args = {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(values)
-        };
-        const response = await fetch(`http://localhost:8000/api/users`, args);
+        const response = await sendRequest(`http://localhost:8000/api/users`, 'POST', values);
         const { token } = await response.json();
-
         localStorage.setItem('auth_token', token);
     }
     return(
