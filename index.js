@@ -23,7 +23,7 @@ app.use(cors(corsOptions));
 app.use( express.json() );
 
 
-app.post('/api/users/', async(req,res) => {
+app.post('/api/users/register', async(req,res) => {
 
     const record = await User.findOne({
         where: {name: req.body.name}
@@ -44,7 +44,7 @@ app.post('/api/users/', async(req,res) => {
 });
 
   
-app.get('/api/users/', async(req,res)=>{
+app.post('/api/users/login', async(req,res)=>{
     const record = await User.findOne({
         where: {
             name: req.body.name
