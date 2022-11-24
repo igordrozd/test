@@ -1,5 +1,5 @@
 import sendRequest from '../utils/request';
 
 export function postIcon(data) {
-    return sendRequest(`http:localhost:8000/api/icon`, 'POST', data);
+    return sendRequest(`http:localhost:${port}/api/icon`, 'POST', data);
 }
