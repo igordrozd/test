@@ -33,10 +33,10 @@ app.post('/api/users/', async(req,res) => {
     if (record===null){
         req.body.password=bcrypt.hashSync(req.body.password, salt);
         const result = await User.create(req.body);
-        console.log(result);
         
         
-        const token = jwt.sign({name : result.name, password : result.password}, secret);
+        
+        const token = jwt.sign({name : result.name, password : result.password,id : result.id}, secret);
         res.send({ token });
     }
     else{
@@ -54,12 +54,11 @@ app.get('/api/users/', async(req,res)=>{
     const a = bcrypt.hashSync(req.body.password, salt);
     if (record!== null){    
         if (record.password !==a){
-            console.log(a)
-            console.log(record.password)
+            
             res.status(403).send('Erorr 403 (wrong password)');
         }
         else {
-            const token = jwt.sign({name : record.name, password : record.password}, secret);
+            const token = jwt.sign({name : record.name, password : record.password ,id : record.id}, secret);
             res.send({ token });
         }
     }
@@ -84,10 +83,17 @@ app.use((req, res, next) => {
     }
 });
 //==============================================================================================================================================
-app.post('/api/tasks', async (req, res) => {
+app.post('/api/tasks', async (req, res) => { 
+    const token = req.headers.token 
+    const user = jwt.verify(token, secret); 
     
-    const result = await Task.create(req.body);
-    res.send(result);
+    const result = await Task.create({ 
+        ...req.body, 
+        userId: user.id 
+    }); 
+     
+ 
+    res.send(result); 
 });
 app.post('/api/documents/', async (req, res) => {
     const result = await Document.create(req.body);
@@ -164,6 +170,6 @@ app.delete('/api/icon/:id', async (req, res) => {
 });
 
 
-app.listen(8000, () => {
+app.listen(9000, () => {
     console.log("Server started...");
 });
