@@ -5,7 +5,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url('../public/photo_2022-11-23_18-04-23.jpg');
   background-size: contain;
   background-repeat: no-repeat;
 }
