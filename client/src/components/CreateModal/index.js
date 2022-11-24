@@ -12,7 +12,13 @@ export const CreateModal = () => {
         navigate(newLocation);
     }
     return(
-        <Modal title="Создать элемент" open={state} onCancel={close}>
+        <Modal 
+            title="Создать элемент" 
+            open={state} 
+            onCancel={close}
+            cancelText="Отмена"
+            okText="Создать"
+        >
             dsfsdfds
         </Modal>
     );

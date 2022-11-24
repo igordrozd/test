@@ -1,11 +1,21 @@
-export default function(address, method, body) {
-    return fetch(address, {
+import { notification } from 'antd';
+
+export default async function(address, method, body) {
+    const response = await fetch(address, {
         method,
         headers: {
             'Content-type': 'application/json',
             'token': localStorage.getItem('auth_token')
         },
         body: JSON.stringify(body)
+    });
+    if(response.ok) {
+        return response;
+    }
+    const text = await response.text();
+    notification.error({
+        message: 'Произошла ошибка',
+        description: text
     });
 }
 
