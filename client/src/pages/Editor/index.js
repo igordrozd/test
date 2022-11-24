@@ -6,7 +6,15 @@ import {
     DeleteOutlined 
 } from '@ant-design/icons';
 
+import { deleteTaskById } from '../../api/deleteTask';
+
 import styles from './Editor.module.css';
+
+const deleteTask = (record) => {
+    const response = deleteTaskById(record.id);
+    const json = response.json();
+    console.log(json);
+}
 
 const columns = [
     {
@@ -29,7 +37,7 @@ const columns = [
                     <Button size="small">
                         <EditOutlined />
                     </Button>
-                    <Button size="small">
+                    <Button size="small" onClick={() => deleteTask(record)}>
                         <DeleteOutlined />
                     </Button>
                 </Space>
