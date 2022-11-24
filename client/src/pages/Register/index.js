@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { Form, Button, Input } from 'antd';
 import styles from './Register.module.css';
 import sendRequest from '../../utils/request';
+import { register } from '../../api/register';
 
 export const Register = () => {
     const onSubmit = async (values) => {
-        const response = await sendRequest(`http://localhost:8000/api/users`, 'POST', values);
+        const response = await register(values);
         const { token } = await response.json();
         localStorage.setItem('auth_token', token);
     }
@@ -35,7 +36,7 @@ export const Register = () => {
                     <Input.Password placeholder='Введите пароль' />
                 </Form.Item>
                 
-                
+
                 <Button type="primary" htmlType="submit" className={styles.submit}>
                     Зарегистрироваться
                 </Button>

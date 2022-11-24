@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Table, Space } from 'antd';
 import { useParams, Link, useLocation } from "react-router-dom";
 import { 
     EditOutlined, 
     DeleteOutlined 
 } from '@ant-design/icons';
-
+import { drawTimeline } from '../../utils/drawer';
 import { deleteTaskById } from '../../api/deleteTask';
 
 import styles from './Editor.module.css';
+
 
 const deleteTask = (record) => {
     const response = deleteTaskById(record.id);
@@ -70,19 +71,30 @@ const data = [
 export const Editor = () => {
     let { id } = useParams();
     const location = useLocation();
+    useEffect(() => {
+        drawTimeline();
+    }, []);
     return(
-        <div className={styles.layout}>
-            <div className={styles.col}>
-                <Table 
-                    columns={columns} 
-                    dataSource={data} 
-                />
+        <div className={styles.wrapper}>
+            <div className={styles.header}>
+                <div>Это имя документа</div>
                 <Link to={`${location.pathname}/create`}>
-                    Добавить таск
+                    <Button type="primary">
+                        Добавить таск 
+                    </Button>
                 </Link>
             </div>
-            <div  className={styles.col}>
-
+            <div className={styles.layout}>
+                <div className={styles.col}>
+                    <Table 
+                        columns={columns} 
+                        dataSource={data} 
+                    />
+                    
+                </div>
+                <div  className={styles.col}>
+                    <canvas id="canvas" />
+                </div>
             </div>
         </div>
     );
