@@ -155,7 +155,7 @@ app.delete('/api/tasks/:id', async (req, res) => {
             id: req.params.id
         }
     });
-    res.send({result});
+    res.send({count: result});
 });
 
 
@@ -166,7 +166,7 @@ app.delete('/api/users/:id', async (req, res) => {
             id: req.params.id
         }
     });
-    res.send({result});
+    res.send({count: result});
 });
 
 
@@ -176,7 +176,7 @@ app.delete('/api/documents/:id', async (req, res) => {
             id: req.params.id
         }
     });
-    res.send({result});
+    res.send({count: result});
 });
 
 
@@ -186,7 +186,7 @@ app.delete('/api/icon/:id', async (req, res) => {
             id: req.params.id
         }
     });
-    res.send({result});
+    res.send({count: result});
 });
 
 

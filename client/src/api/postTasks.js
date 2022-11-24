@@ -1,5 +1,5 @@
 import sendRequest from '../utils/request';
-
-export function postTasks() {
-    return sendRequest(`http:localhost:8000/api/tasks`, 'POST');
+import port from '../port'
+export function postTasks(data) {
+    return sendRequest(`http:localhost:${port}/api/tasks`, 'POST', data);
 }
