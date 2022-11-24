@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 
 export const Login = () => {
     const onFinish = async (values) => {
-        const response = await fetch(`http://localhost:8000/api/users`, args);
-        const { token } = await response.json();
-        console.log('Success:', values);
+        // const response = await fetch(`http://localhost:8000/api/users`, args);
+        // const { token } = await response.json();
+        // console.log('Success:', values);
       };
     return(
         <div className='border'>
@@ -33,9 +33,15 @@ export const Login = () => {
                 >
                     <Input.Password placeholder='Введите пароль' />
                 </Form.Item>
-                <Button type="primary" htmlType="submit" className={styles.submit}>
-                    Войти
-                </Button><Link to="/">home</Link>
+
+                <Link to="/documents">
+                    <Button type="primary" htmlType="submit" className={styles.submit}>
+                        Войти
+                    </Button>
+                </Link>
+
+                <Link to="/">home</Link>
+
             </Form>
             
         </div>

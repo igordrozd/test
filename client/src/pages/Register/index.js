@@ -34,19 +34,15 @@ export const Register = () => {
                 >
                     <Input.Password placeholder='Введите пароль' />
                 </Form.Item>
-
-                <Form.Item
-                    rules={[{ required: true, message: 'Please repeat your password!' }]}
-                >
-                    <Input.Password placeholder='Повторите пароль'/>
-                </Form.Item>
                 
-                <Button type="primary" htmlType="submit" className={styles.submit}>
-                    Зарегистрироваться
-                </Button>
+                <Link to="/documents">
+                    <Button type="primary" htmlType="submit" className={styles.submit}>
+                        Зарегистрироваться
+                    </Button>
+                </Link>
 
                 <Link to="/">home</Link>
-                
+
             </Form>
             
         </div>
