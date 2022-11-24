@@ -106,7 +106,7 @@ app.post('/api/icon/', async (req, res) => {
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //=============================================================================================================================================
-app.get('/api/tasks/:id', async (req, res) => {
+app.get('/api/tasks/one/:id', async (req, res) => {
     const record = await Task.findOne({
         where: {
             id: req.params.id
@@ -116,14 +116,34 @@ app.get('/api/tasks/:id', async (req, res) => {
 });
 
 
-app.get('/api/tasks/', async (req, res) => {
-    const record = await Task.findAll();
+app.get('/api/tasks/all/:id', async (req, res) => {
+    const record = await Task.findAll({
+        where:{
+            id : req.params.id
+        }
+    });
     res.send(record);
 });
 app.get('/api/documents/', async (req, res) => {
-    const records = await Document.findAll();
+    const token = req.headers.token 
+    const user = jwt.verify(token, privateKey); 
+
+    const records = await Document.findAll({
+        where:{
+            id: user.id
+        }
+    });
     res.send(records);
 });
+app.get('/api/documents/:id', async (req, res) => {
+    const record = await Document.findOne({
+        where: {
+            id: req.params.id
+        }
+    });
+    res.send(record);
+});
+
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //=============================================================================================================================================
@@ -135,17 +155,18 @@ app.delete('/api/tasks/:id', async (req, res) => {
             id: req.params.id
         }
     });
-    res.send('Запись удалена');
+    res.send({result});
 });
 
 
 app.delete('/api/users/:id', async (req, res) => {
+
     const result = await User.destroy({
         where: {
             id: req.params.id
         }
     });
-    res.send('Запись удалена');
+    res.send({result});
 });
 
 
@@ -155,7 +176,7 @@ app.delete('/api/documents/:id', async (req, res) => {
             id: req.params.id
         }
     });
-    res.send('Запись удалена');
+    res.send({result});
 });
 
 
@@ -165,7 +186,7 @@ app.delete('/api/icon/:id', async (req, res) => {
             id: req.params.id
         }
     });
-    res.send('Запись удалена');
+    res.send({result});
 });
 
 
