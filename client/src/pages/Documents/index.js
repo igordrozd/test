@@ -34,11 +34,12 @@ export const Documents = () => {
         return `Документов нет`;
     }
     return (
-        
-        <Table 
-            pagination={false}
-            columns={columns}
-            dataSource={state} 
-        />
+        <div className='container'>
+            <Table 
+                pagination={false}
+                columns={columns}
+                dataSource={state} 
+            />
+        </div>
     );
 }
