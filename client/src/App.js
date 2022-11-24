@@ -1,8 +1,11 @@
-import './App.css';
-import { Login, Register, Documents } from './pages';
-import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import React from 'react';
 import { Button } from 'antd';
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import { CreateModal } from './components/CreateModal';
+import { Login, Register, Documents, Editor } from './pages';
+
 import styles from './pages/Login/Login.module.css';
+import './App.css';
 
 function App() {
   return (
@@ -12,6 +15,13 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/documents" element={<Documents />} />
+          <Route path="/documents/:id/*" element={<Editor />} />
+        </Routes>
+        <Routes>
+          <Route 
+            path="/documents/:id/create" 
+            element={<CreateModal />} 
+          />
         </Routes>
       </BrowserRouter>
   );

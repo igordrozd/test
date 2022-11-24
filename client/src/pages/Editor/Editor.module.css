@@ -1,0 +1,8 @@
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 700px;
+}
+.col {
+    border: 1px solid black;
+}
