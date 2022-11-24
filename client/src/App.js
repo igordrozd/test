@@ -1,5 +1,5 @@
 import './App.css';
-import { Login, Register } from './pages';
+import { Login, Register, Documents } from './pages';
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import { Button } from 'antd';
 import styles from './pages/Login/Login.module.css';
@@ -11,15 +11,17 @@ function App() {
           <Route exact path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/documents" element={<Documents />} />
         </Routes>
       </BrowserRouter>
   );
 }
 
+
 const Main = () => (
 <div className='border'>
   <div className={styles.wrapper}>
-  <img src="IMG20221120180710_100x100.jpg" />
+  <img src="pngtree-astronaut-full-color-set-png-image_5071525.jpg" />
   <p>
        
   </p>
