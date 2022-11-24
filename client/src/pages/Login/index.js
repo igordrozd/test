@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 
 export const Login = () => {
     const onFinish = async (values) => {
+        const response = await fetch(`http://localhost:8000/api/users`, args);
+        const { token } = await response.json();
         console.log('Success:', values);
       };
     return(
@@ -15,7 +17,7 @@ export const Login = () => {
         </h2>
         <div className={styles.wrapper}>
             <Form
-            onFinish={onFinish}
+                onFinish={onFinish}
                 name="basic"
                 autoComplete="off"
             >
