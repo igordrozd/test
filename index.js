@@ -89,7 +89,7 @@ app.post('/api/tasks', async (req, res) => {
     const result = await Task.create(req.body);
     res.send(result);
 });
-app.post('/api/docm/', async (req, res) => {
+app.post('/api/documents/', async (req, res) => {
     const result = await Document.create(req.body);
     res.send(result);
 });
@@ -114,6 +114,10 @@ app.get('/api/tasks/:id', async (req, res) => {
 app.get('/api/tasks/', async (req, res) => {
     const record = await Task.findAll();
     res.send(record);
+});
+app.get('/api/documents/', async (req, res) => {
+    const records = await Document.findAll();
+    res.send(records);
 });
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -140,7 +144,7 @@ app.delete('/api/users/:id', async (req, res) => {
 });
 
 
-app.delete('/api/docm/:id', async (req, res) => {
+app.delete('/api/documents/:id', async (req, res) => {
     const result = await Document.destroy({
         where: {
             id: req.params.id
