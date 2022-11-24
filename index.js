@@ -130,7 +130,7 @@ app.get('/api/documents/', async (req, res) => {
 
     const records = await Document.findAll({
         where:{
-            id: user.id
+            userId: user.id
         }
     });
     res.send(records);
