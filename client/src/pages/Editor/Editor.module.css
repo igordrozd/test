@@ -4,8 +4,20 @@
     align-items: center;
     margin-bottom: 10px;
 }
+.canvas {
+    border-radius: 5px;
+    height: 594pt;
+    width: 420pt;
+    background-color: rgba(179, 233, 237, 0.358);
+    margin: 10% auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+}
 .wrapper {
-    padding: 10px;
+    padding: 1px;
 }
 .layout {
     display: grid;
@@ -14,4 +26,7 @@
 }
 .col {
     border: 1px solid black;
-}
+} 
+
+
+/* 210 297 */

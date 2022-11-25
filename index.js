@@ -125,9 +125,6 @@ app.post('/api/icons/', async (req, res) => {
 app.get('/api/users/verify', async (req, res) => {
     const token = req.headers.token;
     const user = jwt.verify(token, privateKey);
-    
-    console.log(user.id);
-    
     const result = await User.findAll({
         where: {
             id: user.id,
@@ -135,6 +132,7 @@ app.get('/api/users/verify', async (req, res) => {
             password: user.password
         }
     });
+    
     if(result != null){
         res.send({ message: "Авторизован" })
     } else{

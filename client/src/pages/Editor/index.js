@@ -6,7 +6,7 @@ import {
     DeleteOutlined 
 } from '@ant-design/icons';
 import { drawTimeline } from '../../utils/drawer';
-import { deleteTaskById } from '../../api/deleteTask';
+import { deleteTaskById } from '../../api/deleteTasks';
 
 import styles from './Editor.module.css';
 
@@ -72,7 +72,7 @@ export const Editor = () => {
     let { id } = useParams();
     const location = useLocation();
     useEffect(() => {
-        drawTimeline();
+        drawTimeline(0,1800,0);
     }, []);
     return(
         <div className={styles.wrapper}>
@@ -80,7 +80,7 @@ export const Editor = () => {
                 <div>Это имя документа</div>
                 <Link to={`${location.pathname}/create`}>
                     <Button type="primary">
-                        Добавить таск 
+                        Добавить действие
                     </Button>
                 </Link>
             </div>
@@ -93,9 +93,12 @@ export const Editor = () => {
                     
                 </div>
                 <div  className={styles.col}>
-                    <canvas id="canvas" />
-                </div>
-            </div>
-        </div>
+                    <canvas 
+                        id="canvas" 
+                        className={styles.canvas}
+                    />
+                 </div>
+             </div>
+         </div>
     );
 }
