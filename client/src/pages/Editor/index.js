@@ -30,7 +30,7 @@ const columns = [
     {
         title: `Время/промежуток`,
         dataIndex: `time`,
-        render: (time) => time.toTimeString()
+        // render: (time) => time.toTimeString()
     },
     {
         render: (_, record) => {
@@ -83,7 +83,7 @@ export const Tasks = () => {
     }, []);
 
     if(state.length === 0) {
-        return `Документов нет`;
+        return `Действий нет`;
     }
     return (
         <div className='container'>

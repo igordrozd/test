@@ -1,6 +1,11 @@
-import { Form, Modal, Button, Input, Select } from 'antd';
+import { Form, Modal, Button, Input, TimePicker } from 'antd';
 import React, { useState } from "react"
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
 
 export const WindEvent = () => {
     const navigate = useNavigate();
@@ -20,10 +25,13 @@ export const WindEvent = () => {
                 <Input placeholder='Введите название'/>
             </Form.Item>
 
-            <Form.Item
-                name="timeStart"
+            <Form.Item 
+                name="time"
             >
-                <Input placeholder='Время события' />
+                <TimePicker 
+                    defaultOpenValue={dayjs('00:00:00', 'HH:mm:ss')} 
+                    style={{ width: `100%` }}
+                />
             </Form.Item>
         </>
 

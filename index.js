@@ -94,7 +94,7 @@ app.use((req, res, next) => {
 //==============================================================================================================================================
 
 app.post('/api/tasks', async (req, res) => { 
-    try{
+    
     const token = req.headers.token 
     const user = jwt.verify(token, privateKey); 
     const result = await Task.create({ 
@@ -104,9 +104,7 @@ app.post('/api/tasks', async (req, res) => {
      
  
     res.send(result); 
-    }catch(e){
-        res.status(500).send(e.message);  
-    }
+    
 });
 app.post('/api/documents/', async (req, res) => {
     try{
@@ -236,7 +234,7 @@ app.delete('/api/tasks/:id', async (req, res) => {
         }
     });
     if (result===0){
-        res.status(403).send("такого элемента нет")
+        return res.status(403).send("такого элемента нет")
     }
     
     res.send({count: result});

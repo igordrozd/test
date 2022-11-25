@@ -4,6 +4,7 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { WindEvent } from "../Winds/WindEvent";
 import { WindInform } from "../Winds/WindInform";
 import { WindOperation } from "../Winds/WindOperation";
+import { addTask } from "../AddTask";
 
 function onFinish() {}
 
@@ -29,7 +30,7 @@ export const CreateModal = () => {
         navigate(newLocation);
     }
     return(
-        <Modal 
+        <Modal onOk={addTask}
             title="Создать элемент" 
             open={state} 
             onCancel={close}
