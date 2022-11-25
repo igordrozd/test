@@ -54,7 +54,11 @@ app.post('/api/users/login', async(req,res)=>{
     if (record!== null){    
         if (record.password !==a){
             
-            res.status(403).send('Erorr 403 (wrong password)');
+            res
+                .status(102)
+                .send({
+                    message: '(wrong password)'
+            });
         }
         else {
             const token = jwt.sign({name : record.name, password : record.password ,id : record.id}, privateKey);
@@ -62,8 +66,14 @@ app.post('/api/users/login', async(req,res)=>{
         }
     }
     else{
-        res.status(403).send('Erorr 403 (wrong name)');
+        res
+            .status(103)
+            .send({
+                message: '(wrong name)'
+            });
     }
+        
+    
 });
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -77,12 +87,13 @@ app.use((req, res, next) => {
         res
             .status(403)
             .send({
-                message: 'Не авторизован'
+                message: 'не авторизован'
             });
     }
 });
 //==============================================================================================================================================
 app.post('/api/tasks', async (req, res) => { 
+    
     const token = req.headers.token 
     const user = jwt.verify(token, privateKey); 
     
@@ -95,8 +106,10 @@ app.post('/api/tasks', async (req, res) => {
     res.send(result); 
 });
 app.post('/api/documents/', async (req, res) => {
+
     const result = await Document.create(req.body);
     res.send(result);
+
 });
 
 app.post('/api/icon/', async (req, res) => {
@@ -155,6 +168,10 @@ app.delete('/api/tasks/:id', async (req, res) => {
             id: req.params.id
         }
     });
+    if (result===0){
+        res.status(403).send("такого элемента нет")
+    }
+    
     res.send({count: result});
 });
 
@@ -166,6 +183,9 @@ app.delete('/api/users/:id', async (req, res) => {
             id: req.params.id
         }
     });
+    if (result===0){
+        res.status(403).send("такого элемента нет")
+    }
     res.send({count: result});
 });
 
@@ -176,6 +196,9 @@ app.delete('/api/documents/:id', async (req, res) => {
             id: req.params.id
         }
     });
+    if (result===0){
+        res.status(403).send("такого элемента нет")
+    }
     res.send({count: result});
 });
 
@@ -186,6 +209,9 @@ app.delete('/api/icon/:id', async (req, res) => {
             id: req.params.id
         }
     });
+    if (result===0){
+        res.status(403).send("такого элемента нет")
+    }
     res.send({count: result});
 });
 
