@@ -33,9 +33,6 @@ app.post('/api/users/register', async(req,res) => {
     if (record===null){
         req.body.password=bcrypt.hashSync(req.body.password, privateKey);
         const result = await User.create(req.body);
-        
-        
-        
         const token = jwt.sign({name : result.name, password : result.password,id : result.id}, privateKey);
         res.send({ token });
     }
@@ -54,11 +51,10 @@ app.post('/api/users/login', async(req,res)=>{
     const a = bcrypt.hashSync(req.body.password, privateKey);
     if (record!== null){    
         if (record.password !==a){
-            
             res
                 .status(102)
                 .send({
-                    message: '(wrong password)'
+                    message: ' Wrong password'
             });
         }
         else {
@@ -70,7 +66,7 @@ app.post('/api/users/login', async(req,res)=>{
         res
             .status(103)
             .send({
-                message: '(wrong name)'
+                message: ' Wrong name'
             });
     }
         
@@ -88,7 +84,7 @@ app.use((req, res, next) => {
         res
             .status(401)
             .send({
-                message: 'не авторизован'
+                message: 'Не авторизован'
             });
     }
 });
@@ -113,13 +109,34 @@ app.post('/api/documents/', async (req, res) => {
 
 });
 
-app.post('/api/icon/', async (req, res) => {
+app.post('/api/icons/', async (req, res) => {
     const result = await Icon.create(req.body);
     res.send(result);
 });
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //=============================================================================================================================================
+app.get('/api/users/verify', async (req, res) => {
+    const token = req.headers.token;
+    const user = jwt.verify(token, privateKey);
+    
+    console.log(user.id);
+    
+    const result = await User.findAll({
+        where: {
+            id: user.id,
+            name: user.name,
+            password: user.password
+        }
+    });
+    if(result != null){
+        res.send({ message: "Авторизован" })
+    } else{
+        res.send({ message: "not access" })
+    }
+});
+
+
 app.get('/api/tasks/:id', async (req, res) => {
     const record = await Task.findAll({
         where: {
@@ -215,7 +232,7 @@ app.delete('/api/documents/:id', async (req, res) => {
 });
 
 
-app.delete('/api/icon/:id', async (req, res) => {
+app.delete('/api/icons/:id', async (req, res) => {
     const result = await Icon.destroy({
         where: {
             id: req.params.id
@@ -231,3 +248,6 @@ app.delete('/api/icon/:id', async (req, res) => {
 app.listen(9000, () => {
     console.log("Server started...");
 });
+
+
+/* { message: "authorized" } или { message: "not access" }*/
