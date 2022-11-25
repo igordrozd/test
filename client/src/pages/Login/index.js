@@ -4,12 +4,8 @@ import styles from './Login.module.css';
 import { Link } from "react-router-dom";
 
 
+
 export const Login = () => {
-    const onFinish = async (values) => {
-        // const response = await fetch(`http://localhost:8000/api/users`, args);
-        // const { token } = await response.json();
-        // console.log('Success:', values);
-      };
     return(
         <div className='border'>
         <h2>
