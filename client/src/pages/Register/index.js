@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { Form, Button, Input } from 'antd';
 import styles from './Register.module.css';
-import sendRequest from '../../utils/request';
 import { register } from '../../api/register';
 
 export const Register = () => {

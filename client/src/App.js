@@ -1,21 +1,23 @@
 import React from 'react';
 import { Button } from 'antd';
-import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { CreateModal } from './components/CreateModal';
 import { Login, Register, Documents, Editor } from './pages';
 
 import styles from './pages/Login/Login.module.css';
 import './App.css';
 
-function App() {
-  return (
-      <BrowserRouter>
+function getRoutes(hasToken) {
+  if(hasToken) {
+    return(
+      <>
         <Routes>
-          <Route exact path="/" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/documents" element={<Documents />} />
           <Route path="/documents/:id/*" element={<Editor />} />
+          <Route
+            path="*"
+            element={<Navigate to="/documents" replace />}
+          />
         </Routes>
         <Routes>
           <Route 
@@ -23,37 +25,29 @@ function App() {
             element={<CreateModal />} 
           />
         </Routes>
-      </BrowserRouter>
+      </>
+    );
+  }
+  return(
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route
+        path="*"
+        element={<Navigate to="/login" replace />}
+      />
+    </Routes>
   );
 }
 
 
-const Main = () => (
-<div className='border'>
-  <div className={styles.wrapper}>
-  <img 
-    height={100}
-    width={100}
-    src="pngtree-astronaut-full-color-set-png-image_5071525.jpg" 
-  />
-  <p>
-       
-  </p>
-    <Link to="/login">
-      <Button type="primary"> 
-        Вход
-      </Button>
-    </Link> 
-    <p> 
-      или
-    </p>
-    <Link to="/register">
-      <Button type="primary"> 
-        Регистрация
-      </Button>
-    </Link> 
-  </div>
-</div>
-);
+function App() {
+  const token = localStorage.getItem('auth_token');
+  return (
+      <BrowserRouter>
+        {getRoutes(token)}
+      </BrowserRouter>
+  );
+}
 
 export default App;

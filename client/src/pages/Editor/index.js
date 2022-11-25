@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Table, Space } from 'antd';
 import { useParams, Link, useLocation } from "react-router-dom";
 import { 
@@ -9,6 +9,7 @@ import { drawTimeline } from '../../utils/drawer';
 import { deleteTaskById } from '../../api/deleteTasks';
 
 import styles from './Editor.module.css';
+import { getDocumentTasks } from "../../api/getDocumentTasks";
 
 
 const deleteTask = (record) => {
@@ -68,8 +69,34 @@ const data = [
         time: new Date()
     },
 ]
+
+async function getData(id) {
+    const result = await getDocumentTasks(id);
+    return await result.json();
+}
+
+export const Tasks = () => {
+    const [ state, setState ] = useState([]);
+    const { id } = useParams();
+    useEffect(() => {
+        getData(id).then(setState)
+    }, []);
+
+    if(state.length === 0) {
+        return `Документов нет`;
+    }
+    return (
+        <div className='container'>
+            <Table 
+                columns={columns}
+                dataSource={state} 
+            />
+        </div>
+    );
+}
+
 export const Editor = () => {
-    let { id } = useParams();
+   
     const location = useLocation();
     useEffect(() => {
         drawTimeline(0,1800,0);
@@ -86,11 +113,7 @@ export const Editor = () => {
             </div>
             <div className={styles.layout}>
                 <div className={styles.col}>
-                    <Table 
-                        columns={columns} 
-                        dataSource={data} 
-                    />
-                    
+                <Tasks />
                 </div>
                 <div  className={styles.col}>
                     <canvas 

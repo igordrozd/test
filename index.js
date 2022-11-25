@@ -171,14 +171,7 @@ app.get('/api/tasks/:type', async (req, res) => {
     res.send(records);
 });
 app.get('/api/documents/', async (req, res) => {
-    const token = req.headers.token 
-    const user = jwt.verify(token, privateKey); 
-    
-    const records = await Document.findAll({
-        where:{
-            userId: user.id
-        }
-    });
+    const records = await Document.findAll();
     res.send(records);
 });
 app.get('/api/documents/:id', async (req, res) => {
@@ -249,7 +242,7 @@ app.delete('/api/icons/:id', async (req, res) => {
 });
 
 
-app.listen(9000, () => {
+app.listen(8000, () => {
     console.log("Server started...");
 });
 

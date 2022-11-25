@@ -2,10 +2,15 @@ import React from 'react';
 import { Form, Button, Input } from 'antd';
 import styles from './Login.module.css';
 import { Link } from "react-router-dom";
+import { login } from '../../api/login';
 
-function onFinish() {}
 
 export const Login = () => {
+    async function onFinish(values) {
+        const response = await login(values);
+        const { token } = await response.json();
+        localStorage.setItem('auth_token', token);
+    }    
     return(
         <div className='border'>
         <h2>
@@ -18,7 +23,7 @@ export const Login = () => {
                 autoComplete="off"
             >
                 <Form.Item
-                    name="username"
+                    name="name"
                     rules={[{ required: true, message: 'Please input your username!' }]}
                 >
                     <Input placeholder='Введите логин'/>
@@ -29,12 +34,9 @@ export const Login = () => {
                 >
                     <Input.Password placeholder='Введите пароль' />
                 </Form.Item>
-
-                <Link to="/documents">
-                    <Button type="primary" htmlType="submit" className={styles.submit}>
-                        Войти
-                    </Button>
-                </Link>
+                <Button type="primary" htmlType="submit" className={styles.submit}>
+                    Войти
+                </Button>
 
                 <Link to="/">home</Link>
 

@@ -39,6 +39,4 @@ flex-direction: column;
 .container {
   max-width: 80%;
   margin: 0 auto;
-  color: black;
-  background-color: black;
 }

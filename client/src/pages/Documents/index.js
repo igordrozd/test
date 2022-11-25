@@ -48,9 +48,7 @@ export const Documents = () => {
     const [ state, setState ] = useState([]);
 
     useEffect(() => {
-        getData().then(docs => {
-            setState(docs);
-        })
+        getData().then(setState)
     }, []);
 
     if(state.length === 0) {
@@ -59,7 +57,6 @@ export const Documents = () => {
     return (
         <div className='container'>
             <Table 
-                pagination={false}
                 columns={columns}
                 dataSource={state} 
             />
