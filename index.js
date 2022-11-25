@@ -29,6 +29,7 @@ app.post('/api/users/register', async(req,res) => {
         where: {name: req.body.name}
     });
     
+    console.log(record)
     if (record===null){
         req.body.password=bcrypt.hashSync(req.body.password, privateKey);
         const result = await User.create(req.body);
@@ -151,6 +152,17 @@ app.get('/api/documents/:id/tasks', async (req, res) => {
         }
     });
     res.send(record);
+});
+app.get('/api/tasks/:type', async (req, res) => {
+    const token = req.headers.token 
+    const user = jwt.verify(token, privateKey); 
+
+    const records = await Task.findAll({
+        where:{
+            TypeTask: req.params.type
+        }
+    });
+    res.send(records);
 });
 app.get('/api/documents/', async (req, res) => {
     const token = req.headers.token 
