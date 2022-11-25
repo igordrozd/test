@@ -5,19 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-size: contain;
-  background-repeat: no-repeat;
+  background-color: #ececec;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-.stor {
-padding-top: 5rem;
-margin: 0 auto;
-width: 500px;
 }
 #root {
   min-height: 100vh;
@@ -39,4 +32,11 @@ flex-direction: column;
 .container {
   max-width: 80%;
   margin: 0 auto;
+}
+
+.center {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

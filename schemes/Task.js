@@ -12,13 +12,13 @@ const Task = database.define('Task', {
     title: {
       type: DataTypes.STRING 
     },
-    TypeTask: {
+    type: {
       type: DataTypes.INTEGER 
     },
-    Timestart: {
+    start: {
       type: DataTypes.TIME
     },
-    Timeend: {
+    end: {
       type: DataTypes.TIME
     }
 
@@ -30,7 +30,5 @@ Task.belongsTo(User, {
 Task.belongsTo(Icon, {
   foreignKey: 'iconId'
 });
-
-module.exports = Task;
 
 module.exports = Task;

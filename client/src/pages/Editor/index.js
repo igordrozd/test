@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Table, Space } from 'antd';
-import { useParams, Link, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { 
     EditOutlined, 
     DeleteOutlined 
@@ -10,6 +10,7 @@ import { deleteTaskById } from '../../api/deleteTasks';
 
 import styles from './Editor.module.css';
 import { getDocumentTasks } from "../../api/getDocumentTasks";
+import {EditModal} from "../../components/EditModal";
 
 
 const deleteTask = (record) => {
@@ -75,53 +76,55 @@ async function getData(id) {
     return await result.json();
 }
 
-export const Tasks = () => {
-    const [ state, setState ] = useState([]);
+export const Editor = () => {
     const { id } = useParams();
+    const [ tasks, setTasks ] = useState([]);
+    const [ editTask, setEditTask ] = useState(null);
+
+    const documentId = parseInt(id, 10);
+    const createTask = () => setEditTask({});
+    const closeEditModal = () => setEditTask(null);
+
+    const load = () => getData(documentId).then(setTasks);
+
     useEffect(() => {
-        getData(id).then(setState)
+        load();
     }, []);
 
-    if(state.length === 0) {
-        return `Действий нет`;
-    }
-    return (
-        <div className='container'>
-            <Table 
-                columns={columns}
-                dataSource={state} 
-            />
-        </div>
-    );
-}
-
-export const Editor = () => {
-   
-    const location = useLocation();
     useEffect(() => {
         drawTimeline(0,1800,0);
     }, []);
     return(
-        <div className={styles.wrapper}>
-            <div className={styles.header}>
-                <div>Это имя документа</div>
-                <Link to={`${location.pathname}/create`}>
-                    <Button type="primary">
+        <>
+            <div className={styles.wrapper}>
+                <div className={styles.header}>
+                    <div>Это имя документа</div>
+                    <Button type="primary" onClick={createTask}>
                         Добавить действие
                     </Button>
-                </Link>
-            </div>
-            <div className={styles.layout}>
-                <div className={styles.col}>
-                <Tasks />
                 </div>
-                <div  className={styles.col}>
-                    <canvas 
-                        id="canvas" 
-                        className={styles.canvas}
-                    />
-                 </div>
-             </div>
-         </div>
+                <div className={styles.layout}>
+                    <div className={styles.col}>
+                        <Table
+                            columns={columns}
+                            dataSource={tasks}
+                        />
+                    </div>
+                    <div  className={styles.col}>
+                        <canvas
+                            id="canvas"
+                            className={styles.canvas}
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <EditModal
+                documentId={documentId}
+                visible={Boolean(editTask)}
+                close={closeEditModal}
+                callback={load}
+            />
+        </>
     );
 }

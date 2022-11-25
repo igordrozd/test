@@ -2,8 +2,8 @@ const cors = require('cors');
 const express = require('express');
 const  bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const strerr="iq test error, cause of 'front лох','47 chomosomae detected' "
-const { 
+
+const {
     Task, User, Document, Icon 
 } = require('./schemes');
 
@@ -25,55 +25,96 @@ app.use( express.json() );
 
 
 app.post('/api/users/register', async(req,res) => {
-
+    const { name, password, fullName } = req.body;
     const record = await User.findOne({
-        where: {name: req.body.name}
+        where: { name }
     });
     
-    console.log(record)
-    if (record===null){
-        req.body.password=bcrypt.hashSync(req.body.password, privateKey);
-        const result = await User.create(req.body);
-        const token = jwt.sign({name : result.name, password : result.password,id : result.id}, privateKey);
+    if (record === null){
+        const passwordHash = bcrypt.hashSync(password, privateKey);
+        const result = await User.create({
+            name,
+            fullName,
+            password: passwordHash,
+        });
+        const token = jwt.sign({
+            id : result.id,
+            name : result.name,
+            password : result.password,
+        }, privateKey);
         res.send({ token });
     }
-    else{
-        res.status(101).send('Имя уже существует');
+    else {
+        res
+            .status(403)
+            .send({
+                message: 'Имя пользователя занято'
+            });
     }
 });
 
   
 app.post('/api/users/login', async(req,res)=>{
-    console.log(record)
     const record = await User.findOne({
         where: {
             name: req.body.name
     }});
-    console.log(record)
     const a = bcrypt.hashSync(req.body.password, privateKey);
     if (record!== null){    
         if (record.password !==a){
             res
-                .status(102)
+                .status(403)
                 .send({
-                    message: ' Wrong password'
-            });
+                    message: 'Некорректный пароль'
+                });
         }
         else {
-            const token = jwt.sign({name : record.name, password : record.password ,id : record.id}, privateKey);
+            const token = jwt.sign({
+                name : record.name,
+                password : record.password ,
+                id : record.id
+            }, privateKey);
             res.send({ token });
         }
     }
     else{
         res
-            .status(103)
+            .status(403)
             .send({
-                message: ' Wrong name'
+                message: 'Некорректное имя пользователя'
             });
     }
         
     
 });
+app.post('/api/users/verify', async (req, res) => {
+    try {
+        const token = req.headers.token;
+        const user = jwt.verify(token, privateKey);
+        const result = await User.findOne({
+            where: {
+                id: user.id,
+                name: user.name,
+                password: user.password
+            }
+        });
+        if(result !== null){
+            return res
+                .send({
+                    id: result.id,
+                    name: result.name,
+                    fullName: result.fullName
+                })
+        }
+        res
+            .send({ message: "access denied" })
+    } catch(e) {
+        res.status(500).send({
+            message: e.message
+        });
+    }
+});
+
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //=============================================================================================================================================
@@ -117,7 +158,11 @@ app.post('/api/documents/', async (req, res) => {
     }); 
     res.send(result);
     }catch(e){
-        res.status(500).send(e.message);  
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
     }
 });
 
@@ -127,34 +172,17 @@ app.post('/api/icons/', async (req, res) => {
     const result = await Icon.create(req.body);
     res.send(result);
     }catch(e){
-        res.status(500).send(e.message);  
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
     }
     
 });
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //=============================================================================================================================================
-app.get('/api/users/verify', async (req, res) => {
-    try{
-    const token = req.headers.token;
-    const user = jwt.verify(token, privateKey);
-    const result = await User.findAll({
-        where: {
-            id: user.id,
-            name: user.name,
-            password: user.password
-        }
-    });
-    
-    if(result != null){
-        res.send({ message: "Авторизован" })
-    } else{
-        res.send({ message: "not access" })
-    }
-    }catch(e){
-        res.status(500).send(e.message);  
-    }
-});
 
 
 
@@ -167,7 +195,11 @@ app.get('/api/tasks/:id', async (req, res) => {
     });
     res.send(record);
     }catch(e){
-        res.status(500).send(e.message);  
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
     }
 });
 
@@ -182,7 +214,11 @@ app.get('/api/documents/:id/tasks', async (req, res) => {
         });
         res.send(records);
     }catch(e){
-        res.status(500).send(e.message);  
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
     }
 });
 app.get('/api/tasks/:type', async (req, res) => {
@@ -197,7 +233,11 @@ app.get('/api/tasks/:type', async (req, res) => {
     });
     res.send(records);
     }catch(e){
-        res.status(500).send(e.message);    
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
     }
 });
 app.get('/api/documents/', async (req, res) => {
@@ -205,7 +245,11 @@ app.get('/api/documents/', async (req, res) => {
         const records = await Document.findAll();
         res.send(records);
     }catch(e){
-        res.status(500).send(e.message);  
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
     }
 });
 app.get('/api/documents/:id', async (req, res) => {
@@ -217,7 +261,11 @@ app.get('/api/documents/:id', async (req, res) => {
     });
     res.send(record);
     }catch(e){
-        res.status(500).send(e.message);  
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
     }
 });
 
@@ -234,29 +282,45 @@ app.delete('/api/tasks/:id', async (req, res) => {
         }
     });
     if (result===0){
-        return res.status(403).send("такого элемента нет")
+        return res
+            .status(404)
+            .send({
+                message: 'Element not found'
+            })
     }
     
     res.send({count: result});
     }catch(e){
-        res.status(500).send(e.message);  
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
     }
 });
 
 
 app.delete('/api/users/:id', async (req, res) => {
-    try{
-    const result = await User.destroy({
-        where: {
-            id: req.params.id
+    try {
+        const result = await User.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
+        if (result===0){
+            res
+                .status(404)
+                .send({
+                    message: 'Element not found'
+                })
         }
-    });
-    if (result===0){
-        res.status(403).send("такого элемента нет")
-    }
-    res.send({count: result});
-    }catch(e){
-        res.status(500).send(e.message);  
+        res.send({count: result});
+    } catch(e){
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
     }
 });
 
@@ -269,11 +333,19 @@ app.delete('/api/documents/:id', async (req, res) => {
         }
     });
     if (result===0){
-        res.status(403).send("такого элемента нет")
+        res
+            .status(404)
+            .send({
+                message: "Element not found"
+            })
     }
     res.send({count: result});
     }catch(e){
-        res.status(500).send(e.message);  
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
     }
 });
 
@@ -286,11 +358,19 @@ app.delete('/api/icons/:id', async (req, res) => {
         }
     });
     if (result===0){
-        res.status(403).send("такого элемента нет")
+        res
+            .status(404)
+            .send({
+                message: "Element not found"
+            })
     }
     res.send({count: result});
     }catch(e){
-        res.status(500).send(e.message);  
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
     }
 });
 
@@ -298,6 +378,3 @@ app.delete('/api/icons/:id', async (req, res) => {
 app.listen(9000, () => {
     console.log("Server started...");
 });
-
-
-/* { message: "authorized" } или { message: "not access" }*/

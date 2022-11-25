@@ -12,10 +12,10 @@ export default async function(address, method, body) {
     if(response.ok) {
         return response;
     }
-    const text = await response.text();
+    const { message } = await response.json();
     notification.error({
         message: 'Произошла ошибка',
-        description: text
+        description: message
     });
 }
 

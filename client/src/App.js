@@ -1,52 +1,70 @@
-import React from 'react';
-import { Button } from 'antd';
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { CreateModal } from './components/CreateModal';
-import { Login, Register, Documents, Editor } from './pages';
+import React, {useState, createContext, useEffect, useContext} from 'react';
+import { BrowserRouter } from "react-router-dom";
+import { UserRoutes } from "./components/UserRoutes";
 
-import styles from './pages/Login/Login.module.css';
 import './App.css';
+import {verifyToken} from "./api/verifyToken";
+import {Loader} from "./components/Loader";
 
-function getRoutes(hasToken) {
-  if(hasToken) {
-    return(
-      <>
-        <Routes>
-          <Route path="/documents" element={<Documents />} />
-          <Route path="/documents/:id/*" element={<Editor />} />
-          <Route
-            path="*"
-            element={<Navigate to="/documents" replace />}
-          />
-        </Routes>
-        <Routes>
-          <Route 
-            path="/documents/:id/create" 
-            element={<CreateModal />} 
-          />
-        </Routes>
-      </>
-    );
-  }
-  return(
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route
-        path="*"
-        element={<Navigate to="/login" replace />}
-      />
-    </Routes>
-  );
+const TOKEN_KEY = 'auth_token';
+
+const initialStore = {
+    user: null,
+    loading: true
 }
 
+export const StoreContext = createContext(initialStore);
+
+export const useStore = () => useContext(StoreContext);
 
 function App() {
-  const token = localStorage.getItem('auth_token');
+  const [ store, setStore ] = useState(initialStore);
+  const setLoading = (isLoading) => {
+      setStore(prev => ({
+          ...prev,
+          loading: isLoading
+      }));
+  }
+  const setUser = (user = null) => {
+      setStore(prev => ({
+          ...prev,
+          user
+      }));
+  }
+  const authorize = () => {
+      const token = localStorage.getItem(TOKEN_KEY);
+      if(!token) {
+          setLoading(false)
+          return;
+      }
+      return verifyToken()
+          .then(user => {
+              if(user?.id) {
+                  setUser(user)
+              } else {
+                  localStorage.removeItem(TOKEN_KEY);
+              }
+          })
+          .finally(() => {
+              setLoading(false)
+          })
+  }
+  useEffect(() => {
+      authorize();
+  }, [ localStorage[TOKEN_KEY] ]);
+  if(store.loading) {
+      return <Loader />;
+  }
   return (
-      <BrowserRouter>
-        {getRoutes(token)}
-      </BrowserRouter>
+      <StoreContext.Provider value={{
+          store,
+          authorize,
+          update: setStore,
+      }}>
+          <BrowserRouter>
+              <UserRoutes />
+          </BrowserRouter>
+      </StoreContext.Provider>
   );
 }
 

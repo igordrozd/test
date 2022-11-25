@@ -1,20 +1,41 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
-import { Table, Layout, Space, Button } from 'antd';
+import { Link } from 'react-router-dom';
+import {Table, Layout, Space, Button, notification} from 'antd';
 import { 
     EditOutlined, 
     DeleteOutlined 
 } from '@ant-design/icons';
 import { getDocuments } from '../../api/getDocuments';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { deleteDocuments } from '../../api/deletedocuments';
+import { deleteDocumentById } from '../../api/deletedocuments';
+import {formatDate} from "../../utils/formatDate";
 
-const { Header, Footer, Sider, Content } = Layout; 
+const deleteDocument = async (record) => {
+    const response = await deleteDocumentById(record.id);
+    if(response.ok) {
+        notification.success({
+            message: `Документ удалён`,
+            description: `Документ "${record.title}" успешно удалён`
+        })
+    }
+}
 
-const columns = [
+async function getData() {
+    const result = await getDocuments();
+    return await result.json();
+}
+
+const columns = (reload) => [
     {
+        width: 80,
         title: 'ID',
         dataIndex: 'id'
+    },
+    {
+      width: 200,
+      title: `Дата изменения`,
+      dataIndex: 'updatedAt',
+      render: formatDate
     },
     {
         title: 'Заголовок',
@@ -22,6 +43,10 @@ const columns = [
     },
     {
         render: (_, record) => {
+            const deleteDoc = async () => {
+                await deleteDocument(record);
+                await reload();
+            }
             return(
                 <Space>
                     <Link to={`/documents/${record.id}`}>
@@ -29,8 +54,7 @@ const columns = [
                             <EditOutlined />
                         </Button>
                     </Link>
-
-                    <Button size="small" onClick={deleteDocuments}>
+                    <Button size="small" onClick={deleteDoc}>
                         <DeleteOutlined />
                     </Button>
                 </Space>
@@ -39,26 +63,25 @@ const columns = [
     }
 ]
 
-async function getData() {
-    const result = await getDocuments();
-    return await result.json();
-}
-
 export const Documents = () => {
     const [ state, setState ] = useState([]);
+    const [ loading, setLoading ] = useState(true);
+    const load = () => {
+        setLoading(true);
+        getData().then(setState);
+        setLoading(false);
+    }
 
     useEffect(() => {
-        getData().then(setState)
+        load();
     }, []);
 
-    if(state.length === 0) {
-        return `Документов нет`;
-    }
     return (
         <div className='container'>
-            <Table 
-                columns={columns}
-                dataSource={state} 
+            <Table
+                loading={loading}
+                columns={columns(load)}
+                dataSource={state}
             />
         </div>
     );
