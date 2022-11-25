@@ -2,6 +2,7 @@ const cors = require('cors');
 const express = require('express');
 const  bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const strerr="iq test error, cause of 'front лох','47 chomosomae detected' "
 const { 
     Task, User, Document, Icon 
 } = require('./schemes');
@@ -43,11 +44,12 @@ app.post('/api/users/register', async(req,res) => {
 
   
 app.post('/api/users/login', async(req,res)=>{
+    console.log(record)
     const record = await User.findOne({
         where: {
             name: req.body.name
     }});
-    
+    console.log(record)
     const a = bcrypt.hashSync(req.body.password, privateKey);
     if (record!== null){    
         if (record.password !==a){
@@ -88,12 +90,13 @@ app.use((req, res, next) => {
             });
     }
 });
+
 //==============================================================================================================================================
+
 app.post('/api/tasks', async (req, res) => { 
-    
+    try{
     const token = req.headers.token 
     const user = jwt.verify(token, privateKey); 
-    
     const result = await Task.create({ 
         ...req.body, 
         userId: user.id 
@@ -101,9 +104,12 @@ app.post('/api/tasks', async (req, res) => {
      
  
     res.send(result); 
+    }catch{
+        res.status(500).send(strerr);  
+    }
 });
 app.post('/api/documents/', async (req, res) => {
-
+    try{
     const token = req.headers.token 
     const user = jwt.verify(token, privateKey); 
     console.log(user.id)
@@ -112,17 +118,26 @@ app.post('/api/documents/', async (req, res) => {
         userId: user.id 
     }); 
     res.send(result);
-
+    }catch{
+        res.status(500).send(strerr);  
+    }
 });
 
+
 app.post('/api/icons/', async (req, res) => {
+    try{
     const result = await Icon.create(req.body);
     res.send(result);
+    }catch{
+        res.status(500).send(strerr);  
+    }
+    
 });
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //=============================================================================================================================================
 app.get('/api/users/verify', async (req, res) => {
+    try{
     const token = req.headers.token;
     const user = jwt.verify(token, privateKey);
     const result = await User.findAll({
@@ -138,28 +153,42 @@ app.get('/api/users/verify', async (req, res) => {
     } else{
         res.send({ message: "not access" })
     }
+    }catch{
+        res.status(500).send(strerr);  
+    }
 });
 
 
+
 app.get('/api/tasks/:id', async (req, res) => {
+    try{
     const record = await Task.findAll({
         where: {
             id: req.params.id
         }
     });
     res.send(record);
+    }catch{
+        res.status(500).send(strerr);  
+    }
 });
 
 
+
 app.get('/api/documents/:id/tasks', async (req, res) => {
+    try{
     const record = await Task.findAll({
         where:{
             documentId : req.params.id
         }
     });
     res.send(record);
+    }catch{
+        res.status(500).send(strerr);  
+    }
 });
 app.get('/api/tasks/:type', async (req, res) => {
+    try{
     const token = req.headers.token 
     const user = jwt.verify(token, privateKey); 
 
@@ -169,8 +198,12 @@ app.get('/api/tasks/:type', async (req, res) => {
         }
     });
     res.send(records);
+    }catch{
+        res.status(500).send(strerr);  
+    }
 });
 app.get('/api/documents/', async (req, res) => {
+    try{
     const token = req.headers.token 
     const user = jwt.verify(token, privateKey); 
     
@@ -180,14 +213,21 @@ app.get('/api/documents/', async (req, res) => {
         }
     });
     res.send(records);
+    }catch{
+        res.status(500).send(strerr);  
+    }
 });
 app.get('/api/documents/:id', async (req, res) => {
+    try{
     const record = await Document.findOne({
         where: {
             id: req.params.id
         }
     });
     res.send(record);
+    }catch{
+        res.status(500).send(strerr);  
+    }
 });
 
 //=============================================================================================================================================
@@ -196,6 +236,7 @@ app.get('/api/documents/:id', async (req, res) => {
 
 
 app.delete('/api/tasks/:id', async (req, res) => {
+    try{
     const result = await Task.destroy({
         where: {
             id: req.params.id
@@ -206,11 +247,14 @@ app.delete('/api/tasks/:id', async (req, res) => {
     }
     
     res.send({count: result});
+    }catch{
+        res.status(500).send(strerr);  
+    }
 });
 
 
 app.delete('/api/users/:id', async (req, res) => {
-
+    try{
     const result = await User.destroy({
         where: {
             id: req.params.id
@@ -220,10 +264,14 @@ app.delete('/api/users/:id', async (req, res) => {
         res.status(403).send("такого элемента нет")
     }
     res.send({count: result});
+    }catch{
+        res.status(500).send(strerr);  
+    }
 });
 
 
 app.delete('/api/documents/:id', async (req, res) => {
+    try{
     const result = await Document.destroy({
         where: {
             id: req.params.id
@@ -233,10 +281,14 @@ app.delete('/api/documents/:id', async (req, res) => {
         res.status(403).send("такого элемента нет")
     }
     res.send({count: result});
+    }catch{
+        res.status(500).send(strerr);  
+    }
 });
 
 
 app.delete('/api/icons/:id', async (req, res) => {
+    try{
     const result = await Icon.destroy({
         where: {
             id: req.params.id
@@ -246,6 +298,9 @@ app.delete('/api/icons/:id', async (req, res) => {
         res.status(403).send("такого элемента нет")
     }
     res.send({count: result});
+    }catch{
+        res.status(500).send(strerr);  
+    }
 });
 
 
