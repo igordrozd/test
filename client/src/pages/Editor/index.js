@@ -6,7 +6,7 @@ import {
     DeleteOutlined 
 } from '@ant-design/icons';
 import { drawTimeline } from '../../utils/drawer';
-import { deleteTaskById } from '../../api/deleteTask';
+import { deleteTaskById } from '../../api/deleteTasks';
 
 import styles from './Editor.module.css';
 
