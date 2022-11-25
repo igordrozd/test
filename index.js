@@ -104,8 +104,8 @@ app.post('/api/tasks', async (req, res) => {
      
  
     res.send(result); 
-    }catch{
-        res.status(500).send(strerr);  
+    }catch(e){
+        res.status(500).send(e.message);  
     }
 });
 app.post('/api/documents/', async (req, res) => {
@@ -118,8 +118,8 @@ app.post('/api/documents/', async (req, res) => {
         userId: user.id 
     }); 
     res.send(result);
-    }catch{
-        res.status(500).send(strerr);  
+    }catch(e){
+        res.status(500).send(e.message);  
     }
 });
 
@@ -128,8 +128,8 @@ app.post('/api/icons/', async (req, res) => {
     try{
     const result = await Icon.create(req.body);
     res.send(result);
-    }catch{
-        res.status(500).send(strerr);  
+    }catch(e){
+        res.status(500).send(e.message);  
     }
     
 });
@@ -153,8 +153,8 @@ app.get('/api/users/verify', async (req, res) => {
     } else{
         res.send({ message: "not access" })
     }
-    }catch{
-        res.status(500).send(strerr);  
+    }catch(e){
+        res.status(500).send(e.message);  
     }
 });
 
@@ -168,8 +168,8 @@ app.get('/api/tasks/:id', async (req, res) => {
         }
     });
     res.send(record);
-    }catch{
-        res.status(500).send(strerr);  
+    }catch(e){
+        res.status(500).send(e.message);  
     }
 });
 
@@ -198,16 +198,16 @@ app.get('/api/tasks/:type', async (req, res) => {
         }
     });
     res.send(records);
-    }catch{
-        res.status(500).send(strerr);  
+    }catch(e){
+        res.status(500).send(e.message);    
     }
 });
 app.get('/api/documents/', async (req, res) => {
     try {
         const records = await Document.findAll();
         res.send(records);
-    }catch{
-        res.status(500).send(strerr);  
+    }catch(e){
+        res.status(500).send(e.message);  
     }
 });
 app.get('/api/documents/:id', async (req, res) => {
@@ -218,8 +218,8 @@ app.get('/api/documents/:id', async (req, res) => {
         }
     });
     res.send(record);
-    }catch{
-        res.status(500).send(strerr);  
+    }catch(e){
+        res.status(500).send(e.message);  
     }
 });
 
@@ -240,8 +240,8 @@ app.delete('/api/tasks/:id', async (req, res) => {
     }
     
     res.send({count: result});
-    }catch{
-        res.status(500).send(strerr);  
+    }catch(e){
+        res.status(500).send(e.message);  
     }
 });
 
@@ -257,8 +257,8 @@ app.delete('/api/users/:id', async (req, res) => {
         res.status(403).send("такого элемента нет")
     }
     res.send({count: result});
-    }catch{
-        res.status(500).send(strerr);  
+    }catch(e){
+        res.status(500).send(e.message);  
     }
 });
 
@@ -274,8 +274,8 @@ app.delete('/api/documents/:id', async (req, res) => {
         res.status(403).send("такого элемента нет")
     }
     res.send({count: result});
-    }catch{
-        res.status(500).send(strerr);  
+    }catch(e){
+        res.status(500).send(e.message);  
     }
 });
 
@@ -291,13 +291,13 @@ app.delete('/api/icons/:id', async (req, res) => {
         res.status(403).send("такого элемента нет")
     }
     res.send({count: result});
-    }catch{
-        res.status(500).send(strerr);  
+    }catch(e){
+        res.status(500).send(e.message);  
     }
 });
 
 
-app.listen(8000, () => {
+app.listen(9000, () => {
     console.log("Server started...");
 });
 
