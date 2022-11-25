@@ -112,7 +112,7 @@ app.post('/api/documents/', async (req, res) => {
 
 });
 
-app.post('/api/icon/', async (req, res) => {
+app.post('/api/icons/', async (req, res) => {
     const result = await Icon.create(req.body);
     res.send(result);
 });
@@ -203,7 +203,7 @@ app.delete('/api/documents/:id', async (req, res) => {
 });
 
 
-app.delete('/api/icon/:id', async (req, res) => {
+app.delete('/api/icons/:id', async (req, res) => {
     const result = await Icon.destroy({
         where: {
             id: req.params.id
