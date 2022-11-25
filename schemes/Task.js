@@ -12,9 +12,16 @@ const Task = database.define('Task', {
     title: {
       type: DataTypes.STRING 
     },
-    time: {
-      type: DataTypes.INTEGER
+    TypeTask: {
+      type: DataTypes.INTEGER 
+    },
+    Timestart: {
+      type: DataTypes.TIME
+    },
+    Timeend: {
+      type: DataTypes.TIME
     }
+
 });
 
 Task.belongsTo(User, {
