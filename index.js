@@ -29,17 +29,15 @@ app.post('/api/users/register', async(req,res) => {
         where: {name: req.body.name}
     });
     
+    console.log(record)
     if (record===null){
         req.body.password=bcrypt.hashSync(req.body.password, privateKey);
         const result = await User.create(req.body);
-        
-        
-        
         const token = jwt.sign({name : result.name, password : result.password,id : result.id}, privateKey);
         res.send({ token });
     }
     else{
-        res.send('Имя уже существует');
+        res.status(101).send('Имя уже существует');
     }
 });
 
@@ -53,8 +51,11 @@ app.post('/api/users/login', async(req,res)=>{
     const a = bcrypt.hashSync(req.body.password, privateKey);
     if (record!== null){    
         if (record.password !==a){
-            
-            res.status(403).send('Erorr 403 (wrong password)');
+            res
+                .status(102)
+                .send({
+                    message: ' Wrong password'
+            });
         }
         else {
             const token = jwt.sign({name : record.name, password : record.password ,id : record.id}, privateKey);
@@ -62,8 +63,14 @@ app.post('/api/users/login', async(req,res)=>{
         }
     }
     else{
-        res.status(403).send('Erorr 403 (wrong name)');
+        res
+            .status(103)
+            .send({
+                message: ' Wrong name'
+            });
     }
+        
+    
 });
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -75,7 +82,7 @@ app.use((req, res, next) => {
         next();
     } catch {
         res
-            .status(403)
+            .status(401)
             .send({
                 message: 'Не авторизован'
             });
@@ -83,6 +90,7 @@ app.use((req, res, next) => {
 });
 //==============================================================================================================================================
 app.post('/api/tasks', async (req, res) => { 
+    
     const token = req.headers.token 
     const user = jwt.verify(token, privateKey); 
     
@@ -95,17 +103,38 @@ app.post('/api/tasks', async (req, res) => {
     res.send(result); 
 });
 app.post('/api/documents/', async (req, res) => {
+
     const result = await Document.create(req.body);
     res.send(result);
+
 });
 
-app.post('/api/icon/', async (req, res) => {
+app.post('/api/icons/', async (req, res) => {
     const result = await Icon.create(req.body);
     res.send(result);
 });
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //=============================================================================================================================================
+app.get('/api/users/verify', async (req, res) => {
+    const token = req.headers.token;
+    const user = jwt.verify(token, privateKey);
+    const result = await User.findAll({
+        where: {
+            id: user.id,
+            name: user.name,
+            password: user.password
+        }
+    });
+    
+    if(result != null){
+        res.send({ message: "Авторизован" })
+    } else{
+        res.send({ message: "not access" })
+    }
+});
+
+
 app.get('/api/tasks/:id', async (req, res) => {
     const record = await Task.findAll({
         where: {
@@ -123,6 +152,17 @@ app.get('/api/documents/:id/tasks', async (req, res) => {
         }
     });
     res.send(record);
+});
+app.get('/api/tasks/:type', async (req, res) => {
+    const token = req.headers.token 
+    const user = jwt.verify(token, privateKey); 
+
+    const records = await Task.findAll({
+        where:{
+            TypeTask: req.params.type
+        }
+    });
+    res.send(records);
 });
 app.get('/api/documents/', async (req, res) => {
     const token = req.headers.token 
@@ -155,6 +195,10 @@ app.delete('/api/tasks/:id', async (req, res) => {
             id: req.params.id
         }
     });
+    if (result===0){
+        res.status(403).send("такого элемента нет")
+    }
+    
     res.send({count: result});
 });
 
@@ -166,6 +210,9 @@ app.delete('/api/users/:id', async (req, res) => {
             id: req.params.id
         }
     });
+    if (result===0){
+        res.status(403).send("такого элемента нет")
+    }
     res.send({count: result});
 });
 
@@ -176,20 +223,29 @@ app.delete('/api/documents/:id', async (req, res) => {
             id: req.params.id
         }
     });
+    if (result===0){
+        res.status(403).send("такого элемента нет")
+    }
     res.send({count: result});
 });
 
 
-app.delete('/api/icon/:id', async (req, res) => {
+app.delete('/api/icons/:id', async (req, res) => {
     const result = await Icon.destroy({
         where: {
             id: req.params.id
         }
     });
+    if (result===0){
+        res.status(403).send("такого элемента нет")
+    }
     res.send({count: result});
 });
 
 
-app.listen(8000, () => {
+app.listen(9000, () => {
     console.log("Server started...");
 });
+
+
+/* { message: "authorized" } или { message: "not access" }*/
