@@ -39,7 +39,7 @@ app.post('/api/users/register', async(req,res) => {
         res.send({ token });
     }
     else{
-        res.send('Имя уже существует');
+        res.status(101).send('Имя уже существует');
     }
 });
 
@@ -85,7 +85,7 @@ app.use((req, res, next) => {
         next();
     } catch {
         res
-            .status(403)
+            .status(401)
             .send({
                 message: 'не авторизован'
             });
