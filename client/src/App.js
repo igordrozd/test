@@ -32,8 +32,8 @@ const Main = () => (
 <div className='border'>
   <div className={styles.wrapper}>
   <img 
-    height={40}
-    width={40}
+    height={100}
+    width={100}
     src="pngtree-astronaut-full-color-set-png-image_5071525.jpg" 
   />
   <p>
