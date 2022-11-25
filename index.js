@@ -106,7 +106,7 @@ app.post('/api/documents/', async (req, res) => {
 
     const token = req.headers.token 
     const user = jwt.verify(token, privateKey); 
-    
+    console.log(user.id)
     const result = await Document.create({ 
         ...req.body, 
         userId: user.id 
