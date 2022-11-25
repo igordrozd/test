@@ -104,7 +104,13 @@ app.post('/api/tasks', async (req, res) => {
 });
 app.post('/api/documents/', async (req, res) => {
 
-    const result = await Document.create(req.body);
+    const token = req.headers.token 
+    const user = jwt.verify(token, privateKey); 
+    
+    const result = await Document.create({ 
+        ...req.body, 
+        userId: user.id 
+    }); 
     res.send(result);
 
 });
@@ -169,7 +175,7 @@ app.get('/api/tasks/:type', async (req, res) => {
 app.get('/api/documents/', async (req, res) => {
     const token = req.headers.token 
     const user = jwt.verify(token, privateKey); 
-
+    
     const records = await Document.findAll({
         where:{
             userId: user.id
