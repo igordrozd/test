@@ -7,11 +7,12 @@ export const WindOperation = () => (
         <Form.Item name="title">
             <Input placeholder='Введите название'/>
         </Form.Item>
-        <Form.Item name="start">
+        <Form.Item name="time">
             <TimePicker.RangePicker  
-                                format="mm:ss"
-                                defaultOpenValue={dayjs('00:00', 'mm:ss')}
-                                style={{ width: `100%` }}/>
+                format="mm:ss"
+                defaultOpenValue={dayjs('00:00', 'mm:ss')}
+                style={{ width: `100%` }}
+            />
         </Form.Item>
     </>
 )

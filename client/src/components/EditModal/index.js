@@ -48,7 +48,8 @@ export const EditModal = ({
         const values = await form.validateFields();
         const task = await createTask({
             ...values,
-            documentId: documentId
+            documentId: documentId,
+            type
         });
         form.resetFields();
         setLoading(false);
@@ -71,11 +72,10 @@ export const EditModal = ({
                 autoComplete="off"
                 name="basic"
             >
-
                 <Form.Item name="type">
                     <Select 
+                        onChange={setType}
                         defaultValue="event"
-                        onChange={setType}     
                         options={[
                             {
                                 value: 'event',

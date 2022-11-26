@@ -79,7 +79,7 @@ export class Drawer {
     this.context.closePath();
     this.context.stroke();
   }
-  drawSquare(time1 = 720, txt = 'СНЯТЬ СКАФАНДР', vlogh = 1 ,sam=1){
+  drawSquare(time1 = 720, txt = 'Это был я - ДИО', vlogh = 1 ,sam=1){
     const sec = 1;
     let b = 1
     if (sam ===1){

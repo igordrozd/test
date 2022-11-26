@@ -84,6 +84,7 @@ export const Editor = () => {
     useEffect(() => {
         load();
     }, []);
+
 const a =90;
 const b=270;
 const c=1;
@@ -91,10 +92,45 @@ const c=1;
         drawer.setContext(ref.current);
         drawer.drawBackground();
         drawer.drawTimeline();
-        drawer.drawOperation(60,360);
-        drawer.drawOperation(a,b,c);
-        drawer.drawSquare();
-    }, [ ref ]);
+        tasks.forEach(task =>{
+            if (task.type === 'event'){
+                const { start } = task;
+                const startTime = new Date(start);
+                const startHours = startTime.getHours();
+                const startMinutes = startTime.getMinutes();
+                const startSeconds = startTime.getSeconds();
+
+                const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
+                drawer.drawSquare(startTotal, task.title, task.depth); 
+            }
+             if (task.type==='operation'){
+                const { start } = task;
+                const startTime = new Date(start);
+                const startHours = startTime.getHours();
+                const startMinutes = startTime.getMinutes();
+                const startSeconds = startTime.getSeconds();
+                const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
+
+                const endTime = new Date(start);
+                const endHours = endTime.getHours();
+                const endMinutes = endTime.getMinutes();
+                const endSeconds = endTime.getSeconds();
+                const endTotal = endHours*3600 + endMinutes*60 + endSeconds;
+                drawer.drawOperation(startTotal,endTotal,task.depth); 
+            }
+            if (task.type==='inform'){
+                const { start } = task;
+                const startTime = new Date(start);
+                const startHours = startTime.getHours();
+                const startMinutes = startTime.getMinutes();
+                const startSeconds = startTime.getSeconds();
+                const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
+                drawer.drawText(startTotal,task.title,task.depth); 
+            }
+
+        });
+        
+    }, [ ref, tasks ]);
 
     return(
         <>
