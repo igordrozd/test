@@ -34,6 +34,7 @@ function App() {
   const authorize = () => {
       const token = localStorage.getItem(TOKEN_KEY);
       if(!token) {
+            setUser(null);
           setLoading(false)
           return;
       }
@@ -42,7 +43,8 @@ function App() {
               if(user?.id) {
                   setUser(user)
               } else {
-                  localStorage.removeItem(TOKEN_KEY);
+                localStorage.removeItem(TOKEN_KEY);
+                setUser(null);
               }
           })
           .finally(() => {

@@ -1,17 +1,21 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {Form, Modal, notification, Select} from 'antd';
 import { useNavigate, useLocation } from "react-router-dom";
 import { WindEvent } from "./WindEvent";
 import { WindInform } from "./WindInform";
 import { WindOperation } from "./WindOperation";
 import { postTasks } from "../../api/postTasks";
+import { WindInstruction } from "./WindInstruction";
 
 function getFields(type) {
     if(type === 'event') {
         return <WindEvent />
     } else if(type === 'inform'){
         return <WindInform />
-    } else {
+    } else if(type === 'instruction'){
+        return <WindInstruction />
+    }
+    else {
         return <WindOperation />
     }
 }
@@ -31,12 +35,14 @@ const createTask = async (data) => {
 export const EditModal = ({
     documentId,
     callback,
-    visible,
-    close
+    close,
+    task
 }) => {
     const [ form ] = Form.useForm();
     const [ type, setType ] = useState('event');
     const [ isLoading, setLoading ] = useState(false);
+    const title = task?.id ? `Редактировать элемент` : "Создать элемент";
+    const buttonText = task?.id ? "Сохранить" : "Создать";
     const handleClose = () => {
         if(isLoading) {
             return;
@@ -56,15 +62,19 @@ export const EditModal = ({
         callback(task);
         close();
     }
+    useEffect(() => {
+        form.resetFields();
+        form.setFieldsValue(task);
+    }, [ task ]);
     return(
         <Modal
-            open={visible}
+            open={Boolean(task)}
             onCancel={handleClose}
             onOk={onSubmit}
             confirmLoading={isLoading}
-            title="Создать элемент"
+            title={title}
             cancelText="Отмена"
-            okText="Создать"
+            okText={buttonText}
         >
            
             <Form
@@ -88,6 +98,29 @@ export const EditModal = ({
                             {
                                 value: 'operation',
                                 label: 'Операция',
+                            },
+                            {
+                                value: 'instruction',
+                                label: 'Инструкция',
+                            }
+                        ]}
+                    />
+                </Form.Item>
+                <Form.Item name="depth">
+                    <Select 
+                        defaultValue={0}
+                        options={[
+                            {
+                                value: 0,
+                                label: '1 уровень',
+                            },
+                            {
+                                value: 1,
+                                label: '2 уровень',
+                            },
+                            {
+                                value: 2,
+                                label: '3 уровень',
                             }
                         ]}
                     />

@@ -31,12 +31,13 @@ const deleteTask = async (record) => {
 const mapping = {
     "event": "Событие",
     "operation": "Операция",
-    "inform" : "Служебные данные "
+    "inform" : "Служебные данные ",
+    "instruction" : "Инструкция"
 }
 
 const getType = type => mapping[type];
 
-const columns = reload => [
+const columns = (reload, editTask) => [
     {
         title: `ID`,
         dataIndex: `id`
@@ -60,9 +61,12 @@ const columns = reload => [
                     description: `Запись "${record.title}" успешно удалена`
                 });
             }
+            const edit = () => {
+                editTask(record);
+            }
             return(
                 <Space>
-                    <Button size="small">
+                    <Button size="small" onClick={edit}>
                         <EditOutlined />
                     </Button>
                     <Button size="small" onClick={drop}>
@@ -157,6 +161,17 @@ console.log('sdfgh')
                 console.log(startTotal)
                 drawer.drawText(startTotal,task.title,task.depth); 
             }
+            if (task.type==='instruction'){
+                const { start } = task;
+                const startTime = new Date(start);
+                const startHours = startTime.getHours();
+                const startMinutes = startTime.getMinutes();
+                const startSeconds = startTime.getSeconds();
+                const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
+                console.log('sdfgh')
+                console.log(startTotal)
+                drawer.drawSquare(startTotal,task.title,task.depth); 
+            }
 
         });
         
@@ -180,7 +195,7 @@ console.log('sdfgh')
                 <div className={styles.layout}>
                     <div className={styles.col}>
                         <Table
-                            columns={columns(load)}
+                            columns={columns(load, setEditTask)}
                             dataSource={tasks}
                         />
                     </div>
@@ -197,8 +212,8 @@ console.log('sdfgh')
             </div>
 
             <EditModal
+                task={editTask}
                 documentId={documentId}
-                visible={Boolean(editTask)}
                 close={closeEditModal}
                 callback={load}
             />

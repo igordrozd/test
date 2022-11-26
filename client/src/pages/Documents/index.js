@@ -10,6 +10,7 @@ import { getDocuments } from '../../api/getDocuments';
 import { deleteDocumentById } from '../../api/deletedocuments';
 import {formatDate} from "../../utils/formatDate";
 import { AddDocument } from "../../components/AddDocument";
+import { useStore } from '../../App';
 
 const deleteDocument = async (record) => {
     const response = await deleteDocumentById(record.id);
@@ -34,10 +35,16 @@ const columns = (reload) => [
     },
     {
       width: 200,
-      title: `Дата изменения`,
+      title: `Дата создания`,
       dataIndex: 'updatedAt',
       render: formatDate
     },
+    // {
+    //     width: 200,
+    //     title: `Дата изменения`,
+    //     dataIndex: 'updatedAt',
+    //     render: formatDate
+    //   },
     {
         title: 'Заголовок',
         dataIndex: 'title'
@@ -65,11 +72,18 @@ const columns = (reload) => [
 ]
 
 export const Documents = () => {
+    const { authorize, store } = useStore();
     const [ state, setState ] = useState([]);
     const [ loading, setLoading ] = useState(true);
     const [ editDocument, setEditDocument ] = useState(null);
     const createDocument = () => setEditDocument({});
     const closeEditDocument = () => setEditDocument(null);
+
+    const logout = async() => {
+        localStorage.removeItem('auth_token');
+        await authorize();
+    }
+
     const load = () => {
         setLoading(true);
         getData().then(setState);
@@ -82,6 +96,10 @@ export const Documents = () => {
 
     return (
         <>
+        {store.user?.name}
+        <Button onClick={logout}>
+            Выйти
+        </Button>
         <Button type="primary" onClick={createDocument}>
             Добавить документ
         </Button>
