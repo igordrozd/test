@@ -93,18 +93,39 @@ const c=1;
         drawer.drawBackground();
         drawer.drawTimeline();
         tasks.forEach(task =>{
-            if (task.Type===1){
-                const time=task.start.split(':').map(item => parseInt(item, 10))
-                drawer.drawSquare(time[0]*3600+time[1]*60+time[2],task.title,task.nesting); 
+            if (task.type === 'event'){
+                const { start } = task;
+                const startTime = new Date(start);
+                const startHours = startTime.getHours();
+                const startMinutes = startTime.getMinutes();
+                const startSeconds = startTime.getSeconds();
+
+                const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
+                drawer.drawSquare(startTotal, task.title, task.depth); 
             }
-            if (task.Type===2){
-                const time=task.start.split(':').map(item => parseInt(item, 10))
-                const time1=task.end.split(':').map(item => parseInt(item, 10))
-                drawer.drawOperation(time[0]*3600+time[1]*60+time[2],time1[0]*3600+time1[1]*60+time1[2],task.nesting); 
+             if (task.type==='operation'){
+                const { start } = task;
+                const startTime = new Date(start);
+                const startHours = startTime.getHours();
+                const startMinutes = startTime.getMinutes();
+                const startSeconds = startTime.getSeconds();
+                const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
+
+                const endTime = new Date(start);
+                const endHours = endTime.getHours();
+                const endMinutes = endTime.getMinutes();
+                const endSeconds = endTime.getSeconds();
+                const endTotal = endHours*3600 + endMinutes*60 + endSeconds;
+                drawer.drawOperation(startTotal,endTotal,task.depth); 
             }
-            if (task.Type===3){
-                const time=task.start.split(':').map(item => parseInt(item, 10))
-                drawer.drawText(time[0]*3600+time[1]*60+time[2],task.title,task.nesting); 
+            if (task.type==='inform'){
+                const { start } = task;
+                const startTime = new Date(start);
+                const startHours = startTime.getHours();
+                const startMinutes = startTime.getMinutes();
+                const startSeconds = startTime.getSeconds();
+                const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
+                drawer.drawText(startTotal,task.title,task.depth); 
             }
 
         });

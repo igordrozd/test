@@ -13,13 +13,17 @@ const Task = database.define('Task', {
       type: DataTypes.STRING 
     },
     type: {
-      type: DataTypes.INTEGER 
+      type: DataTypes.STRING 
+    },
+    depth: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     },
     start: {
-      type: DataTypes.TIME
+      type: DataTypes.DATE
     },
     end: {
-      type: DataTypes.TIME
+      type: DataTypes.DATE
     }
 
 });

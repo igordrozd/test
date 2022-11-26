@@ -6,7 +6,7 @@ export const WindInform = () => (
         <Form.Item name="title">
             <Input placeholder='Введите название'/>
         </Form.Item>
-        <Form.Item name="start">
+        <Form.Item name="time">
             <Input placeholder='Информация' />
         </Form.Item>
     </>
