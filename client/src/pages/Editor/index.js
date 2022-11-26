@@ -31,7 +31,8 @@ const deleteTask = async (record) => {
 const mapping = {
     "event": "Событие",
     "operation": "Операция",
-    "inform" : "Служебные данные "
+    "inform" : "Служебные данные ",
+    "instruction" : "Инструкция"
 }
 
 const getType = type => mapping[type];
@@ -147,6 +148,17 @@ console.log('sdfgh')
                 console.log('sdfgh')
                 console.log(startTotal)
                 drawer.drawText(startTotal,task.title,task.depth); 
+            }
+            if (task.type==='instruction'){
+                const { start } = task;
+                const startTime = new Date(start);
+                const startHours = startTime.getHours();
+                const startMinutes = startTime.getMinutes();
+                const startSeconds = startTime.getSeconds();
+                const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
+                console.log('sdfgh')
+                console.log(startTotal)
+                drawer.drawSquare(startTotal,task.title,task.depth); 
             }
 
         });
