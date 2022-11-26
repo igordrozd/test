@@ -1,4 +1,4 @@
-const INDENT = 25;
+const INDENT = 50;
 const INDENT_TOP = INDENT;
 const INDENT_BOTTOM = INDENT;
 const INDENT_LEFT = INDENT;
