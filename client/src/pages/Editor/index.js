@@ -111,12 +111,12 @@ console.log('sdfgh')
     useEffect(() => {
         drawer.setContext(ref.current);
         if (1){
-            drawer.drawBackground();
-            drawer.drawTimeline();
+            drawer.drawBackground('#FFFFFE');
+            drawer.drawTimeline(0,1800,'#000000');
         }
         else{
-            drawer.drawBackground('#FFFFFF');
-            drawer.drawTimeline('green');
+            drawer.drawBackground('#000000');
+            drawer.drawTimeline(0,1800,'green');
         }
         tasks.forEach(task =>{
             if (task.type === 'event'){
@@ -128,7 +128,7 @@ console.log('sdfgh')
 
                 const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
                 if (task.title===null){
-                    task.title='ЭТО БЫЛ Я - ДИО'
+                    task.title='ТЕКСТ НЕ ЗАДАН'
                 }
                 drawer.drawSquare(startTotal, task.title, task.depth); 
                 console.log('sdfgh')
