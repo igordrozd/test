@@ -9,12 +9,12 @@ export const WindInform = () => (
             <Input placeholder='Введите информацию'/>
         </Form.Item>
         <Form.Item name="time">
-                <TimePicker
-                    format="mm:ss"
-                    defaultOpenValue={defaultValue}
-                    style={{ width: `100%` }}
-                    defaultValue={defaultValue}
-                />
-            </Form.Item>
+            <TimePicker
+                format="mm:ss"
+                defaultOpenValue={defaultValue}
+                style={{ width: `100%` }}
+                defaultValue={defaultValue}
+            />
+        </Form.Item>
     </>
 )
