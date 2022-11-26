@@ -35,10 +35,16 @@ const columns = (reload) => [
     },
     {
       width: 200,
-      title: `Дата изменения`,
+      title: `Дата создания`,
       dataIndex: 'updatedAt',
       render: formatDate
     },
+    // {
+    //     width: 200,
+    //     title: `Дата изменения`,
+    //     dataIndex: 'updatedAt',
+    //     render: formatDate
+    //   },
     {
         title: 'Заголовок',
         dataIndex: 'title'
@@ -66,7 +72,7 @@ const columns = (reload) => [
 ]
 
 export const Documents = () => {
-    const { authorize } = useStore();
+    const { authorize, store } = useStore();
     const [ state, setState ] = useState([]);
     const [ loading, setLoading ] = useState(true);
     const [ editDocument, setEditDocument ] = useState(null);
@@ -90,6 +96,7 @@ export const Documents = () => {
 
     return (
         <>
+        {store.user?.name}
         <Button onClick={logout}>
             Выйти
         </Button>

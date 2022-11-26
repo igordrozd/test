@@ -5,7 +5,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 dayjs.extend(customParseFormat);
 
-const defaultValue = dayjs('00:00', 'mm:ss')
+const defaultValue = dayjs('00:00', 'HH:mm')
 export const WindInstruction = () => (
         <>
             <Form.Item name="title"
@@ -15,7 +15,7 @@ export const WindInstruction = () => (
             </Form.Item>
             <Form.Item name="time">
                 <TimePicker
-                    format="mm:ss"
+                    format="HH:mm"
                     defaultOpenValue={defaultValue}
                     style={{ width: `100%` }}
                     defaultValue={defaultValue}
