@@ -1,4 +1,4 @@
-const INDENT = 50;
+const INDENT = 25;
 const INDENT_TOP = INDENT;
 const INDENT_BOTTOM = INDENT;
 const INDENT_LEFT = INDENT * 3;
@@ -64,18 +64,18 @@ export class Drawer {
   drawOperation(time1 = 10, time2 = 100, vlogh = 0) {
     this.context.lineWidth = 1;
     this.context.beginPath();
-    this.context.moveTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh, INDENT_TOP + time1);
-    this.context.lineTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh, INDENT_TOP + time2);
+    this.context.moveTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * (0.7)*(vlogh-1), INDENT_TOP + time1);
+    this.context.lineTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * (0.7)*(vlogh-1), INDENT_TOP + time2);
     this.context.closePath();
     this.context.stroke();
     this.context.beginPath();
-    this.context.moveTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh - SMALL_DASH_LEN/2, INDENT_TOP + time1);
-    this.context.lineTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh + SMALL_DASH_LEN/2, INDENT_TOP + time1);
+    this.context.moveTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * (0.7)*(vlogh-1) - SMALL_DASH_LEN/2, INDENT_TOP + time1);
+    this.context.lineTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * (0.7)*(vlogh-1) + SMALL_DASH_LEN/2, INDENT_TOP + time1);
     this.context.closePath();
     this.context.stroke();
     this.context.beginPath();
-    this.context.moveTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh - SMALL_DASH_LEN/2, INDENT_TOP + time2);
-    this.context.lineTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh + SMALL_DASH_LEN/2, INDENT_TOP + time2);
+    this.context.moveTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * (0.7)*(vlogh-1) - SMALL_DASH_LEN/2, INDENT_TOP + time2);
+    this.context.lineTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * (0.7)*(vlogh-1) + SMALL_DASH_LEN/2, INDENT_TOP + time2);
     this.context.closePath();
     this.context.stroke();
   }
@@ -88,15 +88,15 @@ export class Drawer {
     }
     this.context.lineWidth = 1;
     this.context.beginPath();
-    this.context.moveTo((vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT-SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP - SMALL_DASH_LEN/2 + time1*INDENT/60);
-    this.context.lineTo((vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP - SMALL_DASH_LEN/2 + time1*INDENT/60);
-    this.context.lineTo((vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP + SMALL_DASH_LEN/2 + time1*INDENT/60);
-    this.context.lineTo((vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT-SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP + SMALL_DASH_LEN/2 + time1*INDENT/60);
+    this.context.moveTo(((vlogh-1))*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT-SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP - SMALL_DASH_LEN/2 + time1*INDENT/60);
+    this.context.lineTo(((vlogh-1))*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP - SMALL_DASH_LEN/2 + time1*INDENT/60);
+    this.context.lineTo(((vlogh-1))*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP + SMALL_DASH_LEN/2 + time1*INDENT/60);
+    this.context.lineTo(((vlogh-1))*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT-SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP + SMALL_DASH_LEN/2 + time1*INDENT/60);
     this.context.closePath();
     this.context.stroke()
-    this.context.strokeText(txt, (vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT +10+INDENT_TOP, INDENT_TOP + time1*INDENT/60+4);
+    this.context.strokeText(txt, ((vlogh-1))*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT +10+INDENT_TOP, INDENT_TOP + time1*INDENT/60+4);
   }
-  drawText(time1 = 20, txt = ' event', vlogh = 0, sam=1) {
-    this.context.strokeText(txt, (vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+INDENT_TOP, INDENT_TOP + time1*INDENT/60+4);
+  drawText(time1 = 20, txt = ' event', vlogh = 1, sam=1) {
+    this.context.strokeText(txt, ((0.7)*(vlogh-1))*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+INDENT_TOP, INDENT_TOP + time1*INDENT/60+4);
 }
 }
