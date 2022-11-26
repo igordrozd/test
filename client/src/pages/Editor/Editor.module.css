@@ -2,14 +2,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 0;
 }
 .canvas {
-    height: 594px;
-    width: 420px;
+    height: 848px;
+    width: 600px;
     border-radius: 5px;
     background-color: rgba(179, 233, 237, 0.358);
-    margin: 10% auto;
+    margin: auto;
     justify-content: center;
     align-items: center;
     display: flex;
