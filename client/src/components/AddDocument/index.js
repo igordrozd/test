@@ -53,7 +53,9 @@ export const AddDocument = ({
                 autoComplete="off"
                 name="basic"
             >
-                <Form.Item name="title"> 
+                <Form.Item name="title"
+                rules={[{ required: true, message: 'Пожалуйста, введите название!' }]}
+                > 
                     <Input />
                 </Form.Item>
             </Form>
