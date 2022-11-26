@@ -1,122 +1,102 @@
+const INDENT = 50;
+const INDENT_TOP = INDENT;
+const INDENT_BOTTOM = INDENT;
+const INDENT_LEFT = INDENT * 3;
+const INDENT_RIGHT = INDENT;
 
-export function drawTimeline(nach = 0, con = 650, typebackground=1) {
-  var canvas = document.getElementById('canvas');
-  if (canvas.getContext) {
-    var ctx = canvas.getContext('2d');
-    var len = con - nach
-    const sec = 0.12;
-    const min = 60;
-    const shrt = 4;
-    // ctx.scale(1,0.8)
-    const br =10;//отступ
-    if (typebackground===0){
-      ctx.fillStyle = "#FFFFFF";
-      ctx.fillRect(0, 0, 1000, con * sec + 50);
-      ctx.strokeStyle = '#000000';
+const LEN_LINE = 1800;
+const SMALL_DASH_LEN = 12;
+const SMALL_DASHES_DISTANSE = INDENT;
+
+const MEGA_SUPER_LONG_INDENT_LEFT = 4 * INDENT_LEFT
+const NOT_SO_MEGA_LONG_INDENT_LEFT = 1.5*INDENT_LEFT
+
+export class Drawer {
+  context
+  settings = {}
+  constructor({ 
+    canvas, 
+    width, 
+    height,
+    bgColor = '#000000'
+  }) {
+    if(canvas) {
+      this.context = canvas.getContext('2d');
     }
-    else{
-      ctx.fillStyle = "#000000";
-      ctx.fillRect(0, 0, 1000, con * sec + 50);
-      ctx.strokeStyle = 'green';
+    this.settings = {
+      width, height, bgColor
     }
-    // line
-    ctx.beginPath();
-    ctx.moveTo(3*br ,br);
-    ctx.lineTo(3*br, len * sec+br);
-    ctx.closePath();
-    ctx.stroke();
-    //risk sec
-    // for(var i=0;i<(con)-3-nach/sec;i+=1){
-    //   ctx.beginPath();
-    //   ctx.moveTo(25-shrt+60,25+i*sec);
-    //   ctx.lineTo(25+shrt+60,25+i*sec);
-    //   ctx.closePath();
-    //   ctx.stroke();
-    // }
-    //megarisk sec
-    for (var j = Math.ceil(nach / min); j <= Math.ceil(con / min); j += 1) {
-      ctx.beginPath();
-      ctx.moveTo(3*br - shrt * 2, br + j * min * sec - nach*sec);
-      ctx.lineTo(3*br + shrt * 2, br + j * min * sec - nach*sec);
-      ctx.closePath();
-      ctx.stroke();
-      ctx.font = "7pt arial"
-      if (j%5===0){
-        ctx.strokeText(Math.floor(j/min)+':'+j%min,  + 4*br + shrt * 3, br + j * min * sec- nach*sec);
-      }
-    }
-    //strelka
-    // ctx.beginPath();
-    // ctx.moveTo(25 + 60, 25 + len * sec);
-    // ctx.lineTo(25 - 15 + 60, 25 + len * sec - 15);
-    // ctx.closePath();
-    // ctx.stroke();
-    // ctx.beginPath();
-    // ctx.moveTo(25 + 60, 25 + len * sec);
-    // ctx.lineTo(25 + 15 + 60, 25 + len * sec - 15);
-    // ctx.closePath();
-    // ctx.stroke();
   }
-}
-export function drawOperation(time1 = 10, time2 = 100, vlogh = 0) {
-  var canvas = document.getElementById('canvas');
-  if (canvas.getContext) {
-    var ctx = canvas.getContext('2d');
-    const sec = 1;
-    const a = 150
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(35 + 100 + a * vlogh, 25 + time1 * sec);
-    ctx.lineTo(35 + 100 + a * vlogh, 25 + time2 * sec);
-    ctx.closePath();
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(31 + 100 + a * vlogh, 25 + time1 * sec);
-    ctx.lineTo(39 + 100 + a * vlogh, 25 + time1 * sec);
-    ctx.closePath();
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(31 + 100 + a * vlogh, 25 + time2 * sec);
-    ctx.lineTo(39 + 100 + a * vlogh, 25 + time2 * sec);
-    ctx.closePath();
-    ctx.stroke();
-    //   ctx.fillRect();
+  setContext(canvas) {
+    this.context = canvas.getContext('2d');
   }
-}
-export function drawSquare(time1 = 20, txt = ' event', vlogh = 0,sam=1) {
-  var canvas = document.getElementById('canvas');
-  if (canvas.getContext) {
-    var ctx = canvas.getContext('2d');
+  drawBackground() {
+    this.context.fillStyle = this.settings.bgColor;
+    this.context.fillRect(0, 0, this.settings.width, this.settings.height);
+  }
+  drawTimeline(start = 0, end = 1800, color = '#FFFFFF')  {
+    // рисуем линию
+    const lineLength = this.settings.height - (INDENT_BOTTOM + INDENT_TOP);
+    const dashesCount = Math.floor(lineLength / SMALL_DASHES_DISTANSE);
+    this.context.strokeStyle = color;
+    this.context.beginPath();
+    this.context.moveTo(INDENT_LEFT, INDENT_TOP);
+    this.context.lineTo(INDENT_LEFT, lineLength);
+    this.context.closePath();
+    this.context.stroke();
+    
+    // рисуем рисочки
+    for (let j = 1; j <= dashesCount; j++) {
+      this.context.beginPath();
+      this.context.moveTo(INDENT_LEFT - SMALL_DASH_LEN / 2, j * SMALL_DASHES_DISTANSE);
+      this.context.lineTo(INDENT_LEFT + SMALL_DASH_LEN / 2, j * SMALL_DASHES_DISTANSE);
+      this.context.closePath();
+      this.context.stroke();
+    }
+
+    // рисуем подписи
+    this.context.font = "14pt sans-sherif"
+    for (let j = 1; j <= dashesCount; j += 5) {
+      const text = Math.floor((j-1)/60) + ':' + (j-1) % 60;
+      this.context.strokeText(text, INDENT_LEFT + SMALL_DASH_LEN, INDENT_TOP + j * SMALL_DASHES_DISTANSE - 35 );
+    }
+  }
+  drawOperation(time1 = 10, time2 = 100, vlogh = 0) {
+    this.context.lineWidth = 1;
+    this.context.beginPath();
+    this.context.moveTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh, INDENT_TOP + time1);
+    this.context.lineTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh, INDENT_TOP + time2);
+    this.context.closePath();
+    this.context.stroke();
+    this.context.beginPath();
+    this.context.moveTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh - SMALL_DASH_LEN/2, INDENT_TOP + time1);
+    this.context.lineTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh + SMALL_DASH_LEN/2, INDENT_TOP + time1);
+    this.context.closePath();
+    this.context.stroke();
+    this.context.beginPath();
+    this.context.moveTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh - SMALL_DASH_LEN/2, INDENT_TOP + time2);
+    this.context.lineTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh + SMALL_DASH_LEN/2, INDENT_TOP + time2);
+    this.context.closePath();
+    this.context.stroke();
+  }
+  drawSquare(time1 = 720, txt = 'СНЯТЬ СКАФАНДР', vlogh = 1 ,sam=1){
     const sec = 1;
-    const a = 150;
-    let b = 50;
+    let b = 1
     if (sam ===1){
-      b=0;
+      b=0.5;
       vlogh+=1;
     }
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(35 + 60 + (vlogh-1)*(a)+b, 20 + time1 * sec);
-    ctx.lineTo(51 + 60 + (vlogh-1)*(a)+b, 20 + time1 * sec);
-    ctx.lineTo(51 + 60 + (vlogh-1)*(a)+b, 36 + time1 * sec);
-    ctx.lineTo(35 + 60 + (vlogh-1)*(a)+b, 36 + time1 * sec);
-    ctx.closePath();
-    ctx.stroke()
-    ctx.strokeText(txt, 50 + 60 + (vlogh-1)*(a)+b +10, 33 + time1 * sec);
+    this.context.lineWidth = 1;
+    this.context.beginPath();
+    this.context.moveTo((vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT-SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP - SMALL_DASH_LEN/2 + time1*INDENT/60);
+    this.context.lineTo((vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP - SMALL_DASH_LEN/2 + time1*INDENT/60);
+    this.context.lineTo((vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP + SMALL_DASH_LEN/2 + time1*INDENT/60);
+    this.context.lineTo((vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT-SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP + SMALL_DASH_LEN/2 + time1*INDENT/60);
+    this.context.closePath();
+    this.context.stroke()
+    this.context.strokeText(txt, (vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT +10+INDENT_TOP, INDENT_TOP + time1*INDENT/60+4);
   }
+  drawText(time1 = 20, txt = ' event', vlogh = 0, sam=1) {
+    this.context.strokeText(txt, (vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+INDENT_TOP, INDENT_TOP + time1*INDENT/60+4);
 }
-export function drawText(time1 = 20, txt = ' event', vlogh = 0, sam=1) {
-  var canvas = document.getElementById('canvas');
-  if (canvas.getContext) {
-    var ctx = canvas.getContext('2d');
-    const sec = 1;
-    const a = 150;
-    let b = 50;
-    if (sam ===1){
-      b=0;
-      vlogh+=1;
-    }
-    ctx.lineWidth = 1;
-    ctx.strokeText(txt, 35 + 60+(vlogh-1)*(a)+b, 25 + time1 * sec);
-  }
 }

@@ -1,17 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Button, Table, Space, notification } from 'antd';
 import { useParams } from "react-router-dom";
 import { 
     EditOutlined, 
     DeleteOutlined 
 } from '@ant-design/icons';
-import { drawTimeline } from '../../utils/drawer';
+
+import { Drawer } from '../../utils/drawer';
+
 import { deleteTaskById } from '../../api/deleteTasks';
 
 import styles from './Editor.module.css';
 import { getDocumentTasks } from "../../api/getDocumentTasks";
-import {EditModal} from "../../components/EditModal";
+import { EditModal } from "../../components/EditModal";
+import { getDocument } from "../../api/getDocumentByid"
 
+async function findDocById(id) {
+    const response = await getDocument(id);
+    const json = await response.json();
+    return json;
+}
 
 const deleteTask = async (record) => {
     const response = await deleteTaskById(record.id);
@@ -56,10 +64,15 @@ async function getData(id) {
     const result = await getDocumentTasks(id);
     return await result.json();
 }
-
+const drawer = new Drawer({
+    width: 350*4,
+    height: 495*4
+});
 export const Editor = () => {
+    const ref = useRef(null);
     const { id } = useParams();
     const [ tasks, setTasks ] = useState([]);
+    const [ document, setDocument ] = useState()
     const [ editTask, setEditTask ] = useState(null);
 
     const documentId = parseInt(id, 10);
@@ -71,15 +84,23 @@ export const Editor = () => {
     useEffect(() => {
         load();
     }, []);
-
+const a =90;
+const b=270;
+const c=1;
     useEffect(() => {
-        drawTimeline(0,1800,0);
-    }, []);
+        drawer.setContext(ref.current);
+        drawer.drawBackground();
+        drawer.drawTimeline();
+        drawer.drawOperation(60,360);
+        drawer.drawOperation(a,b,c);
+        drawer.drawSquare();
+    }, [ ref ]);
+
     return(
         <>
             <div className={styles.wrapper}>
                 <div className={styles.header}>
-                    <div>Это имя документа</div>
+                    <div>ВОТ ТУТ ИМЯ</div>
                     <Button type="primary" onClick={createTask}>
                         Добавить действие
                     </Button>
@@ -92,10 +113,10 @@ export const Editor = () => {
                         />
                     </div>
                     <div  className={styles.col}>
-                        <canvas
-                            id="canvas"
-                            className={styles.canvas}
-                        />
+                    <canvas 
+                        ref={ref}
+                        width={350*4} height={495*4}
+                    />
                     </div>
                 </div>
             </div>
