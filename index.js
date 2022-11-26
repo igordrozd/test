@@ -138,12 +138,13 @@ app.post('/api/tasks', async (req, res) => {
     try{
     const token = req.headers.token 
     const user = jwt.verify(token, privateKey); 
+
     const result = await Task.create({ 
         ...req.body, 
         userId: user.id 
     }); 
      
- 
+    console.log(result.start.split(':').map(item => parseInt(item, 10)))
     res.send(result); 
     }catch(e){
         res

@@ -84,6 +84,7 @@ export const Editor = () => {
     useEffect(() => {
         load();
     }, []);
+
 const a =90;
 const b=270;
 const c=1;
@@ -91,10 +92,24 @@ const c=1;
         drawer.setContext(ref.current);
         drawer.drawBackground();
         drawer.drawTimeline();
-        drawer.drawOperation(60,360);
-        drawer.drawOperation(a,b,c);
-        drawer.drawSquare();
-    }, [ ref ]);
+        tasks.forEach(task =>{
+            if (task.Type===1){
+                const time=task.start.split(':').map(item => parseInt(item, 10))
+                drawer.drawSquare(time[0]*3600+time[1]*60+time[2],task.title,task.nesting); 
+            }
+            if (task.Type===2){
+                const time=task.start.split(':').map(item => parseInt(item, 10))
+                const time1=task.end.split(':').map(item => parseInt(item, 10))
+                drawer.drawOperation(time[0]*3600+time[1]*60+time[2],time1[0]*3600+time1[1]*60+time1[2],task.nesting); 
+            }
+            if (task.Type===3){
+                const time=task.start.split(':').map(item => parseInt(item, 10))
+                drawer.drawText(time[0]*3600+time[1]*60+time[2],task.title,task.nesting); 
+            }
+
+        });
+        
+    }, [ ref, tasks ]);
 
     return(
         <>
