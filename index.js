@@ -277,7 +277,9 @@ app.get('/api/documents/', async (req, res) => {
 app.get('/api/documents/:id', async (req, res) => {
     try {
         const records = await Document.findOne({
-            where: req.params.id
+            where: {
+                id: parseInt(req.params.id, 10)
+            }
         });
         res.send(records);
     }catch(e){

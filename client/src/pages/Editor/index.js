@@ -21,11 +21,20 @@ async function findDocById(id) {
     return json;
 }
 
+
 const deleteTask = async (record) => {
     const response = await deleteTaskById(record.id);
     const json = await response.json();
     return json;
 }
+
+const mapping = {
+    "event": "Событие",
+    "operation": "Операция",
+    "inform" : "Служебные данные "
+}
+
+const getType = type => mapping[type];
 
 const columns = reload => [
     {
@@ -33,8 +42,13 @@ const columns = reload => [
         dataIndex: `id`
     },
     {
+        title: `Тип`,
+        dataIndex: `type`,
+        render: getType
+    },
+    {
         title: `Имя события/операции`,
-        dataIndex: `title`
+        dataIndex: `title`,
     },
     {
         render: (_, record) => {
@@ -72,7 +86,7 @@ export const Editor = () => {
     const ref = useRef(null);
     const { id } = useParams();
     const [ tasks, setTasks ] = useState([]);
-    const [ document, setDocument ] = useState()
+    const [ document, setDocument ] = useState(null)
     const [ editTask, setEditTask ] = useState(null);
 
     const documentId = parseInt(id, 10);
@@ -139,11 +153,17 @@ console.log('sdfgh')
         
     }, [ ref, tasks ]);
 
+    useEffect(() =>{
+        getDocument(documentId).then(response => {
+            response.json().then(setDocument)
+        });
+    }, [ documentId ]);
+
     return(
         <>
             <div className={styles.wrapper}>
                 <div className={styles.header}>
-                    <div>ВОТ ТУТ ИМЯ</div>
+                    <div>{document?.title}</div>
                     <Button type="primary" onClick={createTask}>
                         Добавить действие
                     </Button>
