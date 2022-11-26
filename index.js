@@ -349,7 +349,12 @@ app.delete('/api/users/:id', async (req, res) => {
 
 app.delete('/api/documents/:id', async (req, res) => {
     try{
-    const result = await Document.destroy({
+        const tr = await Task.destroy({
+        where:{
+            documentId: req.params.id
+        }
+    });
+        const result = await Document.destroy({
         where: {
             id: req.params.id
         }
