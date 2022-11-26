@@ -5,6 +5,7 @@ import { WindEvent } from "./WindEvent";
 import { WindInform } from "./WindInform";
 import { WindOperation } from "./WindOperation";
 import { postTasks } from "../../api/postTasks";
+import { putTasks } from "../../api/putTasks";
 import { WindInstruction } from "./WindInstruction";
 
 function getFields(type) {
@@ -21,12 +22,18 @@ function getFields(type) {
 }
 
 const createTask = async (data) => {
-    const response = await postTasks(data);
+    let response;
+    console.log(data);
+    if(data.id) {
+        response = await putTasks(data, data.id);
+    } else {
+        response = await postTasks(data);
+    }
     if(response.ok) {
         const json = await response.json();
         notification.success({
-            message: `Запись добавлена`,
-            description: `Запись "${json.title}" успешно добавлена`
+            message: `Запись ${data.id ? `изменена` : `добавлена`}`,
+            description: `Запись "${json.title}" успешно ${data.id ? `изменена` : `добавлена`}`
         });
         return json;
     }
@@ -52,14 +59,16 @@ export const EditModal = ({
     const onSubmit = async () => {
         setLoading(true);
         const values = await form.validateFields();
-        const task = await createTask({
+        
+        const record = await createTask({
+            ...task,
             ...values,
             documentId: documentId,
             type
         });
         form.resetFields();
         setLoading(false);
-        callback(task);
+        callback(record);
         close();
     }
     useEffect(() => {

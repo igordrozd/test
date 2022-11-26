@@ -53,6 +53,7 @@ const columns = (reload, editTask) => [
     },
     {
         render: (_, record) => {
+            console.log(record);
             const drop = async () => {
                 await deleteTask(record);
                 await reload();
