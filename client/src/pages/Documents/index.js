@@ -9,6 +9,7 @@ import {
 import { getDocuments } from '../../api/getDocuments';
 import { deleteDocumentById } from '../../api/deletedocuments';
 import {formatDate} from "../../utils/formatDate";
+import { AddDocument } from "../../components/AddDocument";
 
 const deleteDocument = async (record) => {
     const response = await deleteDocumentById(record.id);
@@ -66,6 +67,9 @@ const columns = (reload) => [
 export const Documents = () => {
     const [ state, setState ] = useState([]);
     const [ loading, setLoading ] = useState(true);
+    const [ editDocument, setEditDocument ] = useState(null);
+    const createDocument = () => setEditDocument({});
+    const closeEditDocument = () => setEditDocument(null);
     const load = () => {
         setLoading(true);
         getData().then(setState);
@@ -77,12 +81,22 @@ export const Documents = () => {
     }, []);
 
     return (
-        <div className='container'>
-            <Table
-                loading={loading}
-                columns={columns(load)}
-                dataSource={state}
+        <>
+        <Button type="primary" onClick={createDocument}>
+            Добавить документ
+        </Button>
+            <div className='container'>
+                <Table
+                    loading={loading}
+                    columns={columns(load)}
+                    dataSource={state}
+                />
+            </div>
+            <AddDocument
+                callback={load}
+                close={closeEditDocument}
+                visible={Boolean(editDocument)}
             />
-        </div>
+        </>
     );
 }
