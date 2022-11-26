@@ -1,5 +1,6 @@
 import React from "react";
-import { Form, Input } from 'antd';
+import { Form, Input, TimePicker } from 'antd';
+import dayjs from 'dayjs';
 
 export const WindOperation = () => (
     <>
@@ -7,10 +8,10 @@ export const WindOperation = () => (
             <Input placeholder='Введите название'/>
         </Form.Item>
         <Form.Item name="start">
-            <Input placeholder='Время начала' />
-        </Form.Item>
-        <Form.Item name="end">
-            <Input placeholder='Время окончания' />
+            <TimePicker.RangePicker  
+                                format="mm:ss"
+                                defaultOpenValue={dayjs('00:00', 'mm:ss')}
+                                style={{ width: `100%` }}/>
         </Form.Item>
     </>
 )
