@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Table, Space } from 'antd';
+import { Button, Table, Space, notification } from 'antd';
 import { useParams } from "react-router-dom";
 import { 
     EditOutlined, 
@@ -13,13 +13,13 @@ import { getDocumentTasks } from "../../api/getDocumentTasks";
 import {EditModal} from "../../components/EditModal";
 
 
-const deleteTask = (record) => {
-    const response = deleteTaskById(record.id);
-    const json = response.json();
-    console.log(json);
+const deleteTask = async (record) => {
+    const response = await deleteTaskById(record.id);
+    const json = await response.json();
+    return json;
 }
 
-const columns = [
+const columns = reload => [
     {
         title: `ID`,
         dataIndex: `id`
@@ -29,46 +29,27 @@ const columns = [
         dataIndex: `title`
     },
     {
-        title: `Время/промежуток`,
-        dataIndex: `time`,
-        // render: (time) => time.toTimeString()
-    },
-    {
         render: (_, record) => {
+            const drop = async () => {
+                await deleteTask(record);
+                await reload();
+                notification.success({
+                    message: 'Запись успешно удалена',
+                    description: `Запись "${record.title}" успешно удалена`
+                });
+            }
             return(
                 <Space>
                     <Button size="small">
                         <EditOutlined />
                     </Button>
-                    <Button size="small" onClick={() => deleteTask(record)}>
+                    <Button size="small" onClick={drop}>
                         <DeleteOutlined />
                     </Button>
                 </Space>
             );
         }
     }
-]
-const data = [
-    {
-        id: 1,
-        title: `Test title`,
-        time: new Date()
-    },
-    {
-        id: 2,
-        title: `Заголовок 2`,
-        time: new Date()
-    },
-    {
-        id: 3,
-        title: `Заголовок 3`,
-        time: new Date()
-    },
-    {
-        id: 4,
-        title: `Заголовок 4`,
-        time: new Date()
-    },
 ]
 
 async function getData(id) {
@@ -106,7 +87,7 @@ export const Editor = () => {
                 <div className={styles.layout}>
                     <div className={styles.col}>
                         <Table
-                            columns={columns}
+                            columns={columns(load)}
                             dataSource={tasks}
                         />
                     </div>
