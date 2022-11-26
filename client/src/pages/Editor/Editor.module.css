@@ -5,9 +5,9 @@
     margin-bottom: 10px;
 }
 .canvas {
+    height: 594px;
+    width: 420px;
     border-radius: 5px;
-    height: 594pt;
-    width: 420pt;
     background-color: rgba(179, 233, 237, 0.358);
     margin: 10% auto;
     justify-content: center;
@@ -30,3 +30,4 @@
 
 
 /* 210 297 */
+
