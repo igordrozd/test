@@ -31,7 +31,8 @@ const deleteTask = async (record) => {
 const mapping = {
     "event": "Событие",
     "operation": "Операция",
-    "inform" : "Служебные данные "
+    "inform" : "Служебные данные ",
+    "instruction" : "Инструкция"
 }
 
 const getType = type => mapping[type];

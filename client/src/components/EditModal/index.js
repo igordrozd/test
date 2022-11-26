@@ -100,6 +100,25 @@ export const EditModal = ({
                         ]}
                     />
                 </Form.Item>
+                <Form.Item name="depth">
+                    <Select 
+                        defaultValue={0}
+                        options={[
+                            {
+                                value: 0,
+                                label: '1 уровень',
+                            },
+                            {
+                                value: 1,
+                                label: '2 уровень',
+                            },
+                            {
+                                value: 2,
+                                label: '3 уровень',
+                            }
+                        ]}
+                    />
+                </Form.Item>
                 {getFields(type)}
             </Form>
         </Modal>
