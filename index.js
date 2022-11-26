@@ -292,6 +292,29 @@ app.get('/api/documents/:id', async (req, res) => {
     }
 });
 
+app.put('/api/tasks/:id', async (req, res) => {
+    try {
+        const record = await Task.findOne({
+            where: {
+                id: parseInt(req.params.id, 10)
+            }
+        });
+        Object
+            .keys(req.body)
+            .forEach(key => {
+                record[key] = req.body[key];
+            })
+        await record.save();
+        res.send(record);
+    }catch(e){
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
+    }
+});
+
 
 app.get('/api/documents/:id', async (req, res) => {
     try{
