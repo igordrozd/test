@@ -6,6 +6,8 @@ import {
     DeleteOutlined 
 } from '@ant-design/icons';
 
+
+
 import { Drawer } from '../../utils/drawer';
 
 import { deleteTaskById } from '../../api/deleteTasks';
@@ -14,13 +16,7 @@ import styles from './Editor.module.css';
 import { getDocumentTasks } from "../../api/getDocumentTasks";
 import { EditModal } from "../../components/EditModal";
 import { getDocument } from "../../api/getDocumentByid"
-
-async function findDocById(id) {
-    const response = await getDocument(id);
-    const json = await response.json();
-    return json;
-}
-
+import {Header} from "../../components/Header";
 
 const deleteTask = async (record) => {
     const response = await deleteTaskById(record.id);
@@ -39,10 +35,12 @@ const getType = type => mapping[type];
 
 const columns = (reload, editTask) => [
     {
+        width: 50,
         title: `ID`,
         dataIndex: `id`
     },
     {
+        width: 180,
         title: `Тип`,
         dataIndex: `type`,
         render: getType
@@ -103,11 +101,6 @@ export const Editor = () => {
     useEffect(() => {
         load();
     }, []);
-
-const a =90;
-const b=270;
-const c=1;
-console.log('sdfgh')
     useEffect(() => {
         drawer.setContext(ref.current);
         if (1){
@@ -118,23 +111,17 @@ console.log('sdfgh')
             drawer.drawBackground('#000000');
             drawer.drawTimeline(0,1800,'green');
         }
-        tasks.forEach(task =>{
+        tasks.forEach(task => {
             if (task.type === 'event'){
                 const { start } = task;
                 const startTime = new Date(start);
                 const startHours = startTime.getHours();
                 const startMinutes = startTime.getMinutes();
                 const startSeconds = startTime.getSeconds();
-
-                const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
-                if (task.title===null){
-                    task.title='ТЕКСТ НЕ ЗАДАН'
-                }
-                drawer.drawSquare(startTotal, task.title, task.depth); 
-                console.log('sdfgh')
-                console.log(startTotal)
+                const startTotal = startHours * 3600 + startMinutes * 60 + startSeconds;
+                drawer.drawSquare(startTotal, task.title, task.depth);
             }
-             if (task.type==='operation'){
+             if (task.type === 'operation'){
                 const { start , end } = task;
                 const startTime = new Date(start);
                 const startHours = startTime.getHours();
@@ -147,9 +134,7 @@ console.log('sdfgh')
                 const endMinutes = endTime.getMinutes();
                 const endSeconds = endTime.getSeconds();
                 const endTotal = endHours*3600 + endMinutes*60 + endSeconds;
-                console.log('sdfgh')
-                console.log(startTotal,endTotal) 
-                drawer.drawOperation(startTotal,endTotal,task.depth); 
+                drawer.drawOperation(startTotal,endTotal,task.depth, task.title);
             }
             if (task.type==='inform'){
                 const { start } = task;
@@ -158,9 +143,7 @@ console.log('sdfgh')
                 const startMinutes = startTime.getMinutes();
                 const startSeconds = startTime.getSeconds();
                 const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
-                console.log('sdfgh')
-                console.log(startTotal)
-                drawer.drawText(startTotal,task.title,task.depth); 
+                drawer.drawText(startTotal,task.title,task.depth);
             }
             if (task.type==='instruction'){
                 const { start } = task;
@@ -169,9 +152,7 @@ console.log('sdfgh')
                 const startMinutes = startTime.getMinutes();
                 const startSeconds = startTime.getSeconds();
                 const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
-                console.log('sdfgh')
-                console.log(startTotal)
-                drawer.drawSquare(startTotal,task.title,task.depth); 
+                drawer.drawSquare(startTotal,task.title,task.depth);
             }
 
         });
@@ -186,32 +167,30 @@ console.log('sdfgh')
 
     return(
         <>
-            <div className={styles.wrapper}>
-                <div className={styles.header}>
-                    <div>{document?.title}</div>
-                    <Button type="primary" onClick={createTask}>
-                        Добавить действие
-                    </Button>
-                </div>
-                <div className={styles.layout}>
-                    <div className={styles.col}>
-                        <Table
-                            columns={columns(load, setEditTask)}
-                            dataSource={tasks}
-                        />
+            <Header document={document}>
+                <Button type="primary" onClick={createTask}>
+                    Добавить действие
+                </Button>
+            </Header>
+            <div className="container">
+                <div className={styles.wrapper}>
+                    <div className={styles.layout}>
+                        <div className={styles.col}>
+                            <Table
+                                columns={columns(load, setEditTask)}
+                                dataSource={tasks}
+                            />
+                        </div>
+                        <div  className={styles.col}>
+                            <canvas
+                                className={styles.canvas}
+                                ref={ref}
+                                width={350*4} height={495*4}
+                            />
+                        </div>
                     </div>
-                    
-                    <div  className={styles.col}>
-                        <canvas 
-                        className={styles.canvas}
-                            ref={ref}
-                            width={350*4} height={495*4}
-                                />
-                    </div>
-                    
                 </div>
             </div>
-
             <EditModal
                 task={editTask}
                 documentId={documentId}

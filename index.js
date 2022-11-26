@@ -137,22 +137,14 @@ app.post('/api/tasks', async (req, res) => {
     try{
         const token = req.headers.token 
         const user = jwt.verify(token, privateKey); 
-        const { depth, title, type, time, documentId  } = req.body;
-        let start, end;
-        if(Array.isArray(time)) {
-            ([ start, end ] = time);
-        } else {
-            start = time;
-        }
-        const startTime = new Date(start);
-        const endTime = end ? new Date(end) : start;
+        const { depth, title, type, start, end, documentId  } = req.body;
 
         const result = await Task.create({ 
             type,
             depth,
             title,
-            end: endTime,
-            start: startTime,
+            end,
+            start,
             userId: user.id,
             documentId
         }); 

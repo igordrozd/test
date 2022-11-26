@@ -1,3 +1,77 @@
+@font-face {
+  font-family: 'Calibri';
+  src: url('../public/fonts/Calibri-LightItalic.eot');
+  src: local('Calibri Light Italic'), local('Calibri-LightItalic'),
+  url('../public/fonts/Calibri-LightItalic.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/Calibri-LightItalic.woff2') format('woff2'),
+  url('../public/fonts/Calibri-LightItalic.woff') format('woff'),
+  url('../public/fonts/Calibri-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Calibri';
+  src: url('../public/fonts/Calibri-Italic.eot');
+  src: local('Calibri Italic'), local('Calibri-Italic'),
+  url('../public/fonts/Calibri-Italic.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/Calibri-Italic.woff2') format('woff2'),
+  url('../public/fonts/Calibri-Italic.woff') format('woff'),
+  url('../public/fonts/Calibri-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Calibri';
+  src: url('../public/fonts/Calibri-Light.eot');
+  src: local('Calibri Light'), local('Calibri-Light'),
+  url('../public/fonts/Calibri-Light.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/Calibri-Light.woff2') format('woff2'),
+  url('../public/fonts/Calibri-Light.woff') format('woff'),
+  url('../public/fonts/Calibri-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Calibri';
+  src: url('../public/fonts/Calibri-Bold.eot');
+  src: local('Calibri Bold'), local('Calibri-Bold'),
+  url('../public/fonts/Calibri-Bold.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/Calibri-Bold.woff2') format('woff2'),
+  url('../public/fonts/Calibri-Bold.woff') format('woff'),
+  url('../public/fonts/Calibri-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Calibri';
+  src: url('../public/fonts/Calibri.eot');
+  src: local('Calibri'),
+  url('../public/fonts/Calibri.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/Calibri.woff2') format('woff2'),
+  url('../public/fonts/Calibri.woff') format('woff'),
+  url('../public/fonts/Calibri.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Calibri';
+  src: url('../public/fonts/Calibri-BoldItalic.eot');
+  src: local('Calibri Bold Italic'), local('Calibri-BoldItalic'),
+  url('../public/fonts/Calibri-BoldItalic.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/Calibri-BoldItalic.woff2') format('woff2'),
+  url('../public/fonts/Calibri-BoldItalic.woff') format('woff'),
+  url('../public/fonts/Calibri-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

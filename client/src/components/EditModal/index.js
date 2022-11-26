@@ -1,6 +1,6 @@
+import dayjs from 'dayjs';
 import React, { useEffect, useState } from "react"
-import {Form, Modal, notification, Select} from 'antd';
-import { useNavigate, useLocation } from "react-router-dom";
+import { Form, Modal, notification, Select } from 'antd';
 import { WindEvent } from "./WindEvent";
 import { WindInform } from "./WindInform";
 import { WindOperation } from "./WindOperation";
@@ -11,7 +11,7 @@ import { WindInstruction } from "./WindInstruction";
 function getFields(type) {
     if(type === 'event') {
         return <WindEvent />
-    } else if(type === 'inform'){
+    } else if(type === 'inform') {
         return <WindInform />
     } else if(type === 'instruction'){
         return <WindInstruction />
@@ -23,11 +23,24 @@ function getFields(type) {
 
 const createTask = async (data) => {
     let response;
-    console.log(data);
-    if(data.id) {
-        response = await putTasks(data, data.id);
+    const { time } = data;
+    let start, end;
+    if(Array.isArray(time)) {
+        ([ start, end ] = time);
     } else {
-        response = await postTasks(data);
+        start = time;
+    }
+    const startTime = new Date(start);
+    const endTime = end ? new Date(end) : start;
+    const body = {
+        ...data,
+        end: endTime,
+        start: startTime,
+    }
+    if(data.id) {
+        response = await putTasks(body, data.id);
+    } else {
+        response = await postTasks(body);
     }
     if(response.ok) {
         const json = await response.json();
@@ -46,7 +59,7 @@ export const EditModal = ({
     task
 }) => {
     const [ form ] = Form.useForm();
-    const [ type, setType ] = useState('event');
+    const [ type, setType ] = useState(task?.type || 'event');
     const [ isLoading, setLoading ] = useState(false);
     const title = task?.id ? `Редактировать элемент` : "Создать элемент";
     const buttonText = task?.id ? "Сохранить" : "Создать";
@@ -73,7 +86,17 @@ export const EditModal = ({
     }
     useEffect(() => {
         form.resetFields();
-        form.setFieldsValue(task);
+        const { start, end } = task || {};
+        if(task?.id) {
+            setType(task.type);
+            form.setFieldsValue({
+                ...task,
+                time: (start === end ? dayjs(start) : [
+                    dayjs(start),
+                    dayjs(end)
+                ])
+            });
+        }
     }, [ task ]);
     return(
         <Modal

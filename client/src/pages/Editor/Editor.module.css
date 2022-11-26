@@ -5,8 +5,8 @@
     margin-bottom: 0;
 }
 .canvas {
-    height: 848px;
-    width: 600px;
+    height: 600px;
+    object-fit: contain;
     border-radius: 5px;
     background-color: rgba(179, 233, 237, 0.358);
     margin: auto;
@@ -14,18 +14,19 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    border: 2px solid black;
+    border: 1px solid black;
+
 }
 .wrapper {
     padding: 1px;
 }
 .layout {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: 700px;
+    grid-template-columns: 2fr 1fr;
 }
 .col {
-    border: 1px solid black;
+    padding: 10px;
+    /*border: 1px solid black;*/
 } 
 
 
