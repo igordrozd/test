@@ -252,6 +252,21 @@ app.get('/api/documents/', async (req, res) => {
             });
     }
 });
+
+app.get('/api/documents/:id', async (req, res) => {
+    try {
+        const records = await Document.findOne({
+            where: req.params.id
+        });
+        res.send(records);
+    }catch(e){
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
+    }
+});
 app.get('/api/documents/:id', async (req, res) => {
     try{
     const record = await Document.findOne({
