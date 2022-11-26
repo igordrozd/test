@@ -5,7 +5,9 @@ import dayjs from 'dayjs';
 const defaultValue = dayjs('00:00', 'mm:ss')
 export const WindInform = () => (
     <>
-        <Form.Item name="title">
+        <Form.Item name="title" 
+                // rules={[{ required: true, message: 'Пожалуйста, введите информацию!' }]}
+                >
             <Input placeholder='Введите информацию'/>
         </Form.Item>
         <Form.Item name="time">

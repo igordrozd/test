@@ -35,13 +35,13 @@ export const Login = () => {
                 >
                     <Form.Item
                         name="name"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
+                        rules={[{ required: true, message: 'Пожалуйста введите логин!' }]}
                     >
                         <Input placeholder='Введите логин'/>
                     </Form.Item>
                     <Form.Item
                         name="password"
-                        rules={[{ required: true, message: 'Please input your password!' }]}
+                        rules={[{ required: true, message: 'Пожалуйста, введите пароль!' }]}
                     >
                         <Input.Password placeholder='Введите пароль' />
                     </Form.Item>

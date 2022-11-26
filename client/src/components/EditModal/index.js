@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {Form, Modal, notification, Select} from 'antd';
 import { useNavigate, useLocation } from "react-router-dom";
 import { WindEvent } from "./WindEvent";
@@ -35,12 +35,14 @@ const createTask = async (data) => {
 export const EditModal = ({
     documentId,
     callback,
-    visible,
-    close
+    close,
+    task
 }) => {
     const [ form ] = Form.useForm();
     const [ type, setType ] = useState('event');
     const [ isLoading, setLoading ] = useState(false);
+    const title = task?.id ? `Редактировать элемент` : "Создать элемент";
+    const buttonText = task?.id ? "Сохранить" : "Создать";
     const handleClose = () => {
         if(isLoading) {
             return;
@@ -60,15 +62,19 @@ export const EditModal = ({
         callback(task);
         close();
     }
+    useEffect(() => {
+        form.resetFields();
+        form.setFieldsValue(task);
+    }, [ task ]);
     return(
         <Modal
-            open={visible}
+            open={Boolean(task)}
             onCancel={handleClose}
             onOk={onSubmit}
             confirmLoading={isLoading}
-            title="Создать элемент"
+            title={title}
             cancelText="Отмена"
-            okText="Создать"
+            okText={buttonText}
         >
            
             <Form
