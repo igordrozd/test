@@ -127,12 +127,15 @@ const c=1;
                             dataSource={tasks}
                         />
                     </div>
+                    
                     <div  className={styles.col}>
-                    <canvas 
-                        ref={ref}
-                        width={350*4} height={495*4}
-                    />
+                        <canvas 
+                        className={styles.canvas}
+                            ref={ref}
+                            width={350*4} height={495*4}
+                                />
                     </div>
+                    
                 </div>
             </div>
 
