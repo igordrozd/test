@@ -1,7 +1,7 @@
 const INDENT = 25;
 const INDENT_TOP = INDENT;
 const INDENT_BOTTOM = INDENT;
-const INDENT_LEFT = INDENT * 3;
+const INDENT_LEFT = INDENT;
 const INDENT_RIGHT = INDENT;
 
 const LEN_LINE = 1800;
@@ -17,21 +17,20 @@ export class Drawer {
   constructor({ 
     canvas, 
     width, 
-    height,
-    bgColor = '#000000'
+    height
   }) {
     if(canvas) {
       this.context = canvas.getContext('2d');
     }
     this.settings = {
-      width, height, bgColor
+      width, height
     }
   }
   setContext(canvas) {
     this.context = canvas.getContext('2d');
   }
-  drawBackground() {
-    this.context.fillStyle = this.settings.bgColor;
+  drawBackground(bgColor = '#000000') {
+    this.context.fillStyle = bgColor;
     this.context.fillRect(0, 0, this.settings.width, this.settings.height);
   }
   drawTimeline(start = 0, end = 1800, color = '#FFFFFF')  {
@@ -40,16 +39,16 @@ export class Drawer {
     const dashesCount = Math.floor(lineLength / SMALL_DASHES_DISTANSE);
     this.context.strokeStyle = color;
     this.context.beginPath();
-    this.context.moveTo(INDENT_LEFT, INDENT_TOP);
-    this.context.lineTo(INDENT_LEFT, lineLength);
+    this.context.moveTo(INDENT_LEFT+SMALL_DASH_LEN, INDENT_TOP);
+    this.context.lineTo(INDENT_LEFT+SMALL_DASH_LEN, lineLength);
     this.context.closePath();
     this.context.stroke();
     
     // рисуем рисочки
     for (let j = 1; j <= dashesCount; j++) {
       this.context.beginPath();
-      this.context.moveTo(INDENT_LEFT - SMALL_DASH_LEN / 2, j * SMALL_DASHES_DISTANSE);
-      this.context.lineTo(INDENT_LEFT + SMALL_DASH_LEN / 2, j * SMALL_DASHES_DISTANSE);
+      this.context.moveTo(INDENT_LEFT+SMALL_DASH_LEN - SMALL_DASH_LEN / 2, j * SMALL_DASHES_DISTANSE);
+      this.context.lineTo(INDENT_LEFT+SMALL_DASH_LEN + SMALL_DASH_LEN / 2, j * SMALL_DASHES_DISTANSE);
       this.context.closePath();
       this.context.stroke();
     }
@@ -58,7 +57,7 @@ export class Drawer {
     this.context.font = "14pt sans-sherif"
     for (let j = 1; j <= dashesCount; j += 5) {
       const text = Math.floor((j-1)/60) + ':' + (j-1) % 60;
-      this.context.strokeText(text, INDENT_LEFT + SMALL_DASH_LEN, INDENT_TOP + j * SMALL_DASHES_DISTANSE - 35 );
+      this.context.strokeText(text, SMALL_DASH_LEN, INDENT_TOP + j * SMALL_DASHES_DISTANSE - 35 );
     }
   }
   drawOperation(time1 = 10, time2 = 100, vlogh = 0) {
