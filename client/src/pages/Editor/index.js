@@ -88,6 +88,7 @@ export const Editor = () => {
 const a =90;
 const b=270;
 const c=1;
+console.log('sdfgh')
     useEffect(() => {
         drawer.setContext(ref.current);
         drawer.drawBackground();
@@ -102,20 +103,24 @@ const c=1;
 
                 const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
                 drawer.drawSquare(startTotal, task.title, task.depth); 
+                console.log('sdfgh')
+                console.log(startTotal)
             }
              if (task.type==='operation'){
-                const { start } = task;
+                const { start , end } = task;
                 const startTime = new Date(start);
                 const startHours = startTime.getHours();
                 const startMinutes = startTime.getMinutes();
                 const startSeconds = startTime.getSeconds();
                 const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
 
-                const endTime = new Date(start);
+                const endTime = new Date(end);
                 const endHours = endTime.getHours();
                 const endMinutes = endTime.getMinutes();
                 const endSeconds = endTime.getSeconds();
                 const endTotal = endHours*3600 + endMinutes*60 + endSeconds;
+                console.log('sdfgh')
+                console.log(startTotal,endTotal) 
                 drawer.drawOperation(startTotal,endTotal,task.depth); 
             }
             if (task.type==='inform'){
@@ -125,6 +130,8 @@ const c=1;
                 const startMinutes = startTime.getMinutes();
                 const startSeconds = startTime.getSeconds();
                 const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
+                console.log('sdfgh')
+                console.log(startTotal)
                 drawer.drawText(startTotal,task.title,task.depth); 
             }
 
