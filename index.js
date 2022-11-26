@@ -84,9 +84,9 @@ app.post('/api/users/login', async(req,res)=>{
                 message: 'Некорректное имя пользователя'
             });
     }
-        
-    
 });
+
+
 app.post('/api/users/verify', async (req, res) => {
     try {
         const token = req.headers.token;
@@ -133,7 +133,6 @@ app.use((req, res, next) => {
 });
 
 //==============================================================================================================================================
-
 app.post('/api/tasks', async (req, res) => { 
     try{
     const token = req.headers.token 
@@ -142,8 +141,6 @@ app.post('/api/tasks', async (req, res) => {
         ...req.body, 
         userId: user.id 
     }); 
-     
- 
     res.send(result); 
     }catch(e){
         res
@@ -154,11 +151,12 @@ app.post('/api/tasks', async (req, res) => {
     }
     
 });
+
+
 app.post('/api/documents/', async (req, res) => {
     try{
     const token = req.headers.token 
     const user = jwt.verify(token, privateKey); 
-    console.log(user.id)
     const result = await Document.create({ 
         ...req.body, 
         userId: user.id 
@@ -187,12 +185,10 @@ app.post('/api/icons/', async (req, res) => {
     }
     
 });
+
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //=============================================================================================================================================
-
-
-
 app.get('/api/tasks/:id', async (req, res) => {
     try{
     const record = await Task.findAll({
@@ -211,7 +207,6 @@ app.get('/api/tasks/:id', async (req, res) => {
 });
 
 
-
 app.get('/api/documents/:id/tasks', async (req, res) => {
     try{
         const records = await Task.findAll({
@@ -228,6 +223,8 @@ app.get('/api/documents/:id/tasks', async (req, res) => {
             });
     }
 });
+
+
 app.get('/api/tasks/:type', async (req, res) => {
     try{
     const token = req.headers.token 
@@ -247,6 +244,8 @@ app.get('/api/tasks/:type', async (req, res) => {
             });
     }
 });
+
+
 app.get('/api/documents/', async (req, res) => {
     try {
         const records = await Document.findAll();
@@ -259,6 +258,7 @@ app.get('/api/documents/', async (req, res) => {
             });
     }
 });
+
 
 app.get('/api/documents/:id', async (req, res) => {
     try {
@@ -274,6 +274,8 @@ app.get('/api/documents/:id', async (req, res) => {
             });
     }
 });
+
+
 app.get('/api/documents/:id', async (req, res) => {
     try{
     const record = await Document.findOne({
@@ -294,8 +296,6 @@ app.get('/api/documents/:id', async (req, res) => {
 //=============================================================================================================================================
 ///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 //=============================================================================================================================================
-
-
 app.delete('/api/tasks/:id', async (req, res) => {
     try{
     const result = await Task.destroy({
