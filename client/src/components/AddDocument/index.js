@@ -43,7 +43,7 @@ export const AddDocument = ({
             onCancel={handleClose}
             onOk={onSubmit}
             confirmLoading={isLoading}
-            title="Создать элемент"
+            title="Создать документ"
             cancelText="Отмена"
             okText="Создать"
         >
@@ -53,7 +53,7 @@ export const AddDocument = ({
                 autoComplete="off"
                 name="basic"
             >
-                <Form.Item name="title">
+                <Form.Item name="title"> 
                     <Input />
                 </Form.Item>
             </Form>

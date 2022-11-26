@@ -5,13 +5,17 @@ import { WindEvent } from "./WindEvent";
 import { WindInform } from "./WindInform";
 import { WindOperation } from "./WindOperation";
 import { postTasks } from "../../api/postTasks";
+import { WindInstruction } from "./WindInstruction";
 
 function getFields(type) {
     if(type === 'event') {
         return <WindEvent />
     } else if(type === 'inform'){
         return <WindInform />
-    } else {
+    } else if(type === 'instruction'){
+        return <WindInstruction />
+    }
+    else {
         return <WindOperation />
     }
 }
@@ -88,6 +92,10 @@ export const EditModal = ({
                             {
                                 value: 'operation',
                                 label: 'Операция',
+                            },
+                            {
+                                value: 'instruction',
+                                label: 'Инструкция',
                             }
                         ]}
                     />
