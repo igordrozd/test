@@ -135,7 +135,7 @@ app.use((req, res, next) => {
 //==============================================================================================================================================
 
 app.post('/api/tasks', async (req, res) => { 
-    
+    try{
     const token = req.headers.token 
     const user = jwt.verify(token, privateKey); 
     const result = await Task.create({ 
@@ -145,6 +145,13 @@ app.post('/api/tasks', async (req, res) => {
      
  
     res.send(result); 
+    }catch(e){
+        res
+        .status(500)
+        .send({
+            message: e.message
+        });
+    }
     
 });
 app.post('/api/documents/', async (req, res) => {
