@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const {
     Task, User, Document, Icon 
 } = require('./schemes');
+const { UserSwitchOutlined } = require('@ant-design/icons');
 
 const privateKey = `$2a$10$sbsCkzAn5.tMTX.pY3cK2O`;
 
