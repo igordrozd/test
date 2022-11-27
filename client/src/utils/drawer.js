@@ -141,10 +141,14 @@ export class Drawer {
 
   }
   drawinform(time = 20, txt = ' event', depth = 0) {
+    const textWidth = txt.length * 11;
     this.context.fillStyle = '#000000';
     this.context.strokeStyle = '#000000';
-    const offset = this.getOffset(time)+FONT_SIZE/2-10;
-    this.context.strokeRect()
-    this.context.fillText(txt,FIRST_LEVEL_INDENT + depth * DEPTH_INDENT, offset);
+    const offset = this.getOffset(time) - SQUARE_SIDE / 2;
+    this.context.font = `bold ${FONT_SIZE - 4}px ${FONT_FAMILY}`;
+    this.context.setLineDash([6]);
+    this.context.strokeRect(FIRST_LEVEL_INDENT + depth * DEPTH_INDENT + textWidth + SMALL_INDENT, offset, SQUARE_SIDE*3, SQUARE_SIDE)
+    this.context.fillText(txt,FIRST_LEVEL_INDENT + depth * DEPTH_INDENT, offset + FONT_SIZE - 12);
+    this.context.setLineDash([]);
   }
 }
