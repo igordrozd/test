@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import {Table, Layout, Space, Button, notification} from 'antd';
+import {Table, Popconfirm, Space, Button, notification} from 'antd';
 import { 
     EditOutlined, 
     DeleteOutlined 
@@ -42,7 +42,7 @@ const columns = (reload) => [
     },
     // {
     //     width: 200,
-    //     title: `Дата изменения`,
+    //     title: `Пользователь`,
     //     dataIndex: 'updatedAt',
     //     render: formatDate
     //   },
@@ -63,9 +63,17 @@ const columns = (reload) => [
                             <EditOutlined />
                         </Button>
                     </Link>
-                    <Button size="small" onClick={deleteDoc}>
-                        <DeleteOutlined />
-                    </Button>
+                    <Popconfirm 
+                        title="Вы уверены, что хотите удалить?" 
+                        onConfirm={deleteDoc}
+                        okText="Да"
+                        cancelText="Нет"
+                    >
+                        <Button size="small">
+                            <DeleteOutlined />
+                        </Button>
+                    </Popconfirm>
+                    
                 </Space>
             );
         }
