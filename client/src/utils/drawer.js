@@ -141,7 +141,7 @@ export class Drawer {
 
   }
   drawinform(time = 20, txt = ' event', depth = 0) {
-    const textWidth = txt.length * 11;
+    const textWidth = txt.length * (FONT_SIZE - 4) / 2;
     this.context.fillStyle = '#000000';
     this.context.strokeStyle = '#000000';
     const offset = this.getOffset(time) - SQUARE_SIDE / 2;
