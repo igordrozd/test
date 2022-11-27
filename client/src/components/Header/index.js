@@ -13,7 +13,7 @@ export const Header = ({ children, document }) => {
                 <div className={styles.content}>
                     <div>
                         <Link to="/" className={styles.user}>
-                            {store.user?.name}
+                            {store.user?.fullName}
                         </Link>
                         {document && (
                             <>
