@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 
-module.exports = new Sequelize('ptk', 'postgres', 'postgres', {
+module.exports = new Sequelize('ptk', 'postgres', 'Lizaazil228', {
     dialect: 'postgres',
     host: 'localhost',
     logging: false,
