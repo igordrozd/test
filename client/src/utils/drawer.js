@@ -1,102 +1,139 @@
+const FONT_SIZE = 38;
 const INDENT = 50;
-const INDENT_TOP = INDENT;
-const INDENT_BOTTOM = INDENT;
-const INDENT_LEFT = INDENT * 3;
-const INDENT_RIGHT = INDENT;
-
-const LEN_LINE = 1800;
-const SMALL_DASH_LEN = 12;
+const INDENT_TOP = INDENT * 1.5;
+const INDENT_LEFT = INDENT * 3.5;
+const SMALL_DASH_LEN = 10;
 const SMALL_DASHES_DISTANSE = INDENT;
 
 const MEGA_SUPER_LONG_INDENT_LEFT = 4 * INDENT_LEFT
 const NOT_SO_MEGA_LONG_INDENT_LEFT = 1.5*INDENT_LEFT
 
+const FIRST_LEVEL_INDENT = INDENT_LEFT * 1.7;
+
+const SQUARE_SIDE = 30;
+
+const SMALL_INDENT = 20;
+
+const DEPTH_INDENT = 7 * INDENT;
+
+const FONT_FAMILY = 'Calibri';
+
+const DASHES_PER_PAGE = 35;
+
 export class Drawer {
   context
   settings = {}
+  valueOfDivision
   constructor({ 
     canvas, 
     width, 
-    height,
-    bgColor = '#000000'
+    height
   }) {
     if(canvas) {
       this.context = canvas.getContext('2d');
     }
     this.settings = {
-      width, height, bgColor
+      width, height
     }
+  }
+  getOffset(time = 0) {
+    return INDENT_TOP + time / 60 * SMALL_DASHES_DISTANSE;
   }
   setContext(canvas) {
     this.context = canvas.getContext('2d');
   }
-  drawBackground() {
-    this.context.fillStyle = this.settings.bgColor;
+  drawBackground(bgColor = '#000000') {
+    this.context.fillStyle = bgColor;
     this.context.fillRect(0, 0, this.settings.width, this.settings.height);
   }
-  drawTimeline(start = 0, end = 1800, color = '#FFFFFF')  {
+  drawTimeline(start = 100, end = 1800, color = '#FFFFFF')  {
+    this.context.lineWidth = 2;
     // рисуем линию
-    const lineLength = this.settings.height - (INDENT_BOTTOM + INDENT_TOP);
-    const dashesCount = Math.floor(lineLength / SMALL_DASHES_DISTANSE);
+    const lineLength = DASHES_PER_PAGE * SMALL_DASHES_DISTANSE;
     this.context.strokeStyle = color;
     this.context.beginPath();
     this.context.moveTo(INDENT_LEFT, INDENT_TOP);
-    this.context.lineTo(INDENT_LEFT, lineLength);
+    this.context.lineTo(INDENT_LEFT, INDENT_TOP + lineLength);
     this.context.closePath();
     this.context.stroke();
     
     // рисуем рисочки
-    for (let j = 1; j <= dashesCount; j++) {
+    for (let j = 0; j <= DASHES_PER_PAGE; j++) {
+      let len = SMALL_DASH_LEN / 2;
+      this.context.lineWidth = 2;
+      if(j % 5 === 0) {
+        this.context.lineWidth = 5;
+        len = SMALL_DASH_LEN;
+      }
       this.context.beginPath();
-      this.context.moveTo(INDENT_LEFT - SMALL_DASH_LEN / 2, j * SMALL_DASHES_DISTANSE);
-      this.context.lineTo(INDENT_LEFT + SMALL_DASH_LEN / 2, j * SMALL_DASHES_DISTANSE);
+      this.context.moveTo(INDENT_LEFT - len,  INDENT_TOP + j * SMALL_DASHES_DISTANSE);
+      this.context.lineTo(INDENT_LEFT + len,  INDENT_TOP + j * SMALL_DASHES_DISTANSE);
       this.context.closePath();
       this.context.stroke();
     }
 
     // рисуем подписи
-    this.context.font = "14pt sans-sherif"
-    for (let j = 1; j <= dashesCount; j += 5) {
-      const text = Math.floor((j-1)/60) + ':' + (j-1) % 60;
-      this.context.strokeText(text, INDENT_LEFT + SMALL_DASH_LEN, INDENT_TOP + j * SMALL_DASHES_DISTANSE - 35 );
+    this.context.fillStyle = "#000000";
+    this.context.font = `bold ${FONT_SIZE}px ${FONT_FAMILY}`;
+    for (let j = 0; j <= DASHES_PER_PAGE; j += 5) {
+      const textOffsetY = INDENT_TOP + (j + 1) * SMALL_DASHES_DISTANSE - FONT_SIZE;
+      const hours = Math.floor(( start + j ) / 60).toString().padStart(2, '0');
+      const minutes = ((start + j) % 60).toString().padStart(2, '0');
+      const text = `${hours}:${minutes}`;
+      this.context.fillText(text, INDENT, textOffsetY);
     }
+    this.valueOfDivision = lineLength / DASHES_PER_PAGE;
+    console.log(this.valueOfDivision)
   }
-  drawOperation(time1 = 10, time2 = 100, vlogh = 0) {
-    this.context.lineWidth = 1;
+  drawOperation(start = 10, end = 100, depth = 0, text) {
+    this.context.lineWidth = 3;
+    const startY = this.getOffset(start);
+    const endY = this.getOffset(end);
+    const offsetLeft = SMALL_DASH_LEN + depth * DEPTH_INDENT;
+
+    //линия
     this.context.beginPath();
-    this.context.moveTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh, INDENT_TOP + time1);
-    this.context.lineTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh, INDENT_TOP + time2);
+    this.context.moveTo(offsetLeft + FIRST_LEVEL_INDENT, startY);
+    this.context.lineTo(offsetLeft + FIRST_LEVEL_INDENT, endY);
     this.context.closePath();
     this.context.stroke();
+
+    this.context.lineWidth = 5;
+
+    // риска начала
     this.context.beginPath();
-    this.context.moveTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh - SMALL_DASH_LEN/2, INDENT_TOP + time1);
-    this.context.lineTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh + SMALL_DASH_LEN/2, INDENT_TOP + time1);
+    this.context.moveTo(offsetLeft + FIRST_LEVEL_INDENT - SMALL_DASH_LEN,  startY);
+    this.context.lineTo(offsetLeft + FIRST_LEVEL_INDENT + SMALL_DASH_LEN,  startY);
     this.context.closePath();
     this.context.stroke();
+
+    // риска конца
     this.context.beginPath();
-    this.context.moveTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh - SMALL_DASH_LEN/2, INDENT_TOP + time2);
-    this.context.lineTo(NOT_SO_MEGA_LONG_INDENT_LEFT + MEGA_SUPER_LONG_INDENT_LEFT * vlogh + SMALL_DASH_LEN/2, INDENT_TOP + time2);
+    this.context.moveTo(offsetLeft + FIRST_LEVEL_INDENT - SMALL_DASH_LEN,  endY);
+    this.context.lineTo(offsetLeft + FIRST_LEVEL_INDENT + SMALL_DASH_LEN,  endY);
     this.context.closePath();
     this.context.stroke();
+
+    // текст-подпись
+    this.context.save();
+    this.context.translate(offsetLeft + FIRST_LEVEL_INDENT - FONT_SIZE - SMALL_INDENT, (startY + endY) / 2);
+    this.context.fillStyle = "#000000";
+    this.context.font = `bold ${FONT_SIZE}px ${FONT_FAMILY}`;
+    this.context.textAlign = 'center';
+    this.context.rotate(-Math.PI/2);
+    this.context.fillText(text, 0, FONT_SIZE);
+    this.context.restore();
   }
-  drawSquare(time1 = 720, txt = 'Это был я - ДИО', vlogh = 1 ,sam=1){
-    const sec = 1;
-    let b = 1
-    if (sam ===1){
-      b=0.5;
-      vlogh+=1;
-    }
-    this.context.lineWidth = 1;
-    this.context.beginPath();
-    this.context.moveTo((vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT-SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP - SMALL_DASH_LEN/2 + time1*INDENT/60);
-    this.context.lineTo((vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP - SMALL_DASH_LEN/2 + time1*INDENT/60);
-    this.context.lineTo((vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP + SMALL_DASH_LEN/2 + time1*INDENT/60);
-    this.context.lineTo((vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT-SMALL_DASH_LEN/2+INDENT_TOP, INDENT_TOP + SMALL_DASH_LEN/2 + time1*INDENT/60);
-    this.context.closePath();
-    this.context.stroke()
-    this.context.strokeText(txt, (vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT +10+INDENT_TOP, INDENT_TOP + time1*INDENT/60+4);
+  drawSquare(time = 720, txt = 'Это был я - ДИО'){
+    const offset = this.getOffset(time) - SQUARE_SIDE / 2;
+    this.context.lineWidth = 3;
+    this.context.fillStyle = '#000000';
+    this.context.strokeStyle = '#000000';
+    this.context.font = `bold ${FONT_SIZE - 4}px ${FONT_FAMILY}`;
+    this.context.strokeRect(FIRST_LEVEL_INDENT, offset, SQUARE_SIDE, SQUARE_SIDE);
+    this.context.fillText(txt, FIRST_LEVEL_INDENT + SQUARE_SIDE + SMALL_INDENT, offset + FONT_SIZE - 12);
   }
-  drawText(time1 = 20, txt = ' event', vlogh = 0, sam=1) {
-    this.context.strokeText(txt, (vlogh-1)*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+INDENT_TOP, INDENT_TOP + time1*INDENT/60+4);
-}
+  drawText(time1 = 20, txt = ' event', vlogh = 1) {
+    this.context.strokeText(txt, ((0.7)*(vlogh-1))*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+INDENT_TOP*2, INDENT_TOP + time1*INDENT/60+4);
+  }
 }

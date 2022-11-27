@@ -25,7 +25,6 @@ const Task = database.define('Task', {
     end: {
       type: DataTypes.DATE
     }
-
 });
 
 Task.belongsTo(User, {

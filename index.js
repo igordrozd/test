@@ -138,21 +138,14 @@ app.post('/api/tasks', async (req, res) => {
     try{
         const token = req.headers.token 
         const user = jwt.verify(token, privateKey); 
-        const { title, type, time, documentId  } = req.body;
-        let start, end;
-        if(Array.isArray(time)) {
-            ([ start, end ] = time);
-        } else {
-            start = time;
-        }
-        const startTime = new Date(start);
-        const endTime = end ? new Date(end) : start;
+        const { depth, title, type, start, end, documentId  } = req.body;
 
         const result = await Task.create({ 
             type,
+            depth,
             title,
-            end: endTime,
-            start: startTime,
+            end,
+            start,
             userId: user.id,
             documentId
         }); 
@@ -278,9 +271,34 @@ app.get('/api/documents/', async (req, res) => {
 app.get('/api/documents/:id', async (req, res) => {
     try {
         const records = await Document.findOne({
-            where: req.params.id
+            where: {
+                id: parseInt(req.params.id, 10)
+            }
         });
         res.send(records);
+    }catch(e){
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
+    }
+});
+
+app.put('/api/tasks/:id', async (req, res) => {
+    try {
+        const record = await Task.findOne({
+            where: {
+                id: parseInt(req.params.id, 10)
+            }
+        });
+        Object
+            .keys(req.body)
+            .forEach(key => {
+                record[key] = req.body[key];
+            })
+        await record.save();
+        res.send(record);
     }catch(e){
         res
             .status(500)

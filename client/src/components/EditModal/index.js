@@ -1,28 +1,52 @@
-import React, { useState } from "react"
-import {Form, Modal, notification, Select} from 'antd';
-import { useNavigate, useLocation } from "react-router-dom";
+import dayjs from 'dayjs';
+import React, { useEffect, useState } from "react"
+import { Form, Modal, notification, Select } from 'antd';
 import { WindEvent } from "./WindEvent";
 import { WindInform } from "./WindInform";
 import { WindOperation } from "./WindOperation";
 import { postTasks } from "../../api/postTasks";
+import { putTasks } from "../../api/putTasks";
+import { WindInstruction } from "./WindInstruction";
 
 function getFields(type) {
     if(type === 'event') {
         return <WindEvent />
-    } else if(type === 'inform'){
+    } else if(type === 'inform') {
         return <WindInform />
-    } else {
+    } else if(type === 'instruction'){
+        return <WindInstruction />
+    }
+    else {
         return <WindOperation />
     }
 }
 
 const createTask = async (data) => {
-    const response = await postTasks(data);
+    let response;
+    const { time } = data;
+    let start, end;
+    if(Array.isArray(time)) {
+        ([ start, end ] = time);
+    } else {
+        start = time;
+    }
+    const startTime = new Date(start);
+    const endTime = end ? new Date(end) : start;
+    const body = {
+        ...data,
+        end: endTime,
+        start: startTime,
+    }
+    if(data.id) {
+        response = await putTasks(body, data.id);
+    } else {
+        response = await postTasks(body);
+    }
     if(response.ok) {
         const json = await response.json();
         notification.success({
-            message: `Запись добавлена`,
-            description: `Запись "${json.title}" успешно добавлена`
+            message: `Запись ${data.id ? `изменена` : `добавлена`}`,
+            description: `Запись "${json.title}" успешно ${data.id ? `изменена` : `добавлена`}`
         });
         return json;
     }
@@ -31,12 +55,14 @@ const createTask = async (data) => {
 export const EditModal = ({
     documentId,
     callback,
-    visible,
-    close
+    close,
+    task
 }) => {
     const [ form ] = Form.useForm();
-    const [ type, setType ] = useState('event');
+    const [ type, setType ] = useState(task?.type || 'event');
     const [ isLoading, setLoading ] = useState(false);
+    const title = task?.id ? `Редактировать элемент` : "Создать элемент";
+    const buttonText = task?.id ? "Сохранить" : "Создать";
     const handleClose = () => {
         if(isLoading) {
             return;
@@ -46,25 +72,41 @@ export const EditModal = ({
     const onSubmit = async () => {
         setLoading(true);
         const values = await form.validateFields();
-        const task = await createTask({
+        
+        const record = await createTask({
+            ...task,
             ...values,
             documentId: documentId,
             type
         });
         form.resetFields();
         setLoading(false);
-        callback(task);
+        callback(record);
         close();
     }
+    useEffect(() => {
+        form.resetFields();
+        const { start, end } = task || {};
+        if(task?.id) {
+            setType(task.type);
+            form.setFieldsValue({
+                ...task,
+                time: (start === end ? dayjs(start) : [
+                    dayjs(start),
+                    dayjs(end)
+                ])
+            });
+        }
+    }, [ task ]);
     return(
         <Modal
-            open={visible}
+            open={Boolean(task)}
             onCancel={handleClose}
             onOk={onSubmit}
             confirmLoading={isLoading}
-            title="Создать элемент"
+            title={title}
             cancelText="Отмена"
-            okText="Создать"
+            okText={buttonText}
         >
            
             <Form
@@ -88,6 +130,29 @@ export const EditModal = ({
                             {
                                 value: 'operation',
                                 label: 'Операция',
+                            },
+                            {
+                                value: 'instruction',
+                                label: 'Инструкция',
+                            }
+                        ]}
+                    />
+                </Form.Item>
+                <Form.Item name="depth">
+                    <Select 
+                        defaultValue={0}
+                        options={[
+                            {
+                                value: 0,
+                                label: '1 уровень',
+                            },
+                            {
+                                value: 1,
+                                label: '2 уровень',
+                            },
+                            {
+                                value: 2,
+                                label: '3 уровень',
                             }
                         ]}
                     />
