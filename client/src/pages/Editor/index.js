@@ -120,7 +120,7 @@ export const Editor = () => {
                 const startMinutes = startTime.getMinutes();
                 const startSeconds = startTime.getSeconds();
                 const startTotal = startHours * 3600 + startMinutes * 60 + startSeconds;
-                const flag=false
+                let flag=false
                 tasks.forEach(taskv =>{
                     if (taskv.type==='operation'){
                         const { start , end } = taskv;
@@ -135,16 +135,16 @@ export const Editor = () => {
                         const endMinutes = endTime.getMinutes();
                         const endSeconds = endTime.getSeconds();
                         const endTotal1 = endHours*3600 + endMinutes*60 + endSeconds;
-                        if (startTotal1<startTotal &&  endTotal1>startTotal){
+                        if (startTotal1<=startTotal &&  endTotal1>=startTotal && taskv.depth===task.depth){
                             console.log(startTotal1,startTotal,endTotal1)
-                            const flag=true;
+                            flag=true;
                         }}
                 })
-                
+                console.log(flag)
                 if  (flag===true){
                     drawer.drawSquare(startTotal, task.title, task.depth,20)}
                 else{
-                    drawer.drawSquare(startTotal, task.title, task.depth,0)
+                    drawer.drawSquare(startTotal, task.title, task.depth,-23)
                 }
             }
              if (task.type === 'operation'){
@@ -163,22 +163,72 @@ export const Editor = () => {
                 drawer.drawOperation(startTotal,endTotal,task.depth, task.title);
             }
             if (task.type==='inform'){
+                let flag=false
                 const { start } = task;
                 const startTime = new Date(start);
                 const startHours = startTime.getHours();
                 const startMinutes = startTime.getMinutes();
                 const startSeconds = startTime.getSeconds();
                 const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
-                drawer.drawText(startTotal,task.title,task.depth);
+
+                tasks.forEach(taskv =>{
+                    if (taskv.type==='operation'){
+                        const { start , end } = taskv;
+                        const startTime = new Date(start);
+                        const startHours = startTime.getHours();
+                        const startMinutes = startTime.getMinutes();
+                        const startSeconds = startTime.getSeconds();
+                        const startTotal1 = startHours*3600 + startMinutes*60 + startSeconds;
+
+                        const endTime = new Date(end);
+                        const endHours = endTime.getHours();
+                        const endMinutes = endTime.getMinutes();
+                        const endSeconds = endTime.getSeconds();
+                        const endTotal1 = endHours*3600 + endMinutes*60 + endSeconds;
+                        if (startTotal1<=startTotal &&  endTotal1>=startTotal && taskv.depth===task.depth){
+                            console.log(startTotal1,startTotal,endTotal1)
+                            flag=true;
+                        }}
+                })
+                if  (flag===true){
+                    drawer.drawText(startTotal,task.title,task.depth,50)}
+                else{
+                    drawer.drawText(startTotal,task.title,task.depth,0)}
+                
             }
             if (task.type==='instruction'){
+                let flag=false
                 const { start } = task;
                 const startTime = new Date(start);
                 const startHours = startTime.getHours();
                 const startMinutes = startTime.getMinutes();
                 const startSeconds = startTime.getSeconds();
                 const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
-                drawer.drawinform(startTotal,task.title,task.depth);
+
+                tasks.forEach(taskv =>{
+                    if (taskv.type==='operation'){
+                        const { start , end } = taskv;
+                        const startTime = new Date(start);
+                        const startHours = startTime.getHours();
+                        const startMinutes = startTime.getMinutes();
+                        const startSeconds = startTime.getSeconds();
+                        const startTotal1 = startHours*3600 + startMinutes*60 + startSeconds;
+
+                        const endTime = new Date(end);
+                        const endHours = endTime.getHours();
+                        const endMinutes = endTime.getMinutes();
+                        const endSeconds = endTime.getSeconds();
+                        const endTotal1 = endHours*3600 + endMinutes*60 + endSeconds;
+                        if (startTotal1<=startTotal &&  endTotal1>=startTotal && taskv.depth===task.depth){
+                            console.log(startTotal1,startTotal,endTotal1)
+                            flag=true;
+                        }}
+                })
+                if  (flag===true){
+                    drawer.drawinform(startTotal,task.title,task.depth,50)}
+                else{
+                    drawer.drawinform(startTotal,task.title,task.depth,0)}
+                
             }
 
         });
