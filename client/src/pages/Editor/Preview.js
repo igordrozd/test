@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button } from 'antd';
+import { Button, Switch } from 'antd';
 import { Drawer } from '../../utils/drawer';
 import { dateToSeconds } from "../../utils/dateToSeconds";
 import styles from './Editor.module.css';
+import { setTwoToneColor } from "@ant-design/icons";
 const CANVAS_WIDTH = 350 * 4;
 const CANVAS_HIGHT = 495 * 4;
 
@@ -17,6 +18,9 @@ export const Preview = ({ tasks })=> {
     const [ startTime, setStartTime ] = useState(0);
     const inc = () => setStartTime(prev => prev + 35);
     const dec = () => setStartTime(prev => prev - 35);
+    // const [ color, changeColor ] = useState(0);
+    // const colorBlack = () => changeColor(prev = 0);
+    // const colorWhite = () => changeColor(prev = 1);
     useEffect(() => {
         drawer.setStartTime(startTime);
         drawer.setContext(ref.current);
@@ -75,6 +79,8 @@ export const Preview = ({ tasks })=> {
             />
             <Button onClick={dec}>{`<`}</Button>
             <Button onClick={inc}>{'>'}</Button>
+              Чёрная тема:
+            <Switch></Switch>
         </>
     );
 }
