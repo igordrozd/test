@@ -10,6 +10,69 @@ import { Drawer } from '../../utils/drawer';
 import styles from './Editor.module.css';
 
 
+const mapping = {
+    "event": "Событие",
+    "operation": "Операция",
+    "inform" : "Служебные данные ",
+    "instruction" : "Инструкция"
+}
+
+const getType = type => mapping[type];
+
+const columns = (reload, editTask) => [
+    {
+        width: 50,
+        title: `ID`,
+        dataIndex: `id`
+    },
+    {
+        width: 180,
+        title: `Тип`,
+        dataIndex: `type`,
+        render: getType
+    },
+    {
+        title: `Имя события/операции`,
+        dataIndex: `title`,
+    },
+    {
+        title: `Время, мин:ч`,
+        dataIndex: `start`,
+    },
+    {
+        render: (_, record) => {
+            console.log(record);
+            const drop = async () => {
+                await deleteTask(record);
+                await reload();
+                notification.success({
+                    message: 'Запись успешно удалена',
+                    description: `Запись "${record.title}" успешно удалена`
+                });
+            }
+            const edit = () => {
+                editTask(record);
+            }
+            return(
+                <Space>
+                    <Button size="small" onClick={edit}>
+                        <EditOutlined />
+                            </Button>
+                        <Popconfirm 
+                            title="Вы уверены, что хотите удалить?" 
+                            onConfirm={drop}
+                            okText="Да"
+                            cancelText="Нет"
+                        >
+                        <Button size="small">
+                                <DeleteOutlined />
+                        </Button>
+                    </Popconfirm>
+                </Space>
+            );
+        }
+    }
+]
 const CANVAS_WIDTH = 350 * 4;
 const CANVAS_HIGHT = 495 * 4;
 

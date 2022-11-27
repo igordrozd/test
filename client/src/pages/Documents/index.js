@@ -40,16 +40,14 @@ const columns = (reload) => [
       dataIndex: 'updatedAt',
       render: formatDate
     },
-    // {
-    //     width: 200,
-    //     title: `Пользователь`,
-    //     dataIndex: 'updatedAt',
-    //     render: formatDate
-    //   },
     {
         title: 'Заголовок',
         dataIndex: 'title'
     },
+    {
+        title: `Пользователь`,
+        dataIndex: 'lastChange',
+      },
     {
         render: (_, record) => {
             const deleteDoc = async () => {
