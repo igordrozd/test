@@ -46,7 +46,7 @@ const columns = (reload) => [
     },
     {
         title: `Пользователь`,
-        dataIndex: 'lastChange',
+        dataIndex: 'fullName',
       },
     {
         render: (_, record) => {
