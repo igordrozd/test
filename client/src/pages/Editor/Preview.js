@@ -73,8 +73,8 @@ export const Preview = ({ tasks })=> {
                 height={CANVAS_HIGHT}
                 className={styles.canvas}
             />
-            <Button onClick={inc}>След мин.</Button>
-            <Button onClick={dec}>Пред мин.</Button>
+            <Button onClick={dec}>{`<`}</Button>
+            <Button onClick={inc}>{'>'}</Button>
         </>
     );
 }
