@@ -93,8 +93,8 @@ export class Drawer {
 
     //линия
     this.context.beginPath();
-    this.context.moveTo(offsetLeft + FIRST_LEVEL_INDENT, startY);
-    this.context.lineTo(offsetLeft + FIRST_LEVEL_INDENT, endY);
+    this.context.moveTo(offsetLeft + FIRST_LEVEL_INDENT-SMALL_DASH_LEN*2, startY);
+    this.context.lineTo(offsetLeft + FIRST_LEVEL_INDENT-SMALL_DASH_LEN*2, endY);
     this.context.closePath();
     this.context.stroke();
 
@@ -102,21 +102,21 @@ export class Drawer {
 
     // риска начала
     this.context.beginPath();
-    this.context.moveTo(offsetLeft + FIRST_LEVEL_INDENT - SMALL_DASH_LEN,  startY);
-    this.context.lineTo(offsetLeft + FIRST_LEVEL_INDENT + SMALL_DASH_LEN,  startY);
+    this.context.moveTo(offsetLeft + FIRST_LEVEL_INDENT - SMALL_DASH_LEN-SMALL_DASH_LEN*2,  startY);
+    this.context.lineTo(offsetLeft + FIRST_LEVEL_INDENT + SMALL_DASH_LEN-SMALL_DASH_LEN*2,  startY);
     this.context.closePath();
     this.context.stroke();
 
     // риска конца
     this.context.beginPath();
-    this.context.moveTo(offsetLeft + FIRST_LEVEL_INDENT - SMALL_DASH_LEN,  endY);
-    this.context.lineTo(offsetLeft + FIRST_LEVEL_INDENT + SMALL_DASH_LEN,  endY);
+    this.context.moveTo(offsetLeft + FIRST_LEVEL_INDENT - SMALL_DASH_LEN-SMALL_DASH_LEN*2,  endY);
+    this.context.lineTo(offsetLeft + FIRST_LEVEL_INDENT + SMALL_DASH_LEN-SMALL_DASH_LEN*2,  endY);
     this.context.closePath();
     this.context.stroke();
 
     // текст-подпись
     this.context.save();
-    this.context.translate(offsetLeft + FIRST_LEVEL_INDENT - FONT_SIZE - SMALL_INDENT, (startY + endY) / 2);
+    this.context.translate(offsetLeft + FIRST_LEVEL_INDENT - FONT_SIZE - SMALL_INDENT-SMALL_DASH_LEN*2, (startY + endY) / 2);
     this.context.fillStyle = "#000000";
     this.context.font = `bold ${FONT_SIZE}px ${FONT_FAMILY}`;
     this.context.textAlign = 'center';
