@@ -1,8 +1,8 @@
 const { Sequelize } = require('sequelize');
 
-module.exports = new Sequelize('ptk', 'postgres', '27062006vF', {
-    dialect: 'postgres',
-    host: 'localhost',
+module.exports = new Sequelize('ptk', 'postgres', 'postgres', {
+    host: "0.0.0.0",
+    storage: "./db/database.sqlite",
+    dialect: 'sqlite',
     logging: false,
-    port: 5432,
 });

@@ -1,0 +1,39 @@
+{
+  "files": {
+    "main.css": "/static/css/main.3a1e427f.css",
+    "main.js": "/static/js/main.6739553e.js",
+    "static/js/787.4d723399.chunk.js": "/static/js/787.4d723399.chunk.js",
+    "static/media/Calibri-Light.eot": "/static/media/Calibri-Light.ad605117bb11573d483d.eot",
+    "static/media/Calibri-Light.ttf": "/static/media/Calibri-Light.6e65bc1d87d060380573.ttf",
+    "static/media/Calibri.eot": "/static/media/Calibri.1144fef81641e2c8c840.eot",
+    "static/media/Calibri.ttf": "/static/media/Calibri.e5dd7b9573d9f08c448c.ttf",
+    "static/media/Calibri-Bold.eot": "/static/media/Calibri-Bold.0d3a43601dc8893bfd37.eot",
+    "static/media/Calibri-Bold.ttf": "/static/media/Calibri-Bold.f2d2f1a65726922b3c49.ttf",
+    "static/media/Calibri-LightItalic.eot": "/static/media/Calibri-LightItalic.0cba91ff77f37e9f8560.eot",
+    "static/media/Calibri-LightItalic.ttf": "/static/media/Calibri-LightItalic.ff5fc7e76943a03132e2.ttf",
+    "static/media/Calibri-Italic.eot": "/static/media/Calibri-Italic.86f3bfc8a1b8ed95a0d0.eot",
+    "static/media/Calibri-Italic.ttf": "/static/media/Calibri-Italic.eb1246b7807f6287c688.ttf",
+    "static/media/Calibri-BoldItalic.eot": "/static/media/Calibri-BoldItalic.90496fe71298ed564afe.eot",
+    "static/media/Calibri-BoldItalic.ttf": "/static/media/Calibri-BoldItalic.2cdf67eed124ee001824.ttf",
+    "static/media/Calibri.woff": "/static/media/Calibri.b79e6a3ae8c63fb5b57b.woff",
+    "static/media/Calibri-Bold.woff": "/static/media/Calibri-Bold.d803ea5603a583428353.woff",
+    "static/media/Calibri-Light.woff": "/static/media/Calibri-Light.dfbd2e9bf389906b0787.woff",
+    "static/media/Calibri-LightItalic.woff": "/static/media/Calibri-LightItalic.9e481bce14faeff6310a.woff",
+    "static/media/Calibri-Italic.woff": "/static/media/Calibri-Italic.f5a15ded443201b2c9b4.woff",
+    "static/media/Calibri-BoldItalic.woff": "/static/media/Calibri-BoldItalic.e95d7e892501cce849e8.woff",
+    "static/media/Calibri.woff2": "/static/media/Calibri.6d82cfabc309b9253a36.woff2",
+    "static/media/Calibri-Bold.woff2": "/static/media/Calibri-Bold.1aa982ab4f16e7b71088.woff2",
+    "static/media/Calibri-Light.woff2": "/static/media/Calibri-Light.9467b48d01453dcfb608.woff2",
+    "static/media/Calibri-LightItalic.woff2": "/static/media/Calibri-LightItalic.4f89513749fae758d3af.woff2",
+    "static/media/Calibri-Italic.woff2": "/static/media/Calibri-Italic.c9580725f8d5ae18fb45.woff2",
+    "static/media/Calibri-BoldItalic.woff2": "/static/media/Calibri-BoldItalic.d8499555068c1df42ae4.woff2",
+    "index.html": "/index.html",
+    "main.3a1e427f.css.map": "/static/css/main.3a1e427f.css.map",
+    "main.6739553e.js.map": "/static/js/main.6739553e.js.map",
+    "787.4d723399.chunk.js.map": "/static/js/787.4d723399.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3a1e427f.css",
+    "static/js/main.6739553e.js"
+  ]
+}

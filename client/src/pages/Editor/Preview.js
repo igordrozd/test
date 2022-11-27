@@ -5,11 +5,11 @@ import { dateToSeconds } from "../../utils/dateToSeconds";
 import styles from './Editor.module.css';
 import { setTwoToneColor } from "@ant-design/icons";
 const CANVAS_WIDTH = 350 * 4;
-const CANVAS_HIGHT = 495 * 4;
+const CANVAS_HEIGHT = 495 * 4;
 
 const drawer = new Drawer({
     width: CANVAS_WIDTH,
-    height: CANVAS_HIGHT
+    height: CANVAS_HEIGHT
 });
 
 export const Preview = ({ tasks })=> {
@@ -74,13 +74,11 @@ export const Preview = ({ tasks })=> {
             <canvas
                 ref={ref}
                 width={CANVAS_WIDTH} 
-                height={CANVAS_HIGHT}
+                height={CANVAS_HEIGHT}
                 className={styles.canvas}
             />
             <Button onClick={dec}>{`<`}</Button>
             <Button onClick={inc}>{'>'}</Button>
-              Чёрная тема:
-            <Switch></Switch>
         </>
     );
 }
