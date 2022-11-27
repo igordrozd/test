@@ -11,6 +11,9 @@ const Document = database.define('Document', {
     },
     title: {
       type: DataTypes.STRING 
+    },
+    lastChange:{
+      type: DataTypes.STRING 
     }
 });;
 Document.belongsTo(User, {
