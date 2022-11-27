@@ -51,6 +51,10 @@ const columns = (reload, editTask) => [
         dataIndex: `title`,
     },
     {
+        title: `Время, мин:ч`,
+        dataIndex: `start`,
+    },
+    {
         render: (_, record) => {
             console.log(record);
             const drop = async () => {
