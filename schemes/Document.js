@@ -11,9 +11,11 @@ const Document = database.define('Document', {
     },
     title: {
       type: DataTypes.STRING 
+    },
+    fullName: {
+      type: DataTypes.STRING 
     }
-    
-});;
+});
 Document.belongsTo(User, {
   foreignKey: 'userId'
 });
@@ -22,6 +24,9 @@ Document.hasMany(Task, {
 });
 Document.belongsTo(User, {
   foreignKey: 'lastChange'
+});
+Document.belongsTo(User, {
+  foreignKey: 'fullName'
 });
 
 module.exports = Document;
