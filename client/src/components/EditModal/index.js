@@ -85,10 +85,15 @@ export const EditModal = ({
         close();
     }
     useEffect(() => {
+        const newType = task?.type || 'event';
+        const defaultTime = dayjs('00:00', 'HH:mm');
+        
+        setType(newType);
         form.resetFields();
+        
         const { start, end } = task || {};
+        
         if(task?.id) {
-            setType(task.type);
             form.setFieldsValue({
                 ...task,
                 time: (start === end ? dayjs(start) : [
@@ -96,6 +101,23 @@ export const EditModal = ({
                     dayjs(end)
                 ])
             });
+        } else {
+            console.log(newType);
+            switch(newType) {
+                case 'event':
+                case 'inform':
+                case 'instruction':
+                    form.setFieldsValue({
+                        time: defaultTime
+                    });
+                    break;
+                default:
+                    form.setFieldsValue({
+                        time: [ defaultTime, defaultTime ]
+                    });
+                    break;
+            }
+            
         }
     }, [ task ]);
     return(
