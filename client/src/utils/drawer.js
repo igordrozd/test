@@ -27,7 +27,8 @@ export class Drawer {
   constructor({ 
     canvas, 
     width, 
-    height
+    height,
+    start = 0
   }) {
     if(canvas) {
       this.context = canvas.getContext('2d');
@@ -35,6 +36,9 @@ export class Drawer {
     this.settings = {
       width, height
     }
+  }
+  setStartTime(time) {
+    this.settings.start = time;
   }
   getOffset(time = 0) {
     return INDENT_TOP + time / 60 * SMALL_DASHES_DISTANSE;
@@ -46,7 +50,8 @@ export class Drawer {
     this.context.fillStyle = bgColor;
     this.context.fillRect(0, 0, this.settings.width, this.settings.height);
   }
-  drawTimeline(start = 100, end = 1800, color = '#FFFFFF')  {
+  drawTimeline(color = '#FFFFFF')  {
+    const { start } = this.settings;
     this.context.lineWidth = 2;
     // рисуем линию
     const lineLength = DASHES_PER_PAGE * SMALL_DASHES_DISTANSE;
@@ -87,8 +92,8 @@ export class Drawer {
   }
   drawOperation(start = 10, end = 100, depth = 0, text) {
     this.context.lineWidth = 3;
-    const startY = this.getOffset(start);
-    const endY = this.getOffset(end);
+    const startY = this.getOffset(start)- this.settings.start * SMALL_DASHES_DISTANSE;
+    const endY = this.getOffset(end)- this.settings.start * SMALL_DASHES_DISTANSE;
     const offsetLeft = SMALL_DASH_LEN + depth * DEPTH_INDENT;
 
     //линия
@@ -126,7 +131,7 @@ export class Drawer {
   }
   drawSquare(time = 720, txt = 'Это был я - ДИО', depth, k = 0){
     
-    const offset = this.getOffset(time) - SQUARE_SIDE / 2;
+    const offset = this.getOffset(time) - SQUARE_SIDE / 2 - this.settings.start * SMALL_DASHES_DISTANSE;
     this.context.lineWidth = 3;
     this.context.fillStyle = '#000000';
     this.context.strokeStyle = '#000000';
@@ -137,7 +142,7 @@ export class Drawer {
   drawText(time = 20, txt = ' event', depth = 0,k=0) {
     this.context.fillStyle = '#000000';
     this.context.strokeStyle = '#000000';
-    const offset = this.getOffset(time)+FONT_SIZE/2-10;
+    const offset = this.getOffset(time)+FONT_SIZE/2-10- this.settings.start * SMALL_DASHES_DISTANSE;
     this.context.fillText(txt,FIRST_LEVEL_INDENT + depth * DEPTH_INDENT+k-(INDENT/2), offset);
 
   }
@@ -145,7 +150,7 @@ export class Drawer {
     const textWidth = txt.length * (FONT_SIZE - 4) / 2;
     this.context.fillStyle = '#000000';
     this.context.strokeStyle = '#000000';
-    const offset = this.getOffset(time) - SQUARE_SIDE / 2;
+    const offset = this.getOffset(time) - SQUARE_SIDE / 2- this.settings.start * SMALL_DASHES_DISTANSE;
     this.context.font = `bold ${FONT_SIZE - 4}px ${FONT_FAMILY}`;
     this.context.setLineDash([6]);
     this.context.strokeRect(FIRST_LEVEL_INDENT + depth * DEPTH_INDENT + textWidth + SMALL_INDENT-(INDENT/2)-10+k, offset, SQUARE_SIDE*3, SQUARE_SIDE)
