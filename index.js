@@ -24,6 +24,18 @@ app.use(cors(corsOptions));
 
 app.use( express.json() );
 
+app.get(`/documents`,(req, res) => {
+    res.sendFile(`./client/build/index.html`, { root: __dirname });
+});
+app.get(`/documents/:id`,(req, res) => {
+    res.sendFile(`./client/build/index.html`, { root: __dirname });
+});
+app.get(`/register`,(req, res) => {
+    res.sendFile(`./client/build/index.html`, { root: __dirname });
+});
+app.get(`/login`,(req, res) => {
+    res.sendFile(`./client/build/index.html`, { root: __dirname });
+});
 
 app.post('/api/users/register', async(req,res) => {
     const { name, password, fullName } = req.body;
@@ -121,6 +133,9 @@ app.post('/api/users/verify', async (req, res) => {
 //=============================================================================================================================================
 app.use((req, res, next) => {
     const token = req.headers.token;
+    if(!req.path.includes(`/api`)) {
+        return;
+    }
     try {
         jwt.verify(token, privateKey);
         next();
@@ -433,7 +448,6 @@ app.delete('/api/icons/:id', async (req, res) => {
             });
     }
 });
-
 
 app.listen(9000, () => {
     console.log("Server started...");

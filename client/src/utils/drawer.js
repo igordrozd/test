@@ -124,16 +124,27 @@ export class Drawer {
     this.context.fillText(text, 0, FONT_SIZE);
     this.context.restore();
   }
-  drawSquare(time = 720, txt = 'Это был я - ДИО'){
+  drawSquare(time = 720, txt = 'Это был я - ДИО', depth){
     const offset = this.getOffset(time) - SQUARE_SIDE / 2;
     this.context.lineWidth = 3;
     this.context.fillStyle = '#000000';
     this.context.strokeStyle = '#000000';
     this.context.font = `bold ${FONT_SIZE - 4}px ${FONT_FAMILY}`;
-    this.context.strokeRect(FIRST_LEVEL_INDENT, offset, SQUARE_SIDE, SQUARE_SIDE);
-    this.context.fillText(txt, FIRST_LEVEL_INDENT + SQUARE_SIDE + SMALL_INDENT, offset + FONT_SIZE - 12);
+    this.context.strokeRect(FIRST_LEVEL_INDENT+ depth * DEPTH_INDENT, offset, SQUARE_SIDE, SQUARE_SIDE);
+    this.context.fillText(txt, FIRST_LEVEL_INDENT + depth * DEPTH_INDENT + SQUARE_SIDE + SMALL_INDENT, offset + FONT_SIZE - 12);
   }
-  drawText(time1 = 20, txt = ' event', vlogh = 1) {
-    this.context.strokeText(txt, ((0.7)*(vlogh-1))*(MEGA_SUPER_LONG_INDENT_LEFT)+NOT_SO_MEGA_LONG_INDENT_LEFT+INDENT_TOP*2, INDENT_TOP + time1*INDENT/60+4);
+  drawText(time = 20, txt = ' event', depth = 0) {
+    this.context.fillStyle = '#000000';
+    this.context.strokeStyle = '#000000';
+    const offset = this.getOffset(time)+FONT_SIZE/2-10;
+    this.context.fillText(txt,FIRST_LEVEL_INDENT + depth * DEPTH_INDENT, offset);
+
+  }
+  drawinform(time = 20, txt = ' event', depth = 0) {
+    this.context.fillStyle = '#000000';
+    this.context.strokeStyle = '#000000';
+    const offset = this.getOffset(time)+FONT_SIZE/2-10;
+    this.context.strokeRect()
+    this.context.fillText(txt,FIRST_LEVEL_INDENT + depth * DEPTH_INDENT, offset);
   }
 }
