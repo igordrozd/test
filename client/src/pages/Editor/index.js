@@ -3,7 +3,8 @@ import { Button, Table, Space, notification } from 'antd';
 import { useParams } from "react-router-dom";
 import { 
     EditOutlined, 
-    DeleteOutlined 
+    DeleteOutlined, 
+    FlagFilled
 } from '@ant-design/icons';
 
 
@@ -119,7 +120,32 @@ export const Editor = () => {
                 const startMinutes = startTime.getMinutes();
                 const startSeconds = startTime.getSeconds();
                 const startTotal = startHours * 3600 + startMinutes * 60 + startSeconds;
-                drawer.drawSquare(startTotal, task.title, task.depth);
+                const flag=false
+                tasks.forEach(taskv =>{
+                    if (taskv.type==='operation'){
+                        const { start , end } = taskv;
+                        const startTime = new Date(start);
+                        const startHours = startTime.getHours();
+                        const startMinutes = startTime.getMinutes();
+                        const startSeconds = startTime.getSeconds();
+                        const startTotal1 = startHours*3600 + startMinutes*60 + startSeconds;
+
+                        const endTime = new Date(end);
+                        const endHours = endTime.getHours();
+                        const endMinutes = endTime.getMinutes();
+                        const endSeconds = endTime.getSeconds();
+                        const endTotal1 = endHours*3600 + endMinutes*60 + endSeconds;
+                        if (startTotal1<startTotal &&  endTotal1>startTotal){
+                            console.log(startTotal1,startTotal,endTotal1)
+                            const flag=true;
+                        }}
+                })
+                
+                if  (flag===true){
+                    drawer.drawSquare(startTotal, task.title, task.depth,20)}
+                else{
+                    drawer.drawSquare(startTotal, task.title, task.depth,0)
+                }
             }
              if (task.type === 'operation'){
                 const { start , end } = task;
