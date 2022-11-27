@@ -10,7 +10,6 @@ import { getDocuments } from '../../api/getDocuments';
 import { deleteDocumentById } from '../../api/deletedocuments';
 import {formatDate} from "../../utils/formatDate";
 import { AddDocument } from "../../components/AddDocument";
-import { useStore } from '../../App';
 import {Header} from "../../components/Header";
 
 const deleteDocument = async (record) => {
@@ -45,10 +44,6 @@ const columns = (reload) => [
         dataIndex: 'title'
     },
     {
-        title: `Пользователь`,
-        dataIndex: 'fullName',
-      },
-    {
         render: (_, record) => {
             const deleteDoc = async () => {
                 await deleteDocument(record);
@@ -79,14 +74,11 @@ const columns = (reload) => [
 ]
 
 export const Documents = () => {
-    const { store } = useStore();
     const [ state, setState ] = useState([]);
     const [ loading, setLoading ] = useState(true);
     const [ editDocument, setEditDocument ] = useState(null);
     const createDocument = () => setEditDocument({});
     const closeEditDocument = () => setEditDocument(null);
-
-
 
     const load = () => {
         setLoading(true);

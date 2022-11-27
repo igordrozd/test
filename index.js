@@ -1,4 +1,5 @@
 const cors = require('cors');
+const open = require('open');
 const express = require('express');
 const  bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -6,7 +7,8 @@ const jwt = require('jsonwebtoken');
 const {
     Task, User, Document, Icon 
 } = require('./schemes');
-const { UserSwitchOutlined } = require('@ant-design/icons');
+
+const PORT = 9089;
 
 const privateKey = `$2a$10$sbsCkzAn5.tMTX.pY3cK2O`;
 
@@ -248,28 +250,6 @@ app.get('/api/documents/:id/tasks', async (req, res) => {
     }
 });
 
-
-app.get('/api/tasks/:type', async (req, res) => {
-    try{
-    const token = req.headers.token 
-    const user = jwt.verify(token, privateKey); 
-
-    const records = await Task.findAll({
-        where:{
-            TypeTask: req.params.type
-        }
-    });
-    res.send(records);
-    }catch(e){
-        res
-            .status(500)
-            .send({
-                message: e.message
-            });
-    }
-});
-
-
 app.get('/api/documents/', async (req, res) => {
     try {
         const records = await Document.findAll();
@@ -450,6 +430,7 @@ app.delete('/api/icons/:id', async (req, res) => {
     }
 });
 
-app.listen(9000, () => {
-    console.log("Server started...");
+app.listen(PORT, async () => {
+    console.log(`Server started on port ${PORT}...`);
+    await open(`http://localhost:${PORT}`);
 });

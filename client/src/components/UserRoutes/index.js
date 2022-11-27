@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
-import {Navigate, Route, Routes} from "react-router-dom";
-import {Documents, Editor, Login, Register} from "../../pages";
-import {CreateModal} from "../EditModal";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { Documents, Editor, Login, Register } from "../../pages";
 import { StoreContext } from "../../App";
 
-export function UserRoutes({ hasToken }) {
-    const { store, update } = useContext(StoreContext);
+export function UserRoutes() {
+    const { store } = useContext(StoreContext);
     if(store.user) {
         return(
             <>

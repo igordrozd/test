@@ -5,7 +5,7 @@ import { TasksList } from "./TasksList";
 import { getDocumentTasks } from "../../api/getDocumentTasks";
 import { EditModal } from "../../components/EditModal";
 import { getDocument } from "../../api/getDocumentByid"
-import {Header} from "../../components/Header";
+import { Header } from "../../components/Header";
 import { Preview } from './Preview';
 import styles from './Editor.module.css';
 

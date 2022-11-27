@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Switch } from 'antd';
+import { Button } from 'antd';
 import { Drawer } from '../../utils/drawer';
 import { dateToSeconds } from "../../utils/dateToSeconds";
 import styles from './Editor.module.css';
-import { setTwoToneColor } from "@ant-design/icons";
 const CANVAS_WIDTH = 350 * 4;
 const CANVAS_HEIGHT = 495 * 4;
 

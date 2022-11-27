@@ -1,17 +1,17 @@
 {
   "dependencies": {
-    "@ant-design/icons": "^4.8.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "jshashes": "^1.0.8",
     "jsonwebtoken": "^8.5.1",
+    "open": "^8.4.0",
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.25.7",
     "sqlite3": "^5.1.2"
   },
-  "name": "backend2",
+  "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
