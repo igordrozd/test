@@ -47,17 +47,21 @@ export const Preview = ({ tasks })=> {
                 const { start } = task;
                 const startTotal = dateToSeconds(start);
                 if  (checkIsChildren(tasks,startTotal,task.depth)===true){
-                    drawer.drawText(startTotal,task.title,task.depth,50)}
+                    drawer.drawinform(startTotal,task.title,task.depth,50)
+                }
                 else{
-                    drawer.drawText(startTotal,task.title,task.depth,0)}  
+                    drawer.drawinform(startTotal,task.title,task.depth,0)
+                }  
             }
             if (task.type==='instruction'){
                 const { start } = task;
                 const startTotal = dateToSeconds(start);
                 if  (checkIsChildren(tasks,startTotal,task.depth)===true){
-                    drawer.drawinform(startTotal,task.title,task.depth,50)}
+                    drawer.drawText(startTotal,task.title,task.depth,50)
+                }
                 else{
-                    drawer.drawinform(startTotal,task.title,task.depth,0)}       
+                    drawer.drawText(startTotal,task.title,task.depth,0)
+                }  
             }
         }); 
     }, [ ref, tasks, startTime ]);
