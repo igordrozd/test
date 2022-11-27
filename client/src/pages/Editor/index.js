@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Button, Table, Space, notification } from 'antd';
+import { Button, Table, Space, notification, Popconfirm } from 'antd';
 import { useParams } from "react-router-dom";
 import { 
     EditOutlined, 
@@ -68,10 +68,17 @@ const columns = (reload, editTask) => [
                 <Space>
                     <Button size="small" onClick={edit}>
                         <EditOutlined />
-                    </Button>
-                    <Button size="small" onClick={drop}>
-                        <DeleteOutlined />
-                    </Button>
+                            </Button>
+                        <Popconfirm 
+                            title="Вы уверены, что хотите удалить?" 
+                            onConfirm={drop}
+                            okText="Да"
+                            cancelText="Нет"
+                        >
+                        <Button size="small">
+                                <DeleteOutlined />
+                        </Button>
+                    </Popconfirm>
                 </Space>
             );
         }
