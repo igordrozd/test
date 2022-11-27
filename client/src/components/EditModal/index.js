@@ -46,7 +46,8 @@ const createTask = async (data) => {
         const json = await response.json();
         notification.success({
             message: `Запись ${data.id ? `изменена` : `добавлена`}`,
-            description: `Запись "${json.title}" успешно ${data.id ? `изменена` : `добавлена`}`
+            description: `Запись "${json.title}" успешно ${data.id ? `изменена` : `добавлена`}`,
+            duration: 1.5
         });
         return json;
     }

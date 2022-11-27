@@ -5,7 +5,7 @@
     margin-bottom: 0;
 }
 .canvas {
-    height: 600px;
+    height: 550px;
     object-fit: contain;
     border-radius: 5px;
     background-color: rgba(179, 233, 237, 0.358);
@@ -26,9 +26,10 @@
 }
 .col {
     padding: 10px;
-    /*border: 1px solid black;*/
-} 
-
-
-/* 210 297 */
-
+}
+.control {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 10px;
+    gap: 10px;
+}

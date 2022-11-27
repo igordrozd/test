@@ -1,8 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from 'antd';
+import {
+    RightOutlined,
+    LeftOutlined
+} from '@ant-design/icons';
 import { Drawer } from '../../utils/drawer';
 import { dateToSeconds } from "../../utils/dateToSeconds";
 import styles from './Editor.module.css';
+
 const CANVAS_WIDTH = 350 * 4;
 const CANVAS_HEIGHT = 495 * 4;
 
@@ -16,10 +21,12 @@ export const Preview = ({ tasks })=> {
     const ref = useRef(null);
     const [ startTime, setStartTime ] = useState(0);
     const inc = () => setStartTime(prev => prev + 35);
-    const dec = () => setStartTime(prev => prev - 35);
-    // const [ color, changeColor ] = useState(0);
-    // const colorBlack = () => changeColor(prev = 0);
-    // const colorWhite = () => changeColor(prev = 1);
+    const dec = () => setStartTime(prev => {
+        if(prev - 35 < 0) {
+            return prev;
+        }
+        return prev - 35;
+    });
     useEffect(() => {
         drawer.setStartTime(startTime);
         drawer.setContext(ref.current);
@@ -76,8 +83,14 @@ export const Preview = ({ tasks })=> {
                 height={CANVAS_HEIGHT}
                 className={styles.canvas}
             />
-            <Button onClick={dec}>{`<`}</Button>
-            <Button onClick={inc}>{'>'}</Button>
+            <div className={styles.control}>
+                <Button onClick={dec} disabled={!startTime}>
+                    <LeftOutlined />
+                </Button>
+                <Button onClick={inc}>
+                    <RightOutlined />
+                </Button>
+            </div>
         </>
     );
 }
