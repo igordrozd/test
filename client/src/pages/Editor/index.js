@@ -152,7 +152,7 @@ export const Editor = () => {
                 const startMinutes = startTime.getMinutes();
                 const startSeconds = startTime.getSeconds();
                 const startTotal = startHours*3600 + startMinutes*60 + startSeconds;
-                drawer.drawSquare(startTotal,task.title,task.depth);
+                drawer.drawinform(startTotal,task.title,task.depth);
             }
 
         });
