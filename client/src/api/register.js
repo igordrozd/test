@@ -1,6 +1,6 @@
 import sendRequest from '../utils/request';
-import {port} from './port';
+import {host} from './host';
 
 export function register(data) {
-    return sendRequest(`http://localhost:${port}/api/users/register`, 'POST', data);
+    return sendRequest(`${host}/api/users/register`, 'POST', data);
 }

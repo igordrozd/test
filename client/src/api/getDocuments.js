@@ -1,6 +1,6 @@
 import sendRequest from '../utils/request';
-import {port} from './port';
+import {host} from './host';
 
 export function getDocuments() {
-    return sendRequest(`http://localhost:${port}/api/documents`, 'GET');
+    return sendRequest(`${host}/api/documents`, 'GET');
 }

@@ -1,6 +1,6 @@
 import sendRequest from '../utils/request';
-import {port} from './port';
+import {host} from './host';
 
 export function getTasks(type) {
-    return sendRequest(`http://localhost:${port}/api/tasks/${type}`, 'GET');
+    return sendRequest(`${host}/api/tasks/${type}`, 'GET');
 }

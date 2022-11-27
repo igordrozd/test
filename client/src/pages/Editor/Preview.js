@@ -15,8 +15,8 @@ export const Preview = ({ tasks })=> {
 
     const ref = useRef(null);
     const [ startTime, setStartTime ] = useState(0);
-    const inc = () => setStartTime(prev => prev + 1);
-    const dec = () => setStartTime(prev => prev - 1);
+    const inc = () => setStartTime(prev => prev + 35);
+    const dec = () => setStartTime(prev => prev - 35);
     useEffect(() => {
         drawer.setStartTime(startTime);
         drawer.setContext(ref.current);

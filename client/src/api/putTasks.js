@@ -1,6 +1,6 @@
 import sendRequest from '../utils/request';
-import { port } from './port'
+import { host } from './host'
 
 export function putTasks(data,id) {
-    return sendRequest(`http://localhost:${port}/api/tasks/${id}`, 'PUT', data);
+    return sendRequest(`${host}/api/tasks/${id}`, 'PUT', data);
 }

@@ -22,9 +22,4 @@ Document.belongsTo(User, {
 Document.hasMany(Task, {
   foreignKey: 'documentId'
 });
-Document.belongsTo(User, {
-  foreignKey: 'lastChange'
-});
-
-
 module.exports = Document;

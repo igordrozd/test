@@ -1,6 +1,6 @@
 import sendRequest from '../utils/request';
-import {port} from './port';
+import {host} from './host';
 
 export function login(data) {
-    return sendRequest(`http://localhost:${port}/api/users/login`, 'POST', data);
+    return sendRequest(`${host}/api/users/login`, 'POST', data);
 }
