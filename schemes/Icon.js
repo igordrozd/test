@@ -13,4 +13,4 @@ module.exports = database.define('Icon', {
     url: {
         type: DataTypes.STRING 
     }
-});;
+});

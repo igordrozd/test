@@ -153,7 +153,7 @@ app.post('/api/tasks', async (req, res) => {
     try{
         const token = req.headers.token 
         const user = jwt.verify(token, privateKey); 
-        const { depth, title, type, start, end, documentId  } = req.body;
+        const { depth, title, type, start, end, documentId, fullName  } = req.body;
 
         const result = await Task.create({ 
             type,
@@ -162,7 +162,8 @@ app.post('/api/tasks', async (req, res) => {
             end,
             start,
             userId: user.id,
-            documentId
+            documentId,
+            fullName
         }); 
         res.send(result); 
     }catch(e){
