@@ -1,6 +1,6 @@
 import sendRequest from '../utils/request';
-import {port} from './port';
+import {host} from './host';
 
 export function postDocuments(data) {
-    return sendRequest(`http://localhost:${port}/api/documents`, 'POST', data);
+    return sendRequest(`${host}/api/documents`, 'POST', data);
 }
