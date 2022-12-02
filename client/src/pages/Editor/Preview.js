@@ -67,6 +67,21 @@ export const Preview = ({ tasks })=> {
     
 
 //отрисовка
+
+    const blackTheme = () => {
+        setBgColor('#000000'); //000000
+        setGraphColor('#00ce22'); //00ce22
+        setTextColor('#123456'); //00ce22
+        }
+    const whiteTheme = () => {
+        setBgColor('#FFFFFF'); //FFFFFE
+        setGraphColor('#000000'); //000000
+        setTextColor('#123456'); //000000
+        }
+
+    const [ bgColor, setBgColor ] = useState('#FFFFFF');
+    const [ graphColor, setGraphColor] = useState('#000000');
+    const [ textColor, setTextColor] = useState('#000000')
     useEffect(() => {
         drawer.setProgress(progress)
         drawer.setContext(ref.current);
@@ -79,8 +94,12 @@ export const Preview = ({ tasks })=> {
         console.log(startTime)
         drawer.setStartTime(startTime);
         drawer.setContext(ref.current);
-        drawer.drawBackground('#FFFFFE');
-        drawer.drawTimeline('#000000');
+        drawer.drawBackground(bgColor);
+        drawer.drawTimeline(graphColor);
+        drawer.drawOperation(textColor);
+        drawer.drawSquare(textColor);
+        drawer.drawText(textColor);
+        drawer.drawinform(textColor)
         tasks.forEach(task => {
             const { start } = task;
             const startTotal = dateToSeconds(start);
@@ -124,8 +143,9 @@ export const Preview = ({ tasks })=> {
             }
         }); 
     };
-    useEffect(() => {drawingall();drawingall()}, [ ref, tasks,startTime ])
+    useEffect(() => {drawingall();drawingall()}, [ ref, tasks, startTime, bgColor, graphColor, textColor ])
 
+    
     return(
         <>
             <canvas
@@ -135,6 +155,12 @@ export const Preview = ({ tasks })=> {
                 className={styles.canvas}
             />
             <div className={styles.control}>
+                <Button onClick={ blackTheme }>
+                    Тёмная тема
+                </Button>
+                <Button onClick={ whiteTheme }>
+                    Светлая тема
+                </Button>
                 <Button onClick={dec} disabled={!startTime}>
                     <LeftOutlined />
                 </Button>
