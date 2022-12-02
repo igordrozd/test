@@ -17,17 +17,66 @@ const drawer = new Drawer({
 });
 
 export const Preview = ({ tasks })=> {
-
+    
     const ref = useRef(null);
+    
     const [ startTime, setStartTime ] = useState(0);
-    const inc = () => setStartTime(prev => prev + 35);
+    const inc = () => setStartTime(prev => {
+        console.log(prev); 
+        return prev + 35;
+    });
     const dec = () => setStartTime(prev => {
+        console.log(prev);
         if(prev - 35 < 0) {
             return prev;
         }
+
         return prev - 35;
     });
+    console.log(startTime);
+    const [ progress, setProgress ] = useState(0);
+    
+// изменение данных
+    
+    const [ timer, setTimer  ] = useState(null);
+    function drawingbar(flag){
+        if (flag===1){
+            const timer1 = setInterval(() => {
+                
+                setProgress(prev =>  prev+5);
+            }, 50);
+            setTimer(timer1)
+            
+        }
+        
+        if (flag===0){   
+            
+            clearInterval(timer);     
+            setProgress(prev => prev=0);
+            drawingall();
+            return;
+        }
+
+        
+                
+    }
+    
+    const flagf =() => {drawingbar(1)}
+    const deflagf =() => {drawingbar(0)}
+    
+    
+
+//отрисовка
     useEffect(() => {
+        drawer.setProgress(progress)
+        drawer.setContext(ref.current);
+        drawer.drawProgress();
+   
+    }, [ progress, startTime]);
+
+    
+    function drawingall(){
+        console.log(startTime)
         drawer.setStartTime(startTime);
         drawer.setContext(ref.current);
         drawer.drawBackground('#FFFFFE');
@@ -74,7 +123,9 @@ export const Preview = ({ tasks })=> {
                 }  
             }
         }); 
-    }, [ ref, tasks, startTime ]);
+    };
+    useEffect(() => {drawingall();drawingall()}, [ ref, tasks,startTime ])
+
     return(
         <>
             <canvas
@@ -89,6 +140,12 @@ export const Preview = ({ tasks })=> {
                 </Button>
                 <Button onClick={inc}>
                     <RightOutlined />
+                </Button>
+                <Button onClick={flagf}>
+                    запуск
+                </Button>
+                <Button onClick={deflagf}>
+                    попуск
                 </Button>
             </div>
         </>

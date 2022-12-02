@@ -25,20 +25,34 @@ export class Drawer {
     canvas, 
     width, 
     height,
-    start = 0
+    start = 0,
+    progress =0,
+    flag=0,
+    
   }) {
     if(canvas) {
       this.context = canvas.getContext('2d');
     }
     this.settings = {
-      width, height
+      width, height,progress,start
     }
   }
   setStartTime(time) {
+    console.log(time);
     this.settings.start = time;
   }
+  setProgress(progress){
+    
+    this.settings.progress = progress;
+  }
+  
   getOffset(time = 0) {
     return INDENT_TOP + time / 60 * SMALL_DASHES_DISTANSE;
+  }
+  fill(){
+    this.context.clearRect(INDENT_LEFT-11,INDENT_TOP,22,2000)
+
+    this.drawTimeline()
   }
   setContext(canvas) {
     this.context = canvas.getContext('2d');
@@ -46,6 +60,26 @@ export class Drawer {
   drawBackground(bgColor = '#000000') {
     this.context.fillStyle = bgColor;
     this.context.fillRect(0, 0, this.settings.width, this.settings.height);
+  }
+  drawProgress(){
+    const { start,progress } = this.settings;
+    this.context.fillStyle = "orange";
+    let timenow=0;
+    if (progress-start*60>=35*60){
+      timenow=35*60 }
+    if (progress-start*60<=0){
+      timenow=0}
+    if (progress-start*60>=0 && progress-start*60<=35*60){
+      if((35*60)>=progress){
+        timenow=progress;
+      }
+      else{
+        timenow=(progress%(35*60))
+      }
+    }
+    timenow=this.getOffset(timenow) - SQUARE_SIDE-49
+    //console.log(timenow,progress,this.getOffset(start),start)
+    this.context.fillRect(INDENT_LEFT-11,INDENT_TOP,22,timenow);
   }
   drawTimeline(color = '#FFFFFF')  {
     const { start } = this.settings;
@@ -85,7 +119,7 @@ export class Drawer {
       this.context.fillText(text, INDENT, textOffsetY);
     }
     this.valueOfDivision = lineLength / DASHES_PER_PAGE;
-    console.log(this.valueOfDivision)
+    
   }
   drawOperation(start = 10, end = 100, depth = 0, text) {
     this.context.lineWidth = 3;
