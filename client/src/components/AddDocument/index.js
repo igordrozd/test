@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Form, Input, Modal, notification } from 'antd';
+import { Form, Input, Modal, notification, Select } from 'antd';
 import { postDocuments } from "../../api/postDocument";
 
 
@@ -47,7 +47,22 @@ export const AddDocument = ({
             cancelText="Отмена"
             okText="Создать"
         >
-           
+           <Form.Item name="owner">
+                    <Select 
+                        //onChange={setOwner}
+                        defaultValue="personal"
+                        options={[
+                            {
+                                value: 'personal',
+                                label: 'личный',
+                            },
+                            {
+                                value: 'public',
+                                label: 'общий',
+                            }
+                        ]}
+                    />
+                </Form.Item>
             <Form
                 form={form}
                 autoComplete="off"

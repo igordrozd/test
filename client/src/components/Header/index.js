@@ -29,25 +29,27 @@ export const Header = ({ children, document }) => {
             <div className="container">
                 <div className={styles.content}>
                     <div>
-                        <Button onClick={showModal}>
-                            <SettingOutlined />
-                        </Button>
-                        <Modal title="Настройки" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                            <p>
-                                Смена темы:
-                            </p>
-                            <Button></Button>
-                        </Modal>
-                        <Space />
-                        <Link to="/" className={styles.user}>
-                            {store.user?.fullName}
-                        </Link>
-                        {document && (
-                            <>
-                                &nbsp;/&nbsp;
-                                {document.title}
-                            </>
-                        )}
+                        <Space>
+                            <Button onClick={showModal}>
+                                <SettingOutlined />
+                            </Button>
+                            <Modal title="Настройки" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                                <p>
+                                    Смена темы:
+                                </p>
+                                <Button></Button>
+                            </Modal>
+                            
+                            <Link to="/" className={styles.user}>
+                                {store.user?.fullName}
+                            </Link>
+                            {document && (
+                                <>
+                                    &nbsp;/&nbsp;
+                                    {document.title}
+                                </>
+                            )}
+                        </Space>
                     </div>
 
                     <Space>

@@ -44,6 +44,10 @@ const columns = (reload) => [
         dataIndex: 'title'
     },
     {
+        title: 'Пользователь',
+        dataIndex: 'fullName'
+    },
+    {
         render: (_, record) => {
             const deleteDoc = async () => {
                 await deleteDocument(record);
