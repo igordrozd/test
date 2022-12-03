@@ -125,6 +125,7 @@ export class Drawer {
       const hours = Math.floor(( start + j ) / 60).toString().padStart(2, '0');
       const minutes = ((start + j) % 60).toString().padStart(2, '0');
       const text = `${hours}:${minutes}`;
+      this.context.fillStyle = color;
       this.context.fillText(text, INDENT, textOffsetY);
     }
     this.valueOfDivision = lineLength / DASHES_PER_PAGE;

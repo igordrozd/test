@@ -96,10 +96,7 @@ export const Preview = ({ tasks })=> {
         drawer.setContext(ref.current);
         drawer.drawBackground(bgColor);
         drawer.drawTimeline(graphColor);
-        drawer.drawOperation(textColor);
-        drawer.drawSquare(textColor);
-        drawer.drawText(textColor);
-        drawer.drawinform(textColor)
+        
         tasks.forEach(task => {
             const { start } = task;
             const startTotal = dateToSeconds(start);
