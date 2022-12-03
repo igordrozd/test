@@ -14,6 +14,9 @@ const Document = database.define('Document', {
     },
     fullName: {
       type: DataTypes.STRING 
+    },
+    type: {
+      type: DataTypes.INTEGER
     }
 });
 Document.belongsTo(User, {
