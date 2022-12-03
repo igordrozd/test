@@ -21,6 +21,7 @@ export const AddDocument = ({
     close
 }) => {
     const [ form ] = Form.useForm();
+    
     const [ isLoading, setLoading ] = useState(false);
     const handleClose = () => {
         if(isLoading) {
@@ -31,6 +32,8 @@ export const AddDocument = ({
     const onSubmit = async () => {
         setLoading(true);
         const values = await form.validateFields();
+        
+        console.log(values)
         const document = await createDocument(values);
         form.resetFields();
         setLoading(false);
@@ -46,28 +49,33 @@ export const AddDocument = ({
             title="Создать документ"
             cancelText="Отмена"
             okText="Создать"
-        >
-           <Form.Item name="owner">
-                    <Select 
-                        //onChange={setOwner}
-                        defaultValue="personal"
-                        options={[
-                            {
-                                value: 'personal',
-                                label: 'личный',
-                            },
-                            {
-                                value: 'public',
-                                label: 'общий',
-                            }
-                        ]}
-                    />
-                </Form.Item>
+
+        >   
             <Form
                 form={form}
                 autoComplete="off"
                 name="basic"
             >
+           <Form.Item name="owner">
+                    <Select 
+                        
+                        defaultValue={0}
+                        options={[
+                            {
+                                value: 0,
+                                label: 'личный',
+                            },
+                            {
+                                value: 1,
+                                label: 'общий',
+                            }
+                        ]}
+                    />
+                </Form.Item>
+            
+            
+                
+            
                 <Form.Item name="title"
                 rules={[{ required: true, message: 'Пожалуйста, введите название!' }]}
                 > 
