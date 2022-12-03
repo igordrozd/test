@@ -67,20 +67,19 @@ export const Preview = ({ tasks })=> {
     
 
 //отрисовка
-
+    const [ bgColor, setBgColor ] = useState('#FFFFFF');
+    const [ graphColor, setGraphColor] = useState('#000000');
     const blackTheme = () => {
-        setBgColor('#000000'); //000000
-        setGraphColor('#00ce22'); //00ce22
-        setTextColor('#123456'); //00ce22
+        setBgColor(color=>color='#000000'); //000000
+        setGraphColor(color=> color='#00ce22'); //00ce22
+        
         }
     const whiteTheme = () => {
         setBgColor('#FFFFFF'); //FFFFFE
         setGraphColor('#000000'); //000000
-        setTextColor('#123456'); //000000
         }
 
-    const [ bgColor, setBgColor ] = useState('#FFFFFF');
-    const [ graphColor, setGraphColor] = useState('#000000');
+    
     const [ textColor, setTextColor] = useState('#000000')
     useEffect(() => {
         drawer.setProgress(progress)
@@ -91,7 +90,9 @@ export const Preview = ({ tasks })=> {
 
     
     function drawingall(){
-        console.log(startTime)
+        console.log(graphColor)
+        drawer.setBackgroundColor(bgColor)
+        drawer.setGraphicColor(graphColor)
         drawer.setStartTime(startTime);
         drawer.setContext(ref.current);
         drawer.drawBackground(bgColor);
