@@ -251,8 +251,22 @@ app.get('/api/documents/:id/tasks', async (req, res) => {
 });
 
 app.get('/api/documents/', async (req, res) => {
+    const token = req.headers.token;
+    const user = jwt.verify(token, privateKey);
+    const Op = require('Sequelize').Op;
     try {
-        const records = await Document.findAll();
+        const records = await Document.findAll({
+            where:{
+                [Op.or]: [
+                    {
+                        "type": 2
+                    },
+                    {
+                        "userId": user.id
+                    }
+                ]
+            }
+        });
         res.send(records);
     }catch(e){
         res
