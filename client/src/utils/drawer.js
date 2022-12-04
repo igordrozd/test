@@ -24,14 +24,14 @@ export class Drawer {
   context
   settings = {}
   valueOfDivision
-  constructor({ 
-    canvas, 
-    width, 
+  constructor({
+    canvas,
+    width,
     height,
     start = 0,
     progress =0,
     flag=0,
-    
+
   }) {
     if(canvas) {
       this.context = canvas.getContext('2d');
@@ -51,10 +51,10 @@ export class Drawer {
     this.settings.start = time;
   }
   setProgress(progress){
-    
+
     this.settings.progress = progress;
   }
-  
+
   getOffset(time = 0) {
     return INDENT_TOP + time / 60 * SMALL_DASHES_DISTANSE;
   }
@@ -70,9 +70,9 @@ export class Drawer {
     this.context.fillStyle = bgColor;
     this.context.fillRect(0, 0, this.settings.width, this.settings.height);
   }
-  drawProgress(color = this.graphColor){
-    const { start,progress } = this.settings;
-    
+  drawProgress(progress = 0){
+    const { start } = this.settings;
+
     let timenow=0;
     if (progress-start*60>=35*60){
       timenow=35*60 }
@@ -88,8 +88,8 @@ export class Drawer {
     }
     timenow=this.getOffset(timenow) - SQUARE_SIDE-48
     //console.log(timenow,progress,this.getOffset(start),start)
-    this.context.strokeStyle = color;
-    this.context.fillStyle = color;
+    this.context.strokeStyle = this.graphColor;
+    this.context.fillStyle = this.graphColor;
     this.context.fillRect(INDENT_LEFT-11,INDENT_TOP,22,timenow);
   }
   drawTimeline(color = '#FFFFFF')  {
@@ -103,7 +103,7 @@ export class Drawer {
     this.context.lineTo(INDENT_LEFT, INDENT_TOP + lineLength);
     this.context.closePath();
     this.context.stroke();
-    
+
     // рисуем рисочки
     for (let j = 0; j <= DASHES_PER_PAGE; j++) {
       let len = SMALL_DASH_LEN / 2;
@@ -131,7 +131,7 @@ export class Drawer {
       this.context.fillText(text, INDENT, textOffsetY);
     }
     this.valueOfDivision = lineLength / DASHES_PER_PAGE;
-    
+
   }
   drawOperation(start = 10, end = 100, depth = 0, text, color = this.graphColor) {
     console.log(this.graphColor)
@@ -176,7 +176,7 @@ export class Drawer {
     this.context.restore();
   }
   drawSquare(time = 720, txt = 'Это был я - ДИО', depth, k = 0, color = this.graphColor){
-    
+
     const offset = this.getOffset(time) - SQUARE_SIDE / 2 - this.settings.start * SMALL_DASHES_DISTANSE;
     this.context.lineWidth = 3;
     this.context.fillStyle = '#000000';

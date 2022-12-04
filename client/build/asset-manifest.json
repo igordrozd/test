@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.18dee318.css",
-    "main.js": "/static/js/main.4ec854a0.js",
+    "main.css": "/static/css/main.4db66750.css",
+    "main.js": "/static/js/main.332cb43c.js",
     "static/js/787.4d723399.chunk.js": "/static/js/787.4d723399.chunk.js",
     "static/media/Calibri-Light.eot": "/static/media/Calibri-Light.ad605117bb11573d483d.eot",
     "static/media/Calibri-Light.ttf": "/static/media/Calibri-Light.6e65bc1d87d060380573.ttf",
@@ -28,12 +28,12 @@
     "static/media/Calibri-Italic.woff2": "/static/media/Calibri-Italic.c9580725f8d5ae18fb45.woff2",
     "static/media/Calibri-BoldItalic.woff2": "/static/media/Calibri-BoldItalic.d8499555068c1df42ae4.woff2",
     "index.html": "/index.html",
-    "main.18dee318.css.map": "/static/css/main.18dee318.css.map",
-    "main.4ec854a0.js.map": "/static/js/main.4ec854a0.js.map",
+    "main.4db66750.css.map": "/static/css/main.4db66750.css.map",
+    "main.332cb43c.js.map": "/static/js/main.332cb43c.js.map",
     "787.4d723399.chunk.js.map": "/static/js/787.4d723399.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.18dee318.css",
-    "static/js/main.4ec854a0.js"
+    "static/css/main.4db66750.css",
+    "static/js/main.332cb43c.js"
   ]
 }

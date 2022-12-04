@@ -1,15 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from 'antd';
 import {
+    PlayCircleOutlined,
+    PauseOutlined,
     RightOutlined,
-    LeftOutlined
+    LeftOutlined,
+    RedoOutlined
 } from '@ant-design/icons';
 import { Drawer } from '../../utils/drawer';
+import { ColorButton } from "../../components/ColorButton";
 import { dateToSeconds } from "../../utils/dateToSeconds";
+
 import styles from './Editor.module.css';
+
 
 const CANVAS_WIDTH = 350 * 4;
 const CANVAS_HEIGHT = 495 * 4;
+
+const TIME_STEP = 1000;
+
 
 const drawer = new Drawer({
     width: CANVAS_WIDTH,
@@ -17,93 +26,58 @@ const drawer = new Drawer({
 });
 
 export const Preview = ({ tasks })=> {
-    
+
     const ref = useRef(null);
-    
+
     const [ startTime, setStartTime ] = useState(0);
+    const [ timer, setTimer  ] = useState(null);
+    const [ progress, setProgress ] = useState(0);
+    const [ bgColor, setBgColor ] = useState('#FFFFFF');
+    const [ graphColor, setGraphColor] = useState('#000000');
+
     const inc = () => setStartTime(prev => {
-        console.log(prev); 
         return prev + 35;
     });
     const dec = () => setStartTime(prev => {
-        console.log(prev);
         if(prev - 35 < 0) {
             return prev;
         }
 
         return prev - 35;
     });
-    console.log(startTime);
-    const [ progress, setProgress ] = useState(0);
-    
-// изменение данных
-    
-    const [ timer, setTimer  ] = useState(null);
-    function drawingbar(flag){
-        if (flag===1){
-            const timer1 = setInterval(() => {
-                
-                setProgress(prev =>  prev+5);
-            }, 50);
-            setTimer(timer1)
-            
-        }
-        
-        if (flag===0){   
-            
-            clearInterval(timer);     
-            setProgress(prev => prev=0);
-            drawingall();
+
+
+    const start = () => {
+        if(timer) {
             return;
         }
-
-        
-                
+        const interval = setInterval(() => {
+            setProgress(prev => {
+                return prev + 1;
+            });
+        }, TIME_STEP);
+        setTimer(interval);
     }
-    let flag=0
-    const flagf =() => {
-        if (flag===0){
-            flag=1
-            drawingbar(flag)
+    const stop = () => {
+        if(!timer) {
+            return;
         }
-        
+        clearInterval(timer);
+        setTimer(null);
     }
-    const deflagf =() => {drawingbar(0)}
-    
-    
+    const clear = () => {
+        stop();
+        setProgress(0);
+    }
 
-//отрисовка
-    const [ bgColor, setBgColor ] = useState('#FFFFFF');
-    const [ graphColor, setGraphColor] = useState('#000000');
-    const blackTheme = () => {
-        setBgColor(color=>color='#000000'); //000000
-        setGraphColor(color=> color='#00ce22'); //00ce22
-        
-        }
-    const whiteTheme = () => {
-        setBgColor('#FFFFFF'); //FFFFFE
-        setGraphColor('#000000'); //000000
-        }
-
-    
-    const [ textColor, setTextColor] = useState('#000000')
-    useEffect(() => {
-        drawer.setProgress(progress)
-        drawer.setContext(ref.current);
-        drawer.drawProgress(graphColor);
-   
-    }, [ progress, startTime]);
-
-    
     function drawingall(){
-        console.log(graphColor)
+        drawer.setContext(ref.current);
         drawer.setBackgroundColor(bgColor)
         drawer.setGraphicColor(graphColor)
         drawer.setStartTime(startTime);
-        drawer.setContext(ref.current);
         drawer.drawBackground(bgColor);
         drawer.drawTimeline(graphColor);
-        
+
         tasks.forEach(task => {
             const { start } = task;
             const startTotal = dateToSeconds(start);
@@ -133,7 +107,7 @@ export const Preview = ({ tasks })=> {
                 }
                 else{
                     drawer.drawinform(startTotal,task.title,task.depth,0)
-                }  
+                }
             }
             if (task.type==='instruction'){
                 const { start } = task;
@@ -143,53 +117,66 @@ export const Preview = ({ tasks })=> {
                 }
                 else{
                     drawer.drawText(startTotal,task.title,task.depth,0)
-                }  
+                }
             }
-        }); 
+        });
+        drawer.drawProgress(progress);
     };
-    useEffect(() => {drawingall();drawingall()}, [ ref, tasks, startTime, bgColor, graphColor, textColor ])
+    useEffect(drawingall, [ ref, tasks, progress, startTime, bgColor, graphColor ])
 
-    
+
     return(
         <>
+            <div className={styles.control}>
+                <ColorButton onChange={setBgColor} value={bgColor}>
+                    Цвет фона
+                </ColorButton>
+                <ColorButton onChange={setGraphColor} value={graphColor}>
+                    Цвет графики
+                </ColorButton>
+            </div>
             <canvas
                 ref={ref}
-                width={CANVAS_WIDTH} 
+                width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
                 className={styles.canvas}
             />
-            <div className={styles.control}>
-                <Button onClick={ blackTheme }>
-                    Тёмная тема
-                </Button>
-                <Button onClick={ whiteTheme }>
-                    Светлая тема
-                </Button>
+            <div className={styles.footer}>
                 <Button onClick={dec} disabled={!startTime}>
                     <LeftOutlined />
                 </Button>
+                {/*  */}
+                {timer ? (
+                    <Button onClick={stop}>
+                        <PauseOutlined />
+                    </Button>
+                ) : (
+                    <Button onClick={start} disabled={timer}>
+                        <PlayCircleOutlined />
+                    </Button>
+                )}
+                <Button onClick={clear}>
+                    <RedoOutlined />
+                </Button>
+                {/*  */}
                 <Button onClick={inc}>
                     <RightOutlined />
-                </Button>
-                <Button onClick={flagf}>
-                    запуск
-                </Button>
-                <Button onClick={deflagf}>
-                    попуск
                 </Button>
             </div>
         </>
     );
 }
+
+
 function checkIsChildren(tasks,startTotal,depth){
-    let flag=false
+    let flag = false
     tasks.forEach(taskv =>{
         if (taskv.type==='operation'){
             const { start,end } = taskv;
             const startTotal1 = dateToSeconds(start);
             const endTotal1 = dateToSeconds(end);
             if (startTotal1<=startTotal &&  endTotal1>=startTotal && taskv.depth===depth){
-                flag=true;
+                flag = true;
             }
         }
     })
