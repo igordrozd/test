@@ -64,12 +64,12 @@ export const AddDocument = ({
                         defaultValue={2}
                         options={[
                             {
-                                value: 1,
-                                label: 'Личный',
-                            },
-                            {
                                 value: 2,
                                 label: 'Публичный',
+                            },
+                            {
+                                value: 1,
+                                label: 'Личный',
                             }
                             
                         ]}
