@@ -60,8 +60,14 @@ export const Preview = ({ tasks })=> {
         
                 
     }
-    
-    const flagf =() => {drawingbar(1)}
+    let flag=0
+    const flagf =() => {
+        if (flag===0){
+            flag=1
+            drawingbar(flag)
+        }
+        
+    }
     const deflagf =() => {drawingbar(0)}
     
     

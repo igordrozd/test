@@ -55,20 +55,23 @@ export const AddDocument = ({
                 form={form}
                 autoComplete="off"
                 name="basic"
+                initialValues={{
+                    type: 1
+                }}
             >
-                <Form.Item name="owner">
+                <Form.Item name="type">
                     <Select 
-                        
-                        defaultValue={0}
+                        defaultValue={1}
                         options={[
                             {
-                                value: 0,
-                                label: 'личный',
+                                value: 1,
+                                label: 'Личный',
                             },
                             {
-                                value: 1,
-                                label: 'общий',
+                                value: 2,
+                                label: 'Публичный',
                             }
+                            
                         ]}
                     />
                 </Form.Item>
