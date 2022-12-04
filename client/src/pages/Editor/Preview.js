@@ -84,7 +84,7 @@ export const Preview = ({ tasks })=> {
     useEffect(() => {
         drawer.setProgress(progress)
         drawer.setContext(ref.current);
-        drawer.drawProgress();
+        drawer.drawProgress(graphColor);
    
     }, [ progress, startTime]);
 

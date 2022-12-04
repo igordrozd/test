@@ -56,7 +56,7 @@ export const AddDocument = ({
                 autoComplete="off"
                 name="basic"
             >
-           <Form.Item name="owner">
+                <Form.Item name="owner">
                     <Select 
                         
                         defaultValue={0}
@@ -72,10 +72,6 @@ export const AddDocument = ({
                         ]}
                     />
                 </Form.Item>
-            
-            
-                
-            
                 <Form.Item name="title"
                 rules={[{ required: true, message: 'Пожалуйста, введите название!' }]}
                 > 

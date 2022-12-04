@@ -70,9 +70,9 @@ export class Drawer {
     this.context.fillStyle = bgColor;
     this.context.fillRect(0, 0, this.settings.width, this.settings.height);
   }
-  drawProgress(){
+  drawProgress(color = this.graphColor){
     const { start,progress } = this.settings;
-    this.context.fillStyle = "orange";
+    
     let timenow=0;
     if (progress-start*60>=35*60){
       timenow=35*60 }
@@ -86,8 +86,10 @@ export class Drawer {
         timenow=(progress%(35*60))
       }
     }
-    timenow=this.getOffset(timenow) - SQUARE_SIDE-49
+    timenow=this.getOffset(timenow) - SQUARE_SIDE-48
     //console.log(timenow,progress,this.getOffset(start),start)
+    this.context.strokeStyle = color;
+    this.context.fillStyle = color;
     this.context.fillRect(INDENT_LEFT-11,INDENT_TOP,22,timenow);
   }
   drawTimeline(color = '#FFFFFF')  {
