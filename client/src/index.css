@@ -114,3 +114,10 @@ flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+
+.twitter-picker > * {
+  border-color: transparent transparent #DEDEDE !important;
+}
+.twitter-picker > div:last-child {
+  background-color: #DEDEDE !important;
+}

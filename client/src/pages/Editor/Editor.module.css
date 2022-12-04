@@ -30,6 +30,12 @@
 .control {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+.footer {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 2fr;
     margin-top: 10px;
     gap: 10px;
 }

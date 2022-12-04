@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Form, Input, Modal, notification } from 'antd';
+import { Form, Input, Modal, notification, Select } from 'antd';
 import { postDocuments } from "../../api/postDocument";
 
 
@@ -21,6 +21,7 @@ export const AddDocument = ({
     close
 }) => {
     const [ form ] = Form.useForm();
+    
     const [ isLoading, setLoading ] = useState(false);
     const handleClose = () => {
         if(isLoading) {
@@ -31,6 +32,8 @@ export const AddDocument = ({
     const onSubmit = async () => {
         setLoading(true);
         const values = await form.validateFields();
+        
+        console.log(values)
         const document = await createDocument(values);
         form.resetFields();
         setLoading(false);
@@ -46,13 +49,32 @@ export const AddDocument = ({
             title="Создать документ"
             cancelText="Отмена"
             okText="Создать"
-        >
-           
+
+        >   
             <Form
                 form={form}
                 autoComplete="off"
                 name="basic"
+                initialValues={{
+                    type: 1
+                }}
             >
+                <Form.Item name="type">
+                    <Select 
+                        defaultValue={1}
+                        options={[
+                            {
+                                value: 1,
+                                label: 'Личный',
+                            },
+                            {
+                                value: 2,
+                                label: 'Публичный',
+                            }
+                            
+                        ]}
+                    />
+                </Form.Item>
                 <Form.Item name="title"
                 rules={[{ required: true, message: 'Пожалуйста, введите название!' }]}
                 > 
