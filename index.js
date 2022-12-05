@@ -331,7 +331,7 @@ app.put('/api/tasks/:id', async (req, res) => {
 
 app.put('/api/documents/:id', async (req, res) => {
     try {
-        const record = await Task.findOne({
+        const record = await Document.findOne({
             where: {
                 id: req.params.id
             }
