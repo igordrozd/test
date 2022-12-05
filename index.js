@@ -255,6 +255,14 @@ app.get('/api/documents/', async (req, res) => {
     const user = jwt.verify(token, privateKey);
     const Op = require('Sequelize').Op;
     try {
+        if(user.name == "admin"){
+        const records = await Document.findAll({
+            where:{
+
+            }
+        });
+        res.send(records);
+    } else {
         const records = await Document.findAll({
             where:{
                 [Op.or]: [
@@ -268,6 +276,8 @@ app.get('/api/documents/', async (req, res) => {
             }
         });
         res.send(records);
+    }
+        
     }catch(e){
         res
             .status(500)
@@ -278,22 +288,22 @@ app.get('/api/documents/', async (req, res) => {
 });
 
 
-app.get('/api/documents/:id', async (req, res) => {
-    try {
-        const records = await Document.findOne({
-            where: {
-                id: parseInt(req.params.id, 10)
-            }
-        });
-        res.send(records);
-    }catch(e){
-        res
-            .status(500)
-            .send({
-                message: e.message
-            });
-    }
-});
+// app.get('/api/documents/:id', async (req, res) => {
+//     try {
+//         const records = await Document.findOne({
+//             where: {
+//                 id: parseInt(req.params.id, 10)
+//             }
+//         });
+//         res.send(records);
+//     }catch(e){
+//         res
+//             .status(500)
+//             .send({
+//                 message: e.message
+//             });
+//     }
+// });
 
 app.put('/api/tasks/:id', async (req, res) => {
     try {
