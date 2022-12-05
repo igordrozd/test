@@ -19,6 +19,10 @@ const Task = database.define('Task', {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
+    color: {
+      type: DataTypes.STRING,
+      defaultValue: "#100000"
+    },
     start: {
       type: DataTypes.DATE
     },

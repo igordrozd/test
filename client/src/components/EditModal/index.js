@@ -7,6 +7,9 @@ import { WindOperation } from "./WindOperation";
 import { postTasks } from "../../api/postTasks";
 import { putTasks } from "../../api/putTasks";
 import { WindInstruction } from "./WindInstruction";
+import { drawer} from 'C:/code/test/client/src/pages/Editor/Preview';
+import styles from 'C:/code/test/client/src/pages/Editor/Editor.module.css'
+import { ColorButton } from "../../components/ColorButton";
 
 function getFields(type) {
     if(type === 'event') {
@@ -37,6 +40,7 @@ const createTask = async (data) => {
         end: endTime,
         start: startTime,
     }
+    
     if(data.id) {
         response = await putTasks(body, data.id);
     } else {
@@ -59,9 +63,11 @@ export const EditModal = ({
     close,
     task
 }) => {
+    
     const [ form ] = Form.useForm();
     const [ type, setType ] = useState(task?.type || 'event');
     const [ isLoading, setLoading ] = useState(false);
+    const [ GraphColorTask , setGraphColorTask ] = useState('#100000');
     const title = task?.id ? `Редактировать элемент` : "Создать элемент";
     const buttonText = task?.id ? "Сохранить" : "Создать";
     const handleClose = () => {
@@ -71,21 +77,28 @@ export const EditModal = ({
         close();
     }
     const onSubmit = async () => {
+        
         setLoading(true);
+        
         const values = await form.validateFields();
         
         const record = await createTask({
             ...task,
             ...values,
+            
+            color: GraphColorTask,
             documentId: documentId,
             type
         });
+        setGraphColorTask('#100000')
         form.resetFields();
         setLoading(false);
         callback(record);
         close();
     }
+    
     useEffect(() => {
+        
         const newType = task?.type || 'event';
         const defaultTime = dayjs('00:00', 'HH:mm');
         
@@ -131,12 +144,17 @@ export const EditModal = ({
             cancelText="Отмена"
             okText={buttonText}
         >
-           
+           <div className={styles.control}>
+                <ColorButton onChange={setGraphColorTask} value={'#100000'}>
+                    Цвет графики
+                </ColorButton>
+            </div>
             <Form
                 form={form}
                 autoComplete="off"
                 name="basic"
             >
+                
                 <Form.Item name="type">
                     <Select 
                         onChange={setType}
