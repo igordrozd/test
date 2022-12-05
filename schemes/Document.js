@@ -12,7 +12,10 @@ const Document = database.define('Document', {
     title: {
       type: DataTypes.STRING 
     },
-    fullName: {
+    creator: {
+      type: DataTypes.STRING 
+    },
+    changer: {
       type: DataTypes.STRING 
     },
     type: {

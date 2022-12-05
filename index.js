@@ -255,7 +255,7 @@ app.get('/api/documents/', async (req, res) => {
     const user = jwt.verify(token, privateKey);
     const Op = require('Sequelize').Op;
     try {
-        if(user.name == "admin"){
+        if(user.name === "admin"){
         const records = await Document.findAll({
             where:{
 
@@ -310,6 +310,30 @@ app.put('/api/tasks/:id', async (req, res) => {
         const record = await Task.findOne({
             where: {
                 id: parseInt(req.params.id, 10)
+            }
+        });
+        Object
+            .keys(req.body)
+            .forEach(key => {
+                record[key] = req.body[key];
+            })
+        await record.save();
+        res.send(record);
+    }catch(e){
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
+    }
+});
+
+
+app.put('/api/documents/:id', async (req, res) => {
+    try {
+        const record = await Task.findOne({
+            where: {
+                id: req.params.id
             }
         });
         Object
