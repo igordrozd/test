@@ -133,13 +133,21 @@ export class Drawer {
     this.valueOfDivision = lineLength / DASHES_PER_PAGE;
 
   }
-  drawOperation(start = 10, end = 100, depth = 0, text, color = this.graphColor) {
-    console.log(this.graphColor)
+  drawOperation(start = 10, end = 100, depth = 0, text,color2) {
+    const color = this.graphColor
+    let colormain='#000000'
+    if (color2!=='#100000'){
+      colormain=color2
+    }
+    else{
+      colormain=color
+    }
+
     this.context.lineWidth = 3;
     const startY = this.getOffset(start)- this.settings.start * SMALL_DASHES_DISTANSE;
     const endY = this.getOffset(end)- this.settings.start * SMALL_DASHES_DISTANSE;
     const offsetLeft = SMALL_DASH_LEN + depth * DEPTH_INDENT;
-    this.context.strokeStyle = color;
+    this.context.strokeStyle = colormain;
 
     //линия
     this.context.beginPath();
@@ -167,42 +175,67 @@ export class Drawer {
     // текст-подпись
     this.context.save();
     this.context.translate(offsetLeft + FIRST_LEVEL_INDENT - FONT_SIZE - SMALL_INDENT-SMALL_DASH_LEN*2, (startY + endY) / 2);
-    this.context.fillStyle = color;
+    this.context.fillStyle = colormain;
     this.context.font = `bold ${FONT_SIZE}px ${FONT_FAMILY}`;
     this.context.textAlign = 'center';
     this.context.rotate(-Math.PI/2);
     this.context.fillText(text, 0, FONT_SIZE);
-    this.context.fillStyle = color;
+    this.context.fillStyle = colormain;
     this.context.restore();
   }
-  drawSquare(time = 720, txt = 'Это был я - ДИО', depth, k = 0, color = this.graphColor){
-
+  drawSquare(time = 720, txt = 'Это был я - ДИО', depth, k = 0,color2){
+    
+    const color = this.graphColor
+    let colormain='#000000'
+    if (color2!=='#100000'){
+      colormain=color2
+    }
+    else{
+      colormain=color
+    }
+    
     const offset = this.getOffset(time) - SQUARE_SIDE / 2 - this.settings.start * SMALL_DASHES_DISTANSE;
     this.context.lineWidth = 3;
     this.context.fillStyle = '#000000';
-    this.context.strokeStyle = color;
+    this.context.strokeStyle = colormain;
     this.context.font = `bold ${FONT_SIZE - 4}px ${FONT_FAMILY}`;
     this.context.strokeRect(FIRST_LEVEL_INDENT+ depth * DEPTH_INDENT+k, offset, SQUARE_SIDE, SQUARE_SIDE);
-    this.context.fillStyle = color;
+    this.context.fillStyle = colormain;
     this.context.fillText(txt, FIRST_LEVEL_INDENT + depth * DEPTH_INDENT + SQUARE_SIDE + SMALL_INDENT+k, offset + FONT_SIZE - 12);
   }
-  drawText(time = 20, txt = ' event', depth = 0,k=0, color = this.graphColor) {
+  drawText(time = 20, txt = ' event', depth = 0,k=0,color2) {
+    const color = this.graphColor
+    let colormain='#000000'
+    if (color2!=='#100000'){
+      colormain=color2
+    }
+    else{
+      colormain=color
+    }
     this.context.fillStyle = '#000000';
-    this.context.strokeStyle = color;
+    this.context.strokeStyle = colormain;
     const offset = this.getOffset(time)+FONT_SIZE/2-10- this.settings.start * SMALL_DASHES_DISTANSE;
-    this.context.fillStyle = color;
+    this.context.fillStyle = colormain;
     this.context.fillText(txt,FIRST_LEVEL_INDENT + depth * DEPTH_INDENT+k-(INDENT/2), offset);
 
   }
-  drawinform(time = 20, txt = ' event', depth = 0,k=0, color = this.graphColor) {
+  drawinform(time = 20, txt = ' event', depth = 0,k=0,color2) {
+    const color = this.graphColor
+    let colormain='#000000'
+    if (color2!=='#100000'){
+      colormain=color2
+    }
+    else{
+      colormain=color
+    }
     const textWidth = txt.length * (FONT_SIZE - 4) / 2;
     this.context.fillStyle = '#000000';
-    this.context.strokeStyle = color;
+    this.context.strokeStyle = colormain;
     const offset = this.getOffset(time) - SQUARE_SIDE / 2- this.settings.start * SMALL_DASHES_DISTANSE;
     this.context.font = `bold ${FONT_SIZE - 4}px ${FONT_FAMILY}`;
     this.context.setLineDash([6]);
     this.context.strokeRect(FIRST_LEVEL_INDENT + depth * DEPTH_INDENT + textWidth + SMALL_INDENT-(INDENT/2)-10+k, offset, SQUARE_SIDE*3, SQUARE_SIDE)
-    this.context.fillStyle = color;
+    this.context.fillStyle = colormain;
     this.context.fillText(txt,FIRST_LEVEL_INDENT + depth * DEPTH_INDENT-(INDENT/2)+k, offset + FONT_SIZE - 12);
     this.context.setLineDash([]);
   }
