@@ -43,10 +43,10 @@ const columns = (reload) => [
         title: 'Заголовок',
         dataIndex: 'title'
     },
-    {
-        title: 'Пользователь',
-        dataIndex: 'fullName'
-    },
+    // {
+    //     title: 'Пользователь',
+    //     dataIndex: 'fullName'
+    // },
     {
         render: (_, record) => {
             const deleteDoc = async () => {

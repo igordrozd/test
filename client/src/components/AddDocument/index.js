@@ -56,20 +56,20 @@ export const AddDocument = ({
                 autoComplete="off"
                 name="basic"
                 initialValues={{
-                    type: 1
+                    type: 2
                 }}
             >
                 <Form.Item name="type">
                     <Select 
-                        defaultValue={1}
+                        defaultValue={2}
                         options={[
-                            {
-                                value: 1,
-                                label: 'Личный',
-                            },
                             {
                                 value: 2,
                                 label: 'Публичный',
+                            },
+                            {
+                                value: 1,
+                                label: 'Личный',
                             }
                             
                         ]}
