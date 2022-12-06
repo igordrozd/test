@@ -480,6 +480,19 @@ app.delete('/api/icons/:id', async (req, res) => {
 });
 
 app.listen(PORT, async () => {
+    const result = await User.findOne({
+        where: {
+            name: "admin"
+        }
+    });
+    if(result === null){
+        const passwordHash = bcrypt.hashSync("admin", privateKey);
+        const result2 = await User.create({
+            name: "admin",
+            fullName: "admin",
+            password: passwordHash
+        });
+    }
     console.log(`Server started on port ${PORT}...`);
     await open(`http://localhost:${PORT}`);
 });
