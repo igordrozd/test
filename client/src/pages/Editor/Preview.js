@@ -20,7 +20,7 @@ const CANVAS_HEIGHT = 495 * 4;
 const TIME_STEP = 1000;
 
 
-const drawer = new Drawer({
+export const drawer = new Drawer({
     width: CANVAS_WIDTH,
     height: CANVAS_HEIGHT
 });
@@ -45,8 +45,9 @@ export const Preview = ({ tasks })=> {
 
         return prev - 35;
     });
-
-
+    //useEffect({export let grafColornow=graphColor;})
+    
+    
     const start = () => {
         if(timer) {
             return;
@@ -71,6 +72,7 @@ export const Preview = ({ tasks })=> {
     }
 
     function drawingall(){
+
         drawer.setContext(ref.current);
         drawer.setBackgroundColor(bgColor)
         drawer.setGraphicColor(graphColor)
@@ -88,35 +90,35 @@ export const Preview = ({ tasks })=> {
                 const { start } = task;
                 const startTotal = dateToSeconds(start);
                 if  (checkIsChildren(tasks,startTotal,task.depth)===true){
-                    drawer.drawSquare(startTotal, task.title, task.depth,20)}
+                    drawer.drawSquare(startTotal, task.title, task.depth,20,task.color)}
                 else{
-                    drawer.drawSquare(startTotal, task.title, task.depth,-23)
+                    drawer.drawSquare(startTotal, task.title, task.depth,-23,task.color)
                 }
             }
              if (task.type === 'operation'){
                 const { start , end } = task;
                 const startTotal = dateToSeconds(start);
                 const endTotal = dateToSeconds(end);
-                drawer.drawOperation(startTotal,endTotal,task.depth, task.title);
+                drawer.drawOperation(startTotal,endTotal,task.depth, task.title,task.color);
             }
             if (task.type==='inform'){
                 const { start } = task;
                 const startTotal = dateToSeconds(start);
                 if  (checkIsChildren(tasks,startTotal,task.depth)===true){
-                    drawer.drawinform(startTotal,task.title,task.depth,50)
+                    drawer.drawinform(startTotal,task.title,task.depth,50,task.color)
                 }
                 else{
-                    drawer.drawinform(startTotal,task.title,task.depth,0)
+                    drawer.drawinform(startTotal,task.title,task.depth,0,task.color)
                 }
             }
             if (task.type==='instruction'){
                 const { start } = task;
                 const startTotal = dateToSeconds(start);
                 if  (checkIsChildren(tasks,startTotal,task.depth)===true){
-                    drawer.drawText(startTotal,task.title,task.depth,50)
+                    drawer.drawText(startTotal,task.title,task.depth,50,task.color)
                 }
                 else{
-                    drawer.drawText(startTotal,task.title,task.depth,0)
+                    drawer.drawText(startTotal,task.title,task.depth,0,task.color)
                 }
             }
         });
