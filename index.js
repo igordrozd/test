@@ -155,9 +155,10 @@ app.post('/api/tasks', async (req, res) => {
     try{
         const token = req.headers.token 
         const user = jwt.verify(token, privateKey); 
-        const { depth, title, type, start, end, documentId, fullName  } = req.body;
+        const { depth, title, type, start, end, documentId, fullName,color  } = req.body;
 
         const result = await Task.create({ 
+            color,
             type,
             depth,
             title,

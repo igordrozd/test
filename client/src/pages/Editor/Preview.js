@@ -34,6 +34,7 @@ export const Preview = ({ tasks })=> {
     const [ progress, setProgress ] = useState(0);
     const [ bgColor, setBgColor ] = useState('#FFFFFF');
     const [ graphColor, setGraphColor] = useState('#000000');
+    const [flagcolor, setFlagColor] =useState(0)
 
     const inc = () => setStartTime(prev => {
         return prev + 35;
@@ -47,7 +48,12 @@ export const Preview = ({ tasks })=> {
     });
     //useEffect({export let grafColornow=graphColor;})
     
-    
+    const clorflag =() =>setFlagColor(prev =>{
+        if(prev===1){
+            return 0;
+        }
+        return 1;
+    });
     const start = () => {
         if(timer) {
             return;
@@ -75,6 +81,7 @@ export const Preview = ({ tasks })=> {
 
         drawer.setContext(ref.current);
         drawer.setBackgroundColor(bgColor)
+        drawer.setFlagColor(flagcolor)
         drawer.setGraphicColor(graphColor)
         drawer.setStartTime(startTime);
         drawer.drawBackground(bgColor);
@@ -124,7 +131,7 @@ export const Preview = ({ tasks })=> {
         });
         drawer.drawProgress(progress);
     };
-    useEffect(drawingall, [ ref, tasks, progress, startTime, bgColor, graphColor ])
+    useEffect(drawingall, [ ref, tasks, progress, startTime, bgColor, graphColor, flagcolor ])
 
 
     return(
@@ -137,6 +144,12 @@ export const Preview = ({ tasks })=> {
                     Цвет графики
                 </ColorButton>
             </div>
+            <div className={styles.footer}>
+                <Button onClick={clorflag}>
+                    Цвет задач
+                </Button>
+            </div>
+            
             <canvas
                 ref={ref}
                 width={CANVAS_WIDTH}

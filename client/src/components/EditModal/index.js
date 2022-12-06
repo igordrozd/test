@@ -40,7 +40,7 @@ const createTask = async (data) => {
         end: endTime,
         start: startTime,
     }
-    
+    console.log(body.color)
     if(data.id) {
         response = await putTasks(body, data.id);
     } else {
@@ -81,15 +81,26 @@ export const EditModal = ({
         setLoading(true);
         
         const values = await form.validateFields();
-        
+        let colorn=GraphColorTask
+        if (task.color){
+            if (GraphColorTask!=='#100000'){
+                colorn=GraphColorTask
+            }
+            else{
+                colorn=task.color
+            }
+        }
+        else{
+            colorn=GraphColorTask
+        }
         const record = await createTask({
             ...task,
             ...values,
-            
-            color: GraphColorTask,
+            color: colorn,
             documentId: documentId,
             type
         });
+        console.log(GraphColorTask)
         setGraphColorTask('#100000')
         form.resetFields();
         setLoading(false);

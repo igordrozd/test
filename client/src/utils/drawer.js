@@ -22,6 +22,7 @@ export class Drawer {
   graphColor = '#000000'
   textColor = '#000000'
   context
+  flagcolor = 0
   settings = {}
   valueOfDivision
   constructor({
@@ -50,6 +51,9 @@ export class Drawer {
     console.log(time);
     this.settings.start = time;
   }
+  setFlagColor(flag) {
+    this.flagcolor = flag;
+    }
   setProgress(progress){
 
     this.settings.progress = progress;
@@ -90,7 +94,12 @@ export class Drawer {
     //console.log(timenow,progress,this.getOffset(start),start)
     this.context.strokeStyle = this.graphColor;
     this.context.fillStyle = this.graphColor;
-    this.context.fillRect(INDENT_LEFT-11,INDENT_TOP,22,timenow);
+    this.context.beginPath();
+    this.context.moveTo(INDENT_LEFT-11+25+20, INDENT_TOP+timenow);
+    this.context.lineTo(INDENT_LEFT-11+20, INDENT_TOP+25+timenow);
+    this.context.lineTo(INDENT_LEFT-11+20, INDENT_TOP-25+timenow);
+    this.context.fill();
+    //this.context.fillRect(INDENT_LEFT-11,INDENT_TOP,22,timenow);
   }
   drawTimeline(color = '#FFFFFF')  {
     const { start } = this.settings;
@@ -136,7 +145,7 @@ export class Drawer {
   drawOperation(start = 10, end = 100, depth = 0, text,color2) {
     const color = this.graphColor
     let colormain='#000000'
-    if (color2!=='#100000'){
+    if (color2!=='#100000' && this.flagcolor!==1){
       colormain=color2
     }
     else{
@@ -187,7 +196,7 @@ export class Drawer {
     
     const color = this.graphColor
     let colormain='#000000'
-    if (color2!=='#100000'){
+    if (color2!=='#100000' && this.flagcolor!==1){
       colormain=color2
     }
     else{
@@ -206,7 +215,7 @@ export class Drawer {
   drawText(time = 20, txt = ' event', depth = 0,k=0,color2) {
     const color = this.graphColor
     let colormain='#000000'
-    if (color2!=='#100000'){
+    if (color2!=='#100000' && this.flagcolor!==1){
       colormain=color2
     }
     else{
@@ -222,7 +231,7 @@ export class Drawer {
   drawinform(time = 20, txt = ' event', depth = 0,k=0,color2) {
     const color = this.graphColor
     let colormain='#000000'
-    if (color2!=='#100000'){
+    if (color2!=='#100000' && this.flagcolor!==1){
       colormain=color2
     }
     else{
