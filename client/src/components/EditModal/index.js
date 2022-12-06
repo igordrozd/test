@@ -7,8 +7,7 @@ import { WindOperation } from "./WindOperation";
 import { postTasks } from "../../api/postTasks";
 import { putTasks } from "../../api/putTasks";
 import { WindInstruction } from "./WindInstruction";
-import { drawer} from 'C:/code/test/client/src/pages/Editor/Preview';
-import styles from 'C:/code/test/client/src/pages/Editor/Editor.module.css'
+import styles from 'D:/Project/test/client/src/pages/Editor/Editor.module.css'
 import { ColorButton } from "../../components/ColorButton";
 
 function getFields(type) {
