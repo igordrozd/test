@@ -55,6 +55,7 @@ app.post('/api/users/register', async(req,res) => {
         const token = jwt.sign({
             id : result.id,
             name : result.name,
+            fullName: result.fullName,
             password : result.password,
         }, privateKey);
         res.send({ token });
@@ -168,6 +169,17 @@ app.post('/api/tasks', async (req, res) => {
             documentId,
             fullName
         }); 
+        const record = await Document.findOne({
+            where: {
+                id: result.documentId
+            }
+        });
+        const change = {changer: result.fullName};
+        Object
+            .keys(change)
+            .forEach(key => {
+                record[key] = result.fullName;
+            })
         res.send(result); 
     }catch(e){
         res
@@ -186,6 +198,8 @@ app.post('/api/documents/', async (req, res) => {
     const user = jwt.verify(token, privateKey); 
     const result = await Document.create({ 
         ...req.body, 
+        creator: user.fullName,
+        changer: user.fullName,
         userId: user.id 
     }); 
     res.send(result);
