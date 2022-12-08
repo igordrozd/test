@@ -174,12 +174,13 @@ app.post('/api/tasks', async (req, res) => {
                 id: result.documentId
             }
         });
-        const change = {changer: result.fullName};
+        const change = {changer: user.fullName};
         Object
             .keys(change)
             .forEach(key => {
-                record[key] = result.fullName;
+                record[key] = user.fullName;
             })
+        await record.save();
         res.send(result); 
     }catch(e){
         res
