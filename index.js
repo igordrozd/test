@@ -322,6 +322,8 @@ app.get('/api/documents/', async (req, res) => {
 // });
 
 app.put('/api/tasks/:id', async (req, res) => {
+    const token = req.headers.token 
+    const user = jwt.verify(token, privateKey); 
     try {
         const record = await Task.findOne({
             where: {
@@ -334,6 +336,21 @@ app.put('/api/tasks/:id', async (req, res) => {
                 record[key] = req.body[key];
             })
         await record.save();
+        
+        const recordDoc = await Document.findOne({
+            where: {
+                id: record.documentId
+            }
+        });
+        const change = {changer: user.fullName};
+        Object
+            .keys(change)
+            .forEach(key => {
+                recordDoc[key] = user.fullName;
+            })
+        await recordDoc.save();
+
+
         res.send(record);
     }catch(e){
         res
