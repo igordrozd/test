@@ -266,6 +266,7 @@ app.get('/api/documents/:id/tasks', async (req, res) => {
     }
 });
 
+
 app.get('/api/documents/', async (req, res) => {
     const token = req.headers.token;
     const user = jwt.verify(token, privateKey);
@@ -304,6 +305,24 @@ app.get('/api/documents/', async (req, res) => {
 });
 
 
+app.get('/api/documents/:id', async (req, res) => {
+    try{
+    const record = await Document.findOne({
+        where: {
+            id: req.params.id
+        }
+    });
+    res.send(record);
+    }catch(e){
+        res
+            .status(500)
+            .send({
+                message: e.message
+            });
+    }
+});
+
+
 // app.get('/api/documents/:id', async (req, res) => {
 //     try {
 //         const records = await Document.findOne({
@@ -320,6 +339,7 @@ app.get('/api/documents/', async (req, res) => {
 //             });
 //     }
 // });
+
 
 app.put('/api/tasks/:id', async (req, res) => {
     const token = req.headers.token 
@@ -386,14 +406,20 @@ app.put('/api/documents/:id', async (req, res) => {
 });
 
 
-app.get('/api/documents/:id', async (req, res) => {
-    try{
-    const record = await Document.findOne({
-        where: {
-            id: req.params.id
-        }
-    });
-    res.send(record);
+app.put('/api/users/:id', async (req, res) => {
+    try {
+        const record = await User.findOne({
+            where: {
+                id: req.params.id
+            }
+        });
+        Object
+            .keys(req.body)
+            .forEach(key => {
+                record[key] = req.body[key];
+            })
+        await record.save();
+        res.send(record);
     }catch(e){
         res
             .status(500)
