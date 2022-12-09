@@ -90,6 +90,9 @@ export class Drawer {
         timenow=(progress%(35*60))
       }
     }
+    if (timenow===0 || timenow===35*60){
+      return
+    }
     timenow=this.getOffset(timenow) - SQUARE_SIDE-48
     //console.log(timenow,progress,this.getOffset(start),start)
     this.context.strokeStyle = this.graphColor;

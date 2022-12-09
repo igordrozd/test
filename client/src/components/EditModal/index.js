@@ -154,16 +154,18 @@ export const EditModal = ({
             cancelText="Отмена"
             okText={buttonText}
         >
-           <div className={styles.control}>
-                <ColorButton onChange={setGraphColorTask} value={'#100000'}>
-                    Цвет графики
-                </ColorButton>
-            </div>
+
             <Form
                 form={form}
                 autoComplete="off"
                 name="basic"
             >
+
+            <Form.Item name="color" >
+                <ColorButton onChange={setGraphColorTask} value={'#100000'}>
+                    Цвет графики
+                </ColorButton>
+            </Form.Item>
                 
                 <Form.Item name="type">
                     <Select 
