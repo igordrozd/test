@@ -143,8 +143,6 @@ export const Preview = ({ tasks })=> {
                 <ColorButton onChange={setGraphColor} value={graphColor}>
                     Цвет графики
                 </ColorButton>
-            </div>
-            <div className={styles.footer}>
                 <Button onClick={clorflag}>
                     Цвет задач
                 </Button>

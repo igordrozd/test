@@ -1,9 +1,11 @@
 import React from "react";
-import { Space } from "antd";
+import { Button, Space } from "antd";
 import { Link } from "react-router-dom";
 import { useStore } from "../../App";
-import { Logout } from "../Logout";
+//import { Logout } from "../Logout";
 import styles from './Header.module.css';
+import { LeftOutlined } from '@ant-design/icons';
+import { Settings } from "../Settings";
 
 export const Header = ({ children, document }) => {
     const { store } = useStore();
@@ -13,9 +15,15 @@ export const Header = ({ children, document }) => {
                 <div className={styles.content}>
                     <div>
                         <Space>
+
                             <Link to="/" className={styles.user}>
-                                {store.user?.fullName}
+                                <Button>
+                                    <LeftOutlined />
+                                </Button>
                             </Link>
+
+                            {store.user?.fullName}
+                            
                             {document && (
                                 <>
                                     &nbsp;/&nbsp;
@@ -25,9 +33,9 @@ export const Header = ({ children, document }) => {
                         </Space>
                     </div>
                     <Space>
-                        <Logout />
+                        {/* <Logout /> */}
                         {children}
-                        {/*<Settings />*/}
+                        <Settings />
                     </Space>
                 </div>
             </div>

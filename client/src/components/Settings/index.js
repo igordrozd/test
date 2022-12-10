@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Modal } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
+import { Logout } from '../Logout';
 
 
 export const Settings = () => {
@@ -24,10 +25,11 @@ export const Settings = () => {
                    onOk={handleOk}
                    onCancel={handleCancel}
             >
-                <p>
-                    Смена темы:
-                </p>
+
+                <Logout />
+
             </Modal>
+            
             <Button onClick={showModal}>
                 <SettingOutlined />
             </Button>

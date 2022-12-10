@@ -10,7 +10,7 @@ import { getDocuments } from '../../api/getDocuments';
 import { deleteDocumentById } from '../../api/deletedocuments';
 import {formatDate} from "../../utils/formatDate";
 import { AddDocument } from "../../components/AddDocument";
-import {Header} from "../../components/Header";
+import { Header } from "../../components/Header";
 
 const deleteDocument = async (record) => {
     const response = await deleteDocumentById(record.id);
@@ -34,14 +34,22 @@ const columns = (reload) => [
         dataIndex: 'id'
     },
     {
+        title: 'Заголовок',
+        render: (_, record) => {
+            return(
+                <Space>
+                    <Link to={`/documents/${record.id}`}>
+                        {record.title}
+                    </Link>
+                </Space>
+            );
+        }
+    },
+    {
       width: 200,
       title: `Дата создания`,
       dataIndex: 'updatedAt',
       render: formatDate
-    },
-    {
-        title: 'Заголовок',
-        dataIndex: 'title'
     },
     {
         title: 'Создатель',
@@ -99,12 +107,15 @@ export const Documents = () => {
     }, []);
 
     return (
-        <>
+        <> 
             <Header>
-                <Button type="primary" onClick={createDocument}>
-                    Добавить документ
-                </Button>
+                <Space>
+                    <Button type="primary" onClick={createDocument}>
+                        Добавить документ
+                    </Button>
+                </Space>
             </Header>
+            
             <div className='container'>
                 <Table
                     loading={loading}

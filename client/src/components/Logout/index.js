@@ -1,6 +1,6 @@
-import {Button} from "antd";
+import { Button, Popconfirm } from "antd";
 import React from "react";
-import {useStore} from "../../App";
+import { useStore } from "../../App";
 
 
 export const Logout = () => {
@@ -10,8 +10,15 @@ export const Logout = () => {
         await authorize();
     }
     return(
-        <Button onClick={logout}>
-            Выйти
-        </Button>
+        <Popconfirm 
+        title="Вы уверены, что хотите выйти из аккаунта?" 
+        onConfirm={logout}
+        okText="Да"
+        cancelText="Нет"
+        >
+            <Button>
+                Выйти из аккаунта
+            </Button>
+        </Popconfirm>
     );
 }
