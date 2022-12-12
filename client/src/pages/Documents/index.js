@@ -8,9 +8,11 @@ import {
 } from '@ant-design/icons';
 import { getDocuments } from '../../api/getDocuments';
 import { deleteDocumentById } from '../../api/deletedocuments';
+import { putDocuments } from '../../api/putDocuments';
 import {formatDate} from "../../utils/formatDate";
 import { AddDocument } from "../../components/AddDocument";
 import { Header } from "../../components/Header";
+import styles from "./Documents.module.css"
 
 const deleteDocument = async (record) => {
     const response = await deleteDocumentById(record.id);
@@ -18,6 +20,16 @@ const deleteDocument = async (record) => {
         notification.success({
             message: `Документ удалён`,
             description: `Документ "${record.title}" успешно удалён`
+        })
+    }
+}
+
+const editDocum = async (record) => {
+    const response = await putDocuments(record.id);
+    if(response.ok) {
+        notification.success({
+            message: `Документ изменён`,
+            description: `Документ "${record.title}" успешно изменён`
         })
     }
 }
@@ -38,7 +50,7 @@ const columns = (reload) => [
         render: (_, record) => {
             return(
                 <Space>
-                    <Link to={`/documents/${record.id}`}>
+                    <Link to={`/documents/${record.id}`} className={styles.documLink}>
                         {record.title}
                     </Link>
                 </Space>
@@ -65,13 +77,19 @@ const columns = (reload) => [
                 await deleteDocument(record);
                 await reload();
             }
+
+            const editDoc = async () => {
+                await editDocum(record);
+                await reload();
+            }
+            
             return(
                 <Space>
-                    <Link to={`/documents/${record.id}`}>
-                        <Button size="small">
+
+                        <Button size="small" onClick={editDoc}>
                             <EditOutlined />
                         </Button>
-                    </Link>
+
                     <Popconfirm 
                         title="Вы уверены, что хотите удалить?" 
                         onConfirm={deleteDoc}

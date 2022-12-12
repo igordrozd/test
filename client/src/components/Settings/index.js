@@ -1,38 +1,29 @@
-import React from 'react';
-import { Button, Modal } from "antd";
+import React, { useState } from 'react';
+import { Button, Drawer } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
 import { Logout } from '../Logout';
 
 
 export const Settings = () => {
-    const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-    const showModal = () => {
-        setIsModalOpen(true);
+    const [open, setOpen] = useState(false);
+
+    const showDrawer = () => {
+      setOpen(true);
     };
-
-    const handleOk = () => {
-        setIsModalOpen(false);
+  
+    const onClose = () => {
+      setOpen(false);
     };
-
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
-    return(
-        <>
-            <Modal title="Настройки"
-                   open={isModalOpen}
-                   onOk={handleOk}
-                   onCancel={handleCancel}
-            >
-
-                <Logout />
-
-            </Modal>
-            
-            <Button onClick={showModal}>
-                <SettingOutlined />
-            </Button>
-        </>
+  
+    return (
+      <>
+        <Button onClick={showDrawer}>
+            <SettingOutlined />
+        </Button>
+        <Drawer title="Настройки" placement="right" onClose={onClose} open={open}>
+            <Logout />
+        </Drawer>
+      </>
     );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Button, Input, Card} from 'antd';
+import { Form, Button, Input, Card } from 'antd';
 import { Link } from "react-router-dom";
 import { useStore } from "../../App";
 import { login } from '../../api/login';

@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button } from 'antd';
+import { Button, Space, Switch } from 'antd';
 import {
     PlayCircleOutlined,
     PauseOutlined,
     RightOutlined,
     LeftOutlined,
-    RedoOutlined
+    RedoOutlined,
+    BgColorsOutlined
 } from '@ant-design/icons';
 import { Drawer } from '../../utils/drawer';
 import { ColorButton } from "../../components/ColorButton";
@@ -34,7 +35,7 @@ export const Preview = ({ tasks })=> {
     const [ progress, setProgress ] = useState(0);
     const [ bgColor, setBgColor ] = useState('#FFFFFF');
     const [ graphColor, setGraphColor] = useState('#000000');
-    const [flagcolor, setFlagColor] =useState(0)
+    const [ flagcolor, setFlagColor ] = useState(1)
 
     const inc = () => setStartTime(prev => {
         return prev + 35;
@@ -49,10 +50,10 @@ export const Preview = ({ tasks })=> {
     //useEffect({export let grafColornow=graphColor;})
     
     const clorflag =() =>setFlagColor(prev =>{
-        if(prev===1){
-            return 0;
+        if(prev===0){
+            return 1;
         }
-        return 1;
+        return 0;
     });
     const start = () => {
         if(timer) {
@@ -143,11 +144,19 @@ export const Preview = ({ tasks })=> {
                 <ColorButton onChange={setGraphColor} value={graphColor}>
                     Цвет графики
                 </ColorButton>
-                <Button onClick={clorflag}>
-                    Цвет задач
-                </Button>
+
+                <div>
+                    <Space>
+                        <BgColorsOutlined />
+
+                        <Switch onClick={clorflag}>
+
+                        </Switch>
+                    </Space>
+                </div>
+
             </div>
-            
+           
             <canvas
                 ref={ref}
                 width={CANVAS_WIDTH}

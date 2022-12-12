@@ -1,10 +1,10 @@
 import React from "react";
-import { Button, Space } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Space, Avatar } from "antd";
+//import { Link } from "react-router-dom";
 import { useStore } from "../../App";
 //import { Logout } from "../Logout";
 import styles from './Header.module.css';
-import { LeftOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import { Settings } from "../Settings";
 
 export const Header = ({ children, document }) => {
@@ -15,12 +15,14 @@ export const Header = ({ children, document }) => {
                 <div className={styles.content}>
                     <div>
                         <Space>
-
+{/* 
                             <Link to="/" className={styles.user}>
                                 <Button>
                                     <LeftOutlined />
                                 </Button>
-                            </Link>
+                            </Link> */}
+                            
+                            <Avatar icon={<UserOutlined />} />
 
                             {store.user?.fullName}
                             
