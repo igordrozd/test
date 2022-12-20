@@ -31,7 +31,6 @@ const columns = (reload, editTask) => [
         dataIndex: `id`
     },
     {
-        width: 180,
         title: `Тип`,
         dataIndex: `type`,
         render: getType
@@ -39,6 +38,21 @@ const columns = (reload, editTask) => [
     {
         title: `Имя события/операции`,
         dataIndex: `title`,
+        // render: (color) => {
+        //     console.log(color);
+
+        //     return(
+        //         <Button></Button>
+        //     );
+        // }
+    },
+    // {
+    //     title: `Время начала`,
+    //     dataIndex: `start`,
+    // },
+    {
+        title: `Уровень`,
+        dataIndex: `depth`, //уровень + 1
     },
     {
         render: (_, record) => {

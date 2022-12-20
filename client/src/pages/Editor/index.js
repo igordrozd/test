@@ -8,6 +8,8 @@ import { getDocument } from "../../api/getDocumentByid"
 import { Header } from "../../components/Header";
 import { Preview } from './Preview';
 import styles from './Editor.module.css';
+import { LeftOutlined } from '@ant-design/icons';
+import { Link } from "react-router-dom";
 
 
 async function getData(id) {
@@ -42,9 +44,17 @@ export const Editor = () => {
     return(
         <>
             <Header document={document}>
+                
+                <Link to="/" className={styles.user}>
+                    <Button>
+                        <LeftOutlined />
+                    </Button>
+                </Link>
+
                 <Button type="primary" onClick={createTask}>
                     Добавить действие
                 </Button>
+
             </Header>
             <div className="container">
                 <div className={styles.wrapper}>
