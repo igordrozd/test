@@ -434,6 +434,13 @@ app.put('/api/users/:id', async (req, res) => {
 //=============================================================================================================================================
 app.delete('/api/tasks/:id', async (req, res) => {
     try{
+    const token = req.headers.token
+    const user = jwt.verify(token, privateKey);
+    const record = await Task.findOne({
+        where: {
+            id: req.params.id
+        }
+    });
     const result = await Task.destroy({
         where: {
             id: req.params.id
@@ -446,6 +453,19 @@ app.delete('/api/tasks/:id', async (req, res) => {
                 message: 'Element not found'
             })
     }
+
+    const recordDoc = await Document.findOne({
+        where: {
+            id: record.documentId
+        }
+    });
+    const change = { changer: user.fullName };
+    Object
+    .keys(change)
+    .forEach(key => {
+        recordDoc[key] = user.fullName;
+    })
+    await recordDoc.save();
     
     res.send({count: result});
     }catch(e){
@@ -514,42 +534,24 @@ app.delete('/api/documents/:id', async (req, res) => {
 
 
 app.delete('/api/icons/:id', async (req, res) => {
-    try{
-    const result = await Icon.destroy({
-        where: {
-            id: req.params.id
-        }
-    });
-    if (result===0){
-        res
-            .status(404)
-            .send({
-                message: "Element not found"
-            })
-    }
-    res.send({count: result});
-    }catch(e){
-        res
-            .status(500)
-            .send({
-                message: e.message
-            });
-    }
-});
-
-app.listen(PORT, async () => {
     const result = await User.findOne({
         where: {
             name: "admin"
         }
     });
-    if(result === null){
+    if (result === null) {
         const passwordHash = bcrypt.hashSync("admin", privateKey);
-        const result2 = await User.create({
+        const result = await User.create({
             name: "admin",
             fullName: "admin",
             password: passwordHash
         });
+        const token = jwt.sign({
+            id: result.id,
+            name: result.name,
+            fullName: result.fullName,
+            password: result.password,
+        }, privateKey);
     }
     console.log(`Server started on port ${PORT}...`);
     await open(`http://localhost:${PORT}`);
