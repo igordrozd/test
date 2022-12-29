@@ -156,7 +156,7 @@ app.post('/api/tasks', async (req, res) => {
     try{
         const token = req.headers.token 
         const user = jwt.verify(token, privateKey); 
-        const { depth, title, type, start, end, documentId, fullName,color  } = req.body;
+        const { depth, title, type, start, end, documentId, fullName,color,dependability  } = req.body;
 
         const result = await Task.create({ 
             color,
@@ -167,7 +167,8 @@ app.post('/api/tasks', async (req, res) => {
             start,
             userId: user.id,
             documentId,
-            fullName
+            fullName,
+            dependability
         }); 
         const record = await Document.findOne({
             where: {

@@ -28,7 +28,13 @@ const Task = database.define('Task', {
     },
     end: {
       type: DataTypes.DATE
+    },
+    
+
+    dependability: {
+      type: DataTypes.INTEGER
     }
+
 });
 
 Task.belongsTo(User, {

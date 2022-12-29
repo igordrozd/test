@@ -7,7 +7,8 @@ import { WindOperation } from "./WindOperation";
 import { postTasks } from "../../api/postTasks";
 import { putTasks } from "../../api/putTasks";
 import { WindInstruction } from "./WindInstruction";
-import styles from 'D:/project/test/client/src/pages/Editor/Editor.module.css'
+import { WindFolder } from "./WindFolder";
+import styles from 'C:/code/test/client/src/pages/Editor/Editor.module.css'
 import { ColorButton } from "../../components/ColorButton";
 
 function getFields(type) {
@@ -17,6 +18,8 @@ function getFields(type) {
         return <WindInform />
     } else if(type === 'instruction'){
         return <WindInstruction />
+    }  else if(type === 'folder'){
+        return <WindFolder />
     }
     else {
         return <WindOperation />
@@ -130,6 +133,7 @@ export const EditModal = ({
             switch(newType) {
                 case 'event':
                 case 'inform':
+                case 'folder':
                 case 'instruction':
                     form.setFieldsValue({
                         time: defaultTime
@@ -187,6 +191,10 @@ export const EditModal = ({
                             {
                                 value: 'instruction',
                                 label: 'Инструкция',
+                            },
+                            {
+                                value: 'folder',
+                                label: 'Папка',
                             }
                         ]}
                     />

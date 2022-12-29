@@ -11,7 +11,8 @@ import { deleteDocumentById } from '../../api/deletedocuments';
 import {formatDate} from "../../utils/formatDate";
 import { AddDocument } from "../../components/AddDocument";
 import {Header} from "../../components/Header";
-
+import {sort} from "../Editor/Sortscripts"
+import { Form, Modal, Select } from 'antd';
 const deleteDocument = async (record) => {
     const response = await deleteDocumentById(record.id);
     if(response.ok) {
@@ -82,12 +83,14 @@ const columns = (reload) => [
 ]
 
 export const Documents = () => {
-    const [ state, setState ] = useState([]);
+    let [ state, setState ] = useState([]);
     const [ loading, setLoading ] = useState(true);
     const [ editDocument, setEditDocument ] = useState(null);
+    const [type, setType]=useState('id')
     const createDocument = () => setEditDocument({});
     const closeEditDocument = () => setEditDocument(null);
-
+    const [ form ] = Form.useForm();
+    
     const load = () => {
         setLoading(true);
         getData().then(setState);
@@ -96,11 +99,55 @@ export const Documents = () => {
 
     useEffect(() => {
         load();
-    }, []);
-
+    }, [type]);
+    state=sort(state,type)
     return (
         <>
             <Header>
+                <Form
+                    form={form}
+                    autoComplete="off"
+                    name="basic"
+                >
+
+            
+                
+                    <Form.Item name="type">
+                        <Select 
+                            type="primary"
+                            style={{ width: 180,top: 12 }}
+                            onChange={setType}
+                            defaultValue="id"
+                            options={[
+                                
+                                {
+                                    value: 'create',
+                                    label: 'время создания',
+                                },
+                                {
+                                    value: 'update',
+                                    label: 'время обновления',
+                                },
+                                {
+                                    value: 'changer',
+                                    label: 'последний изменявший',
+                                },
+                                {
+                                    value: 'id',
+                                    label: 'id',
+                                },
+                                {
+                                    value: 'title',
+                                    label: 'имя',
+                                },
+                                {
+                                    value: 'creator',
+                                    label: 'создатель',
+                                }
+                            ]}
+                        />
+                    </Form.Item>
+                </Form>
                 <Button type="primary" onClick={createDocument}>
                     Добавить документ
                 </Button>
