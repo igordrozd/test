@@ -13,6 +13,9 @@ import type { DataNode, DirectoryTreeProps } from 'antd/es/tree';
 import { sort } from "./Sortscripts"
 import { Form, Modal, notification, Select,TreeSelect } from 'antd';
 import { DownOutlined } from '@ant-design/icons'
+import { LeftOutlined } from '@ant-design/icons';
+import { Link } from "react-router-dom";
+
 async function getData(id) {
     const result = await getDocumentTasks(id);
     return await result.json();
@@ -172,25 +175,10 @@ export const Editor = () => {
     return(
         <>
             <Header document={document}>
-                <Button onClick={deldep}>
-                    {"<"}
-                </Button>
-                
-                <Form
-                    form={form}
-                    autoComplete="off"
-                    name="basic"
-            >
-
-            
-                
-                    <Form.Item name="type">
-                        
-                    </Form.Item>
-                </Form>
                 <Button type="primary" onClick={createTask}>
                     Добавить действие
                 </Button>
+
             </Header>
             
             <div className="container" >

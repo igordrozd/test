@@ -8,10 +8,12 @@ import {
 } from '@ant-design/icons';
 import { getDocuments } from '../../api/getDocuments';
 import { deleteDocumentById } from '../../api/deletedocuments';
+import { putDocuments } from '../../api/putDocuments';
 import {formatDate} from "../../utils/formatDate";
 import { AddDocument } from "../../components/AddDocument";
-import {Header} from "../../components/Header";
-import {sort} from "../Editor/Sortscripts"
+import { Header } from "../../components/Header";
+import styles from "./Documents.module.css"
+import { sort } from "../Editor/Sortscripts"
 import { Form, Modal, Select } from 'antd';
 const deleteDocument = async (record) => {
     const response = await deleteDocumentById(record.id);
@@ -19,6 +21,16 @@ const deleteDocument = async (record) => {
         notification.success({
             message: `Документ удалён`,
             description: `Документ "${record.title}" успешно удалён`
+        })
+    }
+}
+
+const editDocum = async (record) => {
+    const response = await putDocuments(record.id);
+    if(response.ok) {
+        notification.success({
+            message: `Документ изменён`,
+            description: `Документ "${record.title}" успешно изменён`
         })
     }
 }
@@ -35,14 +47,22 @@ const columns = (reload) => [
         dataIndex: 'id'
     },
     {
+        title: 'Заголовок',
+        render: (_, record) => {
+            return(
+                <Space>
+                    <Link to={`/documents/${record.id}`} className={styles.documLink}>
+                        {record.title}
+                    </Link>
+                </Space>
+            );
+        }
+    },
+    {
       width: 200,
       title: `Дата создания`,
       dataIndex: 'updatedAt',
       render: formatDate
-    },
-    {
-        title: 'Заголовок',
-        dataIndex: 'title'
     },
     {
         title: 'Создатель',
@@ -58,13 +78,19 @@ const columns = (reload) => [
                 await deleteDocument(record);
                 await reload();
             }
+
+            const editDoc = async () => {
+                await editDocum(record);
+                await reload();
+            }
+            
             return(
                 <Space>
-                    <Link to={`/documents/${record.id}`}>
-                        <Button size="small">
+
+                        <Button size="small" onClick={editDoc}>
                             <EditOutlined />
                         </Button>
-                    </Link>
+
                     <Popconfirm 
                         title="Вы уверены, что хотите удалить?" 
                         onConfirm={deleteDoc}
@@ -102,56 +128,13 @@ export const Documents = () => {
     }, [type]);
     state=sort(state,type)
     return (
-        <>
+        <> 
             <Header>
-                <Form
-                    form={form}
-                    autoComplete="off"
-                    name="basic"
-                >
-
-            
-                
-                    <Form.Item name="type">
-                        <Select 
-                            type="primary"
-                            style={{ width: 180,top: 12 }}
-                            onChange={setType}
-                            defaultValue="id"
-                            options={[
-                                
-                                {
-                                    value: 'create',
-                                    label: 'время создания',
-                                },
-                                {
-                                    value: 'update',
-                                    label: 'время обновления',
-                                },
-                                {
-                                    value: 'changer',
-                                    label: 'последний изменявший',
-                                },
-                                {
-                                    value: 'id',
-                                    label: 'id',
-                                },
-                                {
-                                    value: 'title',
-                                    label: 'имя',
-                                },
-                                {
-                                    value: 'creator',
-                                    label: 'создатель',
-                                }
-                            ]}
-                        />
-                    </Form.Item>
-                </Form>
                 <Button type="primary" onClick={createDocument}>
                     Добавить документ
                 </Button>
             </Header>
+            
             <div className='container'>
                 <Table
                     loading={loading}

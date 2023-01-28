@@ -9,6 +9,7 @@ import { putTasks } from "../../api/putTasks";
 import { WindInstruction } from "./WindInstruction";
 import { WindFolder } from "./WindFolder";
 import styles from 'C:/code/test/client/src/pages/Editor/Editor.module.css'
+//import styles from 'C:/project/test/client/src/pages/Editor/Editor.module.css'
 import { ColorButton } from "../../components/ColorButton";
 
 function getFields(type) {

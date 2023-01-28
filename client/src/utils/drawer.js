@@ -20,7 +20,7 @@ const DASHES_PER_PAGE = 35;
 export class Drawer {
   bgColor = '#FFFFFF'
   graphColor = '#000000'
-  textColor = '#000000'
+
   context
   flagcolor = 0
   settings = {}
