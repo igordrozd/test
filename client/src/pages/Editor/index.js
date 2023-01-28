@@ -15,6 +15,7 @@ import { Form, Modal, notification, Select,TreeSelect } from 'antd';
 import { DownOutlined } from '@ant-design/icons'
 import { LeftOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
+import potrace from "potrace";
 
 async function getData(id) {
     const result = await getDocumentTasks(id);
@@ -24,7 +25,6 @@ async function getData(id) {
 const { DirectoryTree } = Tree;
 
 export const Editor = () => {
-    
     const { id } = useParams();
     const [ tasks, setTasks ] = useState([]);
     const [ document, setDocument ] = useState(null)
@@ -37,26 +37,17 @@ export const Editor = () => {
     const documentId = parseInt(id, 10);
     const createTask = () => setEditTask({});
     const closeEditModal = () => setEditTask(null);
-    
-
     const onChange = () => {
-        
     };
-
-    
     const load = () => getData(documentId).then(setTasks);
     
     const tasksinfolder =(id)=> {
         if (tasks.find(task=>task.id===id).type==="folder"){
-            
-            independtid.push(id)
-            
+            independtid.push(id)     
         }
-
         else{
             independtid.push(tasks.find(task=>task.id===id).dependability)
         }
-        
         setcount(count+1)
         setindependtid(independtid)
         console.log(independtid)
@@ -66,11 +57,33 @@ export const Editor = () => {
         setcount(count+1)
         setindependtid(independtid)
     }
+    const convertCanvasToImage=() => {
+        var canvas = document.getElementById("para");
+        var image = new Image();
+       
+        image.onload = function() {
+          image.src = canvas.toDataURL("image/png");
+          image.crossOrigin = "anonymous";
+        }
+        
+        var trace = new potrace.Potrace();
+ 
+        // You can also pass configuration object to the constructor
+        trace.setParameters({
+        threshold: 128,
+        color: '#880000'
+        });
+        
+        trace.loadImage(image, function(err) {
+        if (err) throw err;
+        
+            trace.getSVG(); 
+        } )
+    }
 
     const onSelect = (df,any) => {
         tasksinfolder(any.node.value);
     };
-
     const finddepend=(id,tasksfolder)=>{
         try{
         let tasktree: DataType[]=[]
@@ -93,7 +106,6 @@ export const Editor = () => {
         n=tasksfolder.filter(
             o=>o.type!=="folder"
             )
-        
         n.forEach(task=>{
                 perem={value : task.id,title : task.title}
                 tasktree.push(perem)})
@@ -104,12 +116,10 @@ export const Editor = () => {
         catch{
             console.log("error")
         }
-        
     }
     const findTaskdepend=(id,tasksfolder,count)=>{
         try{
         let tasktree=[]
-        
         let perem
         let n=tasksfolder.filter(
                 o => o.type==="folder" && o.dependability===id
@@ -128,34 +138,23 @@ export const Editor = () => {
         n=tasksfolder.filter(
             o=>o.type!=="folder"
             )
-        
         n.forEach(task=>{
                 perem={key: task.id,id : task.id,type : task.type,title: task.title,color:task.color}
                 tasktree.push(perem)})
-        
         return(tasktree)
         }
         catch{
             console.log("error")
         }
-        
     }
-    
     const datatreeupdate =(tasks) =>{
         let tasktree=finddepend(tasks)
-        
-            
-        
         return tasktree
     }
     useEffect(() => {
-        
         load();
-        
-        
     }, [type,count]);
     const [ form ] = Form.useForm();
-    
     const buttongen =(name) =>{
         return(
             <>
@@ -165,22 +164,21 @@ export const Editor = () => {
             </> 
         )
     }
-    
     useEffect(() =>{
         getDocument(documentId).then(response => {
             response.json().then(setDocument)
         });
     }, [ documentId ]);
-    
     return(
         <>
+            <script src="imagetracer_v1.2.6.js"></script>
             <Header document={document}>
                 <Button type="primary" onClick={createTask}>
                     Добавить действие
                 </Button>
+                
 
             </Header>
-            
             <div className="container" >
                 <div className={styles.wrapper}>
                     <div className={styles.layout}>
@@ -216,6 +214,8 @@ export const Editor = () => {
                                 tasksinfolder={tasksinfolder}
                                 independtid={independtid}
                                 findTaskdepend={findTaskdepend}
+                                documentId={documentId}
+
                             />
                         </div>
                         <div  className={styles.col}>

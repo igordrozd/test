@@ -27,7 +27,7 @@ function getFields(type) {
     }
 }
 
-const createTask = async (data) => {
+export const createTask = async (data) => {
     let response;
     const { time } = data;
     let start, end;
@@ -79,6 +79,7 @@ export const EditModal = ({
         }
         close();
     }
+    
     const onSubmit = async () => {
         
         setLoading(true);
@@ -120,7 +121,8 @@ export const EditModal = ({
         form.resetFields();
         
         const { start, end } = task || {};
-        
+        console.log(task || {})
+        console.log(String(start), String(end))
         if(task?.id) {
             form.setFieldsValue({
                 ...task,

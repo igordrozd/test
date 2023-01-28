@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import {Table, Popconfirm, Space, Button, notification} from 'antd';
 import { 
     EditOutlined, 
-    DeleteOutlined 
+    DeleteOutlined,
+    EyeOutlined
 } from '@ant-design/icons';
 import { getDocuments } from '../../api/getDocuments';
 import { deleteDocumentById } from '../../api/deletedocuments';
@@ -26,6 +27,7 @@ const deleteDocument = async (record) => {
 }
 
 const editDocum = async (record) => {
+    console.log(record)
     const response = await putDocuments(record.id);
     if(response.ok) {
         notification.success({
@@ -33,6 +35,7 @@ const editDocum = async (record) => {
             description: `Документ "${record.title}" успешно изменён`
         })
     }
+    
 }
 
 async function getData() {
@@ -40,7 +43,7 @@ async function getData() {
     return await result.json();
 }
 
-const columns = (reload) => [
+const columns = (reload,putDoc,setSost) => [
     {
         width: 80,
         title: 'ID',
@@ -75,22 +78,30 @@ const columns = (reload) => [
     {
         render: (_, record) => {
             const deleteDoc = async () => {
+                await setSost(true);
+                console.log(1)
                 await deleteDocument(record);
                 await reload();
             }
 
             const editDoc = async () => {
-                await editDocum(record);
+                await setSost(true);
+                console.log(1)
+                await putDoc(record);
                 await reload();
             }
-            
+            const newWindow = async () => {
+                window.location.href=`/documents/${record.id}`;
+            }
             return(
                 <Space>
 
-                        <Button size="small" onClick={editDoc}>
-                            <EditOutlined />
-                        </Button>
-
+                        
+                        
+                            <Button size="small" onClick={editDoc}>
+                                <EditOutlined />
+                            </Button>
+                        
                     <Popconfirm 
                         title="Вы уверены, что хотите удалить?" 
                         onConfirm={deleteDoc}
@@ -101,6 +112,9 @@ const columns = (reload) => [
                             <DeleteOutlined />
                         </Button>
                     </Popconfirm>
+                    <Button size="small" onClick={newWindow}>
+                        <EyeOutlined />
+                    </Button>
                     
                 </Space>
             );
@@ -113,7 +127,9 @@ export const Documents = () => {
     const [ loading, setLoading ] = useState(true);
     const [ editDocument, setEditDocument ] = useState(null);
     const [type, setType]=useState('id')
+    const [sost,setSost] =useState(false);
     const createDocument = () => setEditDocument({});
+    const putDocument = (rec) => setEditDocument(rec);
     const closeEditDocument = () => setEditDocument(null);
     const [ form ] = Form.useForm();
     
@@ -138,14 +154,29 @@ export const Documents = () => {
             <div className='container'>
                 <Table
                     loading={loading}
-                    columns={columns(load)}
+                    columns={columns(load,putDocument,setSost)}
                     dataSource={state}
+
+                    // onRow={(record) => {
+                    //     return {
+                    //         onDoubleClick: () =>{
+                    //             console.log(!sost)
+                    //             if(!sost){
+                                    
+                    //                 window.location.href=`/documents/${record.id}`
+                    //             }
+                    //             setSost(false)
+
+                    //         }
+                    //       }
+                    //     }
+                    //}
                 />
             </div>
             <AddDocument
                 callback={load}
                 close={closeEditDocument}
-                visible={Boolean(editDocument)}
+                visible={editDocument}
             />
         </>
     );

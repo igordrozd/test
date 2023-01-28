@@ -534,7 +534,7 @@ app.delete('/api/documents/:id', async (req, res) => {
 });
 
 
-app.delete('/api/icons/:id', async (req, res) => {
+app.listen(PORT, async () => {
     const result = await User.findOne({
         where: {
             name: "admin"

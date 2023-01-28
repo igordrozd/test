@@ -11,8 +11,13 @@ import {
 import { Drawer } from '../../utils/drawer';
 import { ColorButton } from "../../components/ColorButton";
 import { dateToSeconds } from "../../utils/dateToSeconds";
+import C2S from "canvas2svg";
+import { Document, Packer } from "docx"
+import { saveAs } from "file-saver"
+
 
 import styles from './Editor.module.css';
+import Paragraph from "antd/es/skeleton/Paragraph";
 
 
 const CANVAS_WIDTH = 350 * 4;
@@ -35,8 +40,32 @@ export const Preview = ({ tasks })=> {
     const [ progress, setProgress ] = useState(0);
     const [ bgColor, setBgColor ] = useState('#FFFFFF');
     const [ graphColor, setGraphColor] = useState('#000000');
-    const [ flagcolor, setFlagColor ] = useState(1)
+    const [ flagcolor, setFlagColor ] = useState(1);
 
+    function generateWordDocument(FileSVG) {
+        let doc = new Document({sections: [{children:[new Paragraph({children: [new Image({data:FileSVG,transformation:{width:CANVAS_WIDTH,height:CANVAS_HEIGHT}})]})]}]});
+        // Call saveDocumentToFile with the document instance and a filename
+        saveDocumentToFile(doc, "New Document.docx");
+        
+    }
+    function saveDocumentToFile(doc, fileName) {
+        
+        const mimeType ="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        
+        var a = window.document.createElement('a');
+        //a.href = window.URL.createObjectURL(new Blob([doc], {type: mimeType}));
+        // a.download = fileName;
+        // document.body.appendChild(a);
+        // a.click();
+        // document.body.removeChild(a);
+
+      }
+    const convertCanvasToSVG = () =>{
+        var canvasSVG=new C2S(CANVAS_WIDTH,CANVAS_HEIGHT);
+        drawingall(canvasSVG);
+        const textSvg = canvasSVG.getSerializedSvg();
+        generateWordDocument(textSvg);
+    }
     const inc = () => setStartTime(prev => {
         return prev + 35;
     });
@@ -78,9 +107,9 @@ export const Preview = ({ tasks })=> {
         setProgress(0);
     }
 
-    function drawingall(){
+    function drawingall(canvasdrw){
 
-        drawer.setContext(ref.current);
+        drawer.setContext(canvasdrw);
         drawer.setBackgroundColor(bgColor)
         drawer.setFlagColor(flagcolor)
         drawer.setGraphicColor(graphColor)
@@ -131,13 +160,21 @@ export const Preview = ({ tasks })=> {
             }
         });
         drawer.drawProgress(progress);
+        
     };
-    useEffect(drawingall, [ ref, tasks, progress, startTime, bgColor, graphColor, flagcolor ])
+    const drawingallfnc= () =>{
+        drawingall(ref.current?.getContext('2d'))
+    }
+    useEffect(drawingallfnc, [ ref, tasks, progress, startTime, bgColor, graphColor, flagcolor ])
 
 
     return(
         <>
+        <Button type="primary" onClick={convertCanvasToSVG}>
+            Сохранить в SVG файл
+        </Button>
             <div className={styles.control}>
+
                 <ColorButton onChange={setBgColor} value={bgColor}>
                     Цвет фона
                 </ColorButton>
@@ -154,10 +191,10 @@ export const Preview = ({ tasks })=> {
                         </Switch>
                     </Space>
                 </div>
-
             </div>
            
             <canvas
+                id="para"
                 ref={ref}
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}

@@ -27,6 +27,12 @@
 .col {
     padding: 10px;
 }
+.cont{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    
+    gap: 10px;
+}
 .control {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -102,5 +108,11 @@ select {
 }
 .instruction {
     background-color: #7c2b71;
+}
+.table-row-light {
+    background-color: #ffffff;
+}
+.table-row-dark {
+    background-color: #d01b1b;
 }
 
