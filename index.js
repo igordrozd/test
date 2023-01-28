@@ -534,7 +534,32 @@ app.delete('/api/documents/:id', async (req, res) => {
 });
 
 
-app.listen(PORT, async () => {
+app.delete('/api/icons/:id', async(req, res) => {
+    try {
+        const result = await Icon.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
+        if (result === 0) {
+            res
+            .status(404)
+            .send({
+                message: "Element not found"
+            })
+        }
+        res.send({ count: result });
+    } catch (e) {
+        res
+        .status(500)
+        .send({
+            message: e.message
+        });
+    }
+});
+
+
+app.listen(PORT, async() => {
     const result = await User.findOne({
         where: {
             name: "admin"
