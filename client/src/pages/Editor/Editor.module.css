@@ -22,10 +22,16 @@
 }
 .layout {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 10fr 5fr;
 }
 .col {
     padding: 10px;
+}
+.cont{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    
+    gap: 10px;
 }
 .control {
     display: grid;
@@ -39,3 +45,74 @@
     margin-top: 10px;
     gap: 10px;
 }
+.sqer {
+    width: 40px;
+    height: 40px;
+    background-color: #000000;
+}
+select {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+
+    display: table-row !important;
+    margin: 0 auto !important;
+    font-size: 24px !important;
+    overflow: hidden !important;
+    border: none;
+    user-select: none;
+    /* supported by Chrome and Opera */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+  }
+
+
+  select:focus {
+    border: none;
+    outline: none;
+  }
+
+  select option:focus {
+    border: none;
+    outline: none;
+  }
+
+  option {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    padding: 100px 100px 10px 100px;
+    display: inline-block !important;
+    background: #fff url('http://via.placeholder.com/350x150') no-repeat center bottom 40px;
+    background-position-y: -40px;
+    background-clip: border-box;
+    background-size: cover;
+
+  }
+.folder {
+    background-color: #a8c145;
+}
+.event {
+    background-color: #4a68f0;
+}
+.inform {
+    background-color: #62dc84;
+}
+.operation {
+    background-color: #ba4848;
+}
+.instruction {
+    background-color: #7c2b71;
+}
+.table-row-light {
+    background-color: #ffffff;
+}
+.table-row-dark {
+    background-color: #d01b1b;
+}
+

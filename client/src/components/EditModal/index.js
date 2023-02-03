@@ -7,6 +7,8 @@ import { WindOperation } from "./WindOperation";
 import { postTasks } from "../../api/postTasks";
 import { putTasks } from "../../api/putTasks";
 import { WindInstruction } from "./WindInstruction";
+import { WindFolder } from "./WindFolder";
+import styles from 'C:/code/test/client/src/pages/Editor/Editor.module.css'
 //import styles from 'C:/project/test/client/src/pages/Editor/Editor.module.css'
 import { ColorButton } from "../../components/ColorButton";
 
@@ -17,13 +19,15 @@ function getFields(type) {
         return <WindInform />
     } else if(type === 'instruction'){
         return <WindInstruction />
+    }  else if(type === 'folder'){
+        return <WindFolder />
     }
     else {
         return <WindOperation />
     }
 }
 
-const createTask = async (data) => {
+export const createTask = async (data) => {
     let response;
     const { time } = data;
     let start, end;
@@ -75,6 +79,7 @@ export const EditModal = ({
         }
         close();
     }
+    
     const onSubmit = async () => {
         
         setLoading(true);
@@ -116,7 +121,8 @@ export const EditModal = ({
         form.resetFields();
         
         const { start, end } = task || {};
-        
+        console.log(task || {})
+        console.log(String(start), String(end))
         if(task?.id) {
             form.setFieldsValue({
                 ...task,
@@ -130,6 +136,7 @@ export const EditModal = ({
             switch(newType) {
                 case 'event':
                 case 'inform':
+                case 'folder':
                 case 'instruction':
                     form.setFieldsValue({
                         time: defaultTime
@@ -187,6 +194,10 @@ export const EditModal = ({
                             {
                                 value: 'instruction',
                                 label: 'Инструкция',
+                            },
+                            {
+                                value: 'folder',
+                                label: 'Папка',
                             }
                         ]}
                     />

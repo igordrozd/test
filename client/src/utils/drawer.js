@@ -1,3 +1,4 @@
+import {C2S} from "canvas2svg";
 const FONT_SIZE = 38;
 const INDENT = 50;
 const INDENT_TOP = INDENT * 1.5;
@@ -25,22 +26,27 @@ export class Drawer {
   flagcolor = 0
   settings = {}
   valueOfDivision
+  canvas2
+  
   constructor({
-    canvas,
     width,
     height,
+    canvas, 
     start = 0,
     progress =0,
     flag=0,
-
+    
   }) {
     if(canvas) {
       this.context = canvas.getContext('2d');
+      this.canvas2 = canvas;
     }
     this.settings = {
       width, height,progress,start
     }
   }
+  
+  
   setBackgroundColor(color) {
     this.bgColor = color;
     }
@@ -68,7 +74,7 @@ export class Drawer {
     this.drawTimeline()
   }
   setContext(canvas) {
-    this.context = canvas.getContext('2d');
+    this.context = canvas;
   }
   drawBackground(bgColor = '#000000') {
     this.context.fillStyle = bgColor;
@@ -239,6 +245,9 @@ export class Drawer {
     }
     else{
       colormain=color
+    }
+    if (txt===null){
+      txt='Это был я - ДИО'
     }
     const textWidth = txt.length * (FONT_SIZE - 4) / 2;
     this.context.fillStyle = '#000000';
